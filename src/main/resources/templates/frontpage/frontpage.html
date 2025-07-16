@@ -1,0 +1,28 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+    <section layout:fragment="contents" class="d-flex justify-content-center">
+        <article class="left-side-zone">
+<!--            th:if 구문 이용해서 session 정보 보유에 따라 login 혹은 user-info 노출-->
+            <div class="login"></div>
+            <div class="user-info"></div>
+<!--            th:text 구문 이용해서 가능할까?-->
+            <div class="concurrent">현재 동시 접속자 : ***</div>
+        </article>
+        <article class="simple-hall">
+            <div>전당</div>
+            <div>
+                <nav>일간 / 주간 / 월간</nav>
+            </div>
+            <div>
+                <div>기간</div>
+                <hr>
+                <div>
+                    <table>
+<!--                        th:each 구문 이용해서 반복문 구현하기-->
+                    </table>
+                </div>
+            </div>
+
+        </article>
+    </section>
+</html>

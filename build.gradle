@@ -50,10 +50,6 @@ dependencies {
     //template
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
-
-
-
-
 }
 
 tasks.named('test') {
