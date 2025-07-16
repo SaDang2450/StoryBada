@@ -1,0 +1,19 @@
+spring:
+  config:
+    import: security-variable.yml
+  mvc:
+    static-path-pattern: /static/**
+  thymeleaf:
+    cache: false
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/storybada
+    name: root
+    password: ${mysql.password}
+
