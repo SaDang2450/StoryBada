@@ -19,35 +19,63 @@ header {
     text-decoration: none;
 }
 
-section {
-    height: 1000px;
-    background-color: beige;
-}
-
-.left-side-zone {
-    background-color: darkslategray;
-}
-
 .left-side-zone > .login,
 .left-side-zone > .user-info {
-    height: 130px;
-    background-color: brown;
+    height: 260px;
 }
 
-.left-side-zone > .simple-hall {
-    height: 400px;
-    background-color: crimson;
+.login-href,
+.login-href:hover {
+    color: #1A00FF;
+    text-decoration: underline;
 }
 
-.front-main-zone > div > .site-info,
-.front-main-zone > div > .play-banner {
-    height: 100px;
+.user-info-href,
+.user-info-href:hover {
+    color: #1A00FF;
+    text-decoration: none;
+}
+
+.user-info-href-red,
+.user-info-href-red:hover {
+    color: #FF0000;
+    text-decoration:none;
+}
+
+.simple-hall-title {
+    font-size: larger;
+}
+
+.main-banner {
+    height: 150px;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-footer {
-    height: 200px;
+.site-info-banner {
+    margin-bottom: 100px;
+    background-color: #FAF0DE;
+}
+
+.play-banner {
+    margin-bottom: 50px;
+    background-color: #FFDAE2;
+}
+
+.site-info-box {
+    height: 652px;
+}
+
+.border-1 {
+    border: 1px solid black;
+}
+
+.font-small {
+    font-size: small;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }

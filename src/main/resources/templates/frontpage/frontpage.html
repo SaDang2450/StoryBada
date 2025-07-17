@@ -1,34 +1,22 @@
 <html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default}">
 <section layout:fragment="contents" class="d-flex justify-content-center">
-    <article class="left-side-zone col-2">
-        <!--            th:if 구문 이용해서 session 정보 보유에 따라 login 혹은 user-info 노출-->
-        <div class="login"></div>
-        <div class="user-info"></div>
-        <!--            th:text 구문 이용해서 가능할까?-->
-        <div class="concurrent">현재 동시 접속자 : ***</div>
+    <th:block th:replace="~{fragments/left-side-zone :: article}"></th:block>
 
-        <div class="simple-hall">
-            <div>전당</div>
-            <nav>일간 / 주간 / 월간</nav>
-            <div>
-                <div>기간</div>
-                <hr>
-                <div>
-                    <table>
-                        <!--                        th:each 구문 이용해서 반복문 구현하기-->
-                    </table>
-                </div>
-            </div>
-        </div>
-    </article>
     <article class="front-main-zone col-10 d-flex justify-content-center">
-        <div class="col-8">
-            <div class="site-info bg-primary">사이트 소개</div>
-            <div class="play-banner bg-secondary">즐길거리 1 : 주사위 홀짝</div>
-            <div class="play-banner bg-secondary">즐길거리 2 : 랜덤 박스</div>
-            <div class="play-banner bg-secondary">즐길거리 3 : 로또 6/45</div>
+        <div class="col-8 mt-5 d-flex flex-column">
+            <div id="siteInfoBanner" class="main-banner site-info-banner cursor-pointer">사이트 소개</div>
+            <div class="main-banner play-banner cursor-pointer">즐길거리 1 : 주사위 홀짝</div>
+            <div class="main-banner play-banner cursor-pointer">즐길거리 2 : 랜덤 박스</div>
+            <div class="main-banner play-banner cursor-pointer">즐길거리 3 : 로또 6/45</div>
         </div>
     </article>
 </section>
+
+<script layout:fragment="script">
+    $("#siteInfoBanner").on("click", function () {
+        location.href = "/frontpage/information";
+    })
+
+</script>
 </html>

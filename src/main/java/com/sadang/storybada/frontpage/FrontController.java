@@ -11,4 +11,10 @@ public class FrontController {
 
         return "frontpage/frontpage";
     }
+
+    @GetMapping("/frontpage/information")
+    public String frontpage_information() {
+
+        return "frontpage/information";
+    }
 }
