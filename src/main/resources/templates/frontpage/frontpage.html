@@ -5,18 +5,15 @@
 
     <article class="front-main-zone col-10 d-flex justify-content-center">
         <div class="col-8 mt-5 d-flex flex-column">
-            <div id="siteInfoBanner" class="main-banner site-info-banner cursor-pointer">사이트 소개</div>
-            <div class="main-banner play-banner cursor-pointer">즐길거리 1 : 주사위 홀짝</div>
-            <div class="main-banner play-banner cursor-pointer">즐길거리 2 : 랜덤 박스</div>
-            <div class="main-banner play-banner cursor-pointer">즐길거리 3 : 로또 6/45</div>
+            <a href="/frontpage/information" class="header-link"><div id="siteInfoBanner" class="main-banner site-info-banner cursor-pointer">사이트 소개</div></a>
+            <a href="/game/dice" class="header-link"><div class="main-banner play-banner cursor-pointer">즐길거리 1 : 주사위 홀짝</div></a>
+            <a href="#" class="header-link"><div class="main-banner play-banner cursor-pointer">즐길거리 2 : 랜덤 박스</div></a>
+            <a href="#" class="header-link"><div class="main-banner play-banner cursor-pointer">즐길거리 3 : 로또 6/45</div></a>
         </div>
     </article>
 </section>
 
 <script layout:fragment="script">
-    $("#siteInfoBanner").on("click", function () {
-        location.href = "/frontpage/information";
-    })
 
 </script>
 </html>

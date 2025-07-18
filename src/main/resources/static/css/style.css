@@ -1,5 +1,4 @@
 #wrap {
-
 }
 
 header {
@@ -7,6 +6,7 @@ header {
     background-color: #E4E4E4;
 }
 
+/* frontpage style */
 .main-title,
 .main-title:hover {
     color: darkblue;
@@ -46,6 +46,10 @@ header {
     font-size: larger;
 }
 
+.front-main-zone {
+    height: 900px;
+}
+
 .main-banner {
     height: 150px;
     width: 100%;
@@ -68,6 +72,33 @@ header {
     height: 652px;
 }
 
+/* loginpage style */
+.login-box-header {
+    height: 75px;
+    background-color: #D9D9D9;
+    border-bottom: 1px solid black;
+}
+
+.table-login > tbody > .comment-row {
+    height: 40px;
+}
+
+.input-shadow {
+    box-shadow: 2px 2px 1px rgba(0,0,0,0.25);
+}
+
+.btn-shadow {
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.25);
+}
+
+/* gamepage style */
+.game-zone {
+    height: 900px;
+}
+
+
+
+/* common style */
 .border-1 {
     border: 1px solid black;
 }
@@ -78,4 +109,9 @@ header {
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+/* footer style*/
+footer {
+    height : 50px;
 }

@@ -1,0 +1,22 @@
+<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<section layout:fragment="contents" class="d-flex justify-content-center">
+    <th:block th:replace="~{fragments/left-side-zone :: article}"></th:block>
+
+    <article class="game-zone col-8 py-5 px-5">
+        <div class="w-100 h-75 border-1 mb-5"></div>
+        <div class="w-100 h-25 border-1 my-5"></div>
+    </article>
+
+    <article class="game-result-zone col-2 py-5 px-3">
+        <div class="w-100 h-50 border-1 mb-5"></div>
+        <div class="w-100 h-50 border-1 my-5"></div>
+
+
+    </article>
+</section>
+
+<script layout:fragment="script">
+
+</script>
+</html>

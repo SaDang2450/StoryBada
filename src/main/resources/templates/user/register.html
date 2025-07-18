@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<section layout:fragment="contents">
+    <div class="container">
+        <div class="login-box mt-5 border-1">
+            <div class="login-box-header d-flex align-items-center p-3">
+                <i class="bi bi-file-earmark-person h3 m-0"></i><span class="h3 m-0">회원가입 정보 입력</span>
+            </div>
+            <div class="login-box-contents py-5 d-flex justify-content-center">
+                <div class="w-100">
+                    <table class="table table-borderless table-login">
+                        <tbody>
+                        <tr>
+                            <td class="col-2 pb-0 text-right align-middle">아이디</td>
+                            <td class="col-8 pb-0"><input type="text" class="form-control input-shadow"></td>
+                            <td class="col-2 pb-0">
+                                <button type="button" class="btn btn-secondary btn-shadow">중복확인</button>
+                            </td>
+                        </tr>
+                        <tr class="comment-row">
+                            <td class="col-2"></td>
+                            <td class="col-8 py-0"><span class="align-top text-black-50">영어 소문자, 숫자만 입력 가능. 최소 4자 이상 입력하세요.</span>
+                            </td>
+                            <td class="col-2"></td>
+                        </tr>
+                        <tr>
+                            <td class="col-2 text-right align-middle">비밀번호</td>
+                            <td class="col-8"><input type="password" class="form-control input-shadow"></td>
+                            <td class="col-2"></td>
+                        </tr>
+                        <tr>
+                            <td class="col-2"></td>
+                            <td class="col-8"></td>
+                            <td class="col-2"></td>
+                        </tr>
+                        <tr>
+                            <td class="col-2 pb-0 text-right align-middle">비밀번호 확인</td>
+                            <td class="col-8 pb-0"><input type="password" class="form-control input-shadow"></td>
+                            <td class="col-2 pb-0"></td>
+                        </tr>
+                        <tr class="comment-row">
+                            <td class="col-2"></td>
+                            <td class="col-8 py-0"><span class="align-top text-danger">비밀번호 불일치</span></td>
+                            <td class="col-2"></td>
+                        </tr>
+                        <tr>
+                            <td class="col-2 pb-0 text-right align-middle">대표 닉네임</td>
+                            <td class="col-8 pb-0"><input type="text" class="form-control input-shadow"></td>
+                            <td class="col-2 pb-0"></td>
+                        </tr>
+                        <tr class="comment-row">
+                            <td class="col-2"></td>
+                            <td class="col-8 py-0"><span class="align-top text-black-50">닉네임은 수정이 불가능하지만 언제든지 추가 가능합니다.</span></td>
+                            <td class="col-2"></td>
+                        </tr>
+                        <tr>
+                            <td class="col-2 pb-0 text-right align-middle">E-mail</td>
+                            <td class="col-8 pb-0"><input type="text" class="form-control input-shadow"></td>
+                            <td class="col-2 pb-0">
+                                <button type="button" class="btn btn-primary btn-shadow">인증번호 받기</button>
+                            </td>
+                        </tr>
+                        <tr class="comment-row">
+                            <td class="col-2"></td>
+                            <td class="col-8 py-0"><span class="align-top text-danger">네이버 메일주소(@naver.com)</span>만 허용합니다. <br>
+                                <span class="align-top text-danger">이미 사용된 E-mail 입니다.</span></td>
+                            <td class="col-2"></td>
+                        </tr>
+                        <tr>
+                            <td class="col-2 text-right align-middle">인증번호</td>
+                            <td class="col-8"><input type="text" class="form-control input-shadow"></td>
+                            <td class="col-2"></td>
+                        </tr>
+                        <tr>
+                            <td class="col-2"></td>
+                            <td class="col-8"></td>
+                            <td class="col-2"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-danger btn-shadow mx-3">회원가입</button>
+                        <button type="button" class="btn btn-secondary btn-shadow mx-3">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script layout:fragment="script">
+
+
+</script>
