@@ -1,19 +1,144 @@
 <html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/default}">
-<section layout:fragment="contents" class="d-flex justify-content-center">
+<section layout:fragment="contents" class="container d-flex justify-content-center">
     <th:block th:replace="~{fragments/left-side-zone :: article}"></th:block>
 
-    <article class="game-zone col-8 py-5 px-5">
-        <div class="w-100 h-75 border-1 mb-5"></div>
-        <div class="w-100 h-25 border-1 my-5"></div>
-    </article>
+    <div class="main-zone d-flex justify-content-center">
+        <div class="game-zone">
+            <div class="dice border-1 d-flex flex-column align-items-center justify-content-between">
+                <div class="h1">주사위 홀짝</div>
+                <div class="dice-game border-1"></div>
+                <div class="font-larger">남은 시간 : SS</div>
+                <div class="font-larger"><span>현재 배팅 포인트</span> <span>3,000</span></div>
+            </div>
+            <div class="dice-betting border-1 d-flex flex-column align-items-center justify-content-between">
+                <div class="h3 text-center">배팅</div>
+                <div><input type="text" class="form-control input-shadow" placeholder="배팅 액수 입력" autocomplete="off">
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-primary btn-shadow btn-even-odd">홀수</button>
+                    <button type="button" class="btn btn-danger btn-shadow btn-even-odd">짝수</button>
+                </div>
+            </div>
+        </div>
 
-    <article class="game-result-zone col-2 py-5 px-3">
-        <div class="w-100 h-50 border-1 mb-5"></div>
-        <div class="w-100 h-50 border-1 my-5"></div>
-
-
-    </article>
+        <div class="game-result-zone">
+            <div class="hall border-1">
+                <div class="font-larger">전당기록</div>
+                <div class="mt-3">
+                    <table class="table table-sm table-borderless font-small table-hall">
+                        <tr>
+                            <td class="column1">1</td>
+                            <td class="column2">닉네임1</td>
+                            <td class="column3">점수1</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">2</td>
+                            <td class="column2">닉네임2</td>
+                            <td class="column3">점수2</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">3</td>
+                            <td class="column2">닉네임3</td>
+                            <td class="column3">점수3</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">4</td>
+                            <td class="column2">닉네임4</td>
+                            <td class="column3">점수4</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">5</td>
+                            <td class="column2">닉네임5</td>
+                            <td class="column3">점수5</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">6</td>
+                            <td class="column2">닉네임6</td>
+                            <td class="column3">점수6</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">7</td>
+                            <td class="column2">닉네임7</td>
+                            <td class="column3">점수7</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">8</td>
+                            <td class="column2">닉네임8</td>
+                            <td class="column3">점수8</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">9</td>
+                            <td class="column2">닉네임9</td>
+                            <td class="column3">점수9</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">10</td>
+                            <td class="column2">닉네임10</td>
+                            <td class="column3">점수10</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="recent border-1">
+                <div class="font-larger">최근결과</div>
+                <div class="mt-3">
+                    <table class="table table-sm table-borderless font-small table-hall">
+                        <tr>
+                            <td class="column1">1</td>
+                            <td class="column2">홀수</td>
+                            <td class="column3">득점인원</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">2</td>
+                            <td class="column2">홀수</td>
+                            <td class="column3">득점인원</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">3</td>
+                            <td class="column2">홀수</td>
+                            <td class="column3">득점인원</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">4</td>
+                            <td class="column2">홀수</td>
+                            <td class="column3">득점인원</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">5</td>
+                            <td class="column2">홀수</td>
+                            <td class="column3">득점인원</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">6</td>
+                            <td class="column2">짝수</td>
+                            <td class="column3">득점인원</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">7</td>
+                            <td class="column2">짝수</td>
+                            <td class="column3">득점인원</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">8</td>
+                            <td class="column2">짝수</td>
+                            <td class="column3">득점인원</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">9</td>
+                            <td class="column2">짝수</td>
+                            <td class="column3">득점인원</td>
+                        </tr>
+                        <tr>
+                            <td class="column1">10</td>
+                            <td class="column2">짝수</td>
+                            <td class="column3">득점인원</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <script layout:fragment="script">

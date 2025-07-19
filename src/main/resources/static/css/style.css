@@ -6,7 +6,12 @@ header {
     background-color: #E4E4E4;
 }
 
-/* frontpage style */
+.container {
+    max-width: 1440px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .main-title,
 .main-title:hover {
     color: darkblue;
@@ -19,9 +24,15 @@ header {
     text-decoration: none;
 }
 
+/* left-sied-zone style */
+.left-side-zone {
+    width: 25%;
+    height: 900px;
+}
+
 .left-side-zone > .login,
 .left-side-zone > .user-info {
-    height: 260px;
+    height: 280px;
 }
 
 .login-href,
@@ -39,14 +50,34 @@ header {
 .user-info-href-red,
 .user-info-href-red:hover {
     color: #FF0000;
-    text-decoration:none;
+    text-decoration: none;
 }
 
 .simple-hall-title {
     font-size: larger;
 }
 
-.front-main-zone {
+.table-hall > tbody > tr {
+    height: 27px;
+}
+
+.table-hall > tbody > tr > .column1 {
+    width: 30px;
+    text-align: end;
+}
+
+.table-hall > tbody > tr > .column2 {
+    width: 100px;
+    padding-left: 10px;
+}
+
+.table-hall > tbody > tr > .column3 {
+    width: 128px;
+}
+
+/* frontpage style */
+.main-zone {
+    width: 75%;
     height: 900px;
 }
 
@@ -73,6 +104,10 @@ header {
 }
 
 /* loginpage style */
+.login-box {
+    width: 62.5%
+}
+
 .login-box-header {
     height: 75px;
     background-color: #D9D9D9;
@@ -83,19 +118,73 @@ header {
     height: 40px;
 }
 
+.table-login > tbody > tr > .column1 {
+    width: 20%;
+}
+
+.table-login > tbody > tr > .column2 {
+    width: 60%;
+}
+
+.table-login > tbody > tr > .column3 {
+    width: 20%;
+}
+
 .input-shadow {
-    box-shadow: 2px 2px 1px rgba(0,0,0,0.25);
+    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.25);
 }
 
 .btn-shadow {
-    box-shadow: 2px 2px 4px rgba(0,0,0,0.25);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
 /* gamepage style */
 .game-zone {
-    height: 900px;
+    width: 67%;
+    padding: 40px 40px 0;
 }
 
+.game-zone > .dice {
+    height: 600px;
+    margin-bottom: 60px;
+    padding: 40px;
+}
+
+.game-zone > .dice-betting {
+    height: 200px;
+    padding: 20px;
+}
+
+.game-result-zone {
+    width: 33%;
+    padding: 40px 0 0 0;
+}
+
+.game-result-zone > .hall {
+    height: 400px;
+    margin-bottom: 60px;
+    padding: 35px 20px 20px;
+}
+
+.game-result-zone > .recent {
+    height: 400px;
+    padding: 35px 20px 20px;
+}
+
+/* dice */
+.dice > .dice-game {
+    width: 400px;
+    height: 300px;
+    background-color: #D9D9D9;
+}
+
+.dice-betting > div {
+    width: 400px;
+}
+
+.dice-betting > div > .btn-even-odd {
+    width: 120px;
+}
 
 
 /* common style */
@@ -107,11 +196,15 @@ header {
     font-size: small;
 }
 
+.font-larger {
+    font-size: larger;
+}
+
 .cursor-pointer {
     cursor: pointer;
 }
 
 /* footer style*/
 footer {
-    height : 50px;
+    height: 50px;
 }
