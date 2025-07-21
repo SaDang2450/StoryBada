@@ -144,13 +144,17 @@ header {
     padding: 40px 40px 0;
 }
 
-.game-zone > .dice {
+.game-zone > .dice,
+.game-zone > .box,
+.game-zone > .lotto {
     height: 600px;
     margin-bottom: 60px;
     padding: 40px;
 }
 
-.game-zone > .dice-betting {
+.game-zone > .dice-betting,
+.game-zone > .box-betting,
+.game-zone > .lotto-betting {
     height: 200px;
     padding: 20px;
 }
@@ -184,6 +188,60 @@ header {
 
 .dice-betting > div > .btn-even-odd {
     width: 120px;
+}
+
+/* box */
+.table-box-buying > tbody > .box-image-row {
+    width: 450px;
+    height: 120px;
+}
+
+.table-box-buying > tbody > .box-btn-row {
+    width: 450px;
+    height: 40px;
+    text-align: center;
+}
+
+.btn-box-buying {
+    width: 120px;
+}
+
+.table-box-betting {
+    width: 400px;
+}
+
+.table-box-betting > tbody > tr > .column1 {
+    width: 200px;
+}
+
+.table-box-betting > tbody > tr > .column2 {
+    width: 100px;
+}
+
+.table-box-betting > tbody > tr > .column3 {
+    width: 100px;
+}
+
+/* lotto */
+.lotto > .lotto-game {
+    width: 400px;
+    height: 300px;
+    background-color: #D9D9D9;
+}
+
+.table-lotto-betting {
+    width: 480px;
+}
+
+.table-lotto-betting > tbody > tr > td {
+    width: 60px
+}
+
+.temp-image {
+    width: 120px;
+    height: 120px;
+    background-color: #D9D9D9;
+    margin: 0 auto;
 }
 
 
