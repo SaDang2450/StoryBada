@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<section layout:fragment="contents" class="container d-flex justify-content-center">
+    <th:block th:replace="~{fragments/left-side-zone :: article}"></th:block>
+
+    <div class="main-zone d-flex justify-content-center">
+        <div class="hall-ranking-box mt-5 border-1">
+            <div class="hall-ranking-box-header d-flex align-items-center p-3">
+                <i class="bi bi-trophy-fill h3 m-0"></i><span class="h3 m-0">명예의 전당</span>
+            </div>
+            <div class="hall-ranking-box-contents d-flex justify-content-center">
+                <div>
+                    <nav class="hall-ranking-nav">
+                        <ul class="nav">
+                            <li class="nav-items"><a class="nav-link font-larger cursor-pointer header-link">일간</a></li>
+                            <li class="nav-items"><a class="nav-link font-larger cursor-pointer header-link">주간</a></li>
+                            <li class="nav-items"><a class="nav-link font-larger cursor-pointer header-link">월간</a></li>
+                        </ul>
+                    </nav>
+                    <div class="hall-ranking-box-contents-div border-1 mt-3">
+                        <div class="mb-3"><span>기간 : YYYY-MM-DD HH시 MM분 ~ YYYY-MM-DD HH시 MM분</span></div>
+                        <table class="table table-borderless table-hall-ranking text-center">
+                            <thead>
+                            <tr>
+                                <th class="column1">순위</th>
+                                <th class="column2">닉네임</th>
+                                <th class="column3">등록 점수</th>
+                                <th class="column4">등록 일자</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr style="height:10px;"></tr>
+                            <tr data-name="viewDetail" data-ranking-id="1" class="cursor-pointer">
+                                <td class="column1">1</td>
+                                <td class="column2">닉네임1</td>
+                                <td class="column3">점수1</td>
+                                <td class="column4">YYYY-MM-DD HH:mm:SS</td>
+                            </tr>
+                            <tr data-name="viewDetail" data-ranking-id="2" class="cursor-pointer">
+                                <td class="column1">2</td>
+                                <td class="column2">닉네임2</td>
+                                <td class="column3">점수2</td>
+                                <td class="column4">YYYY-MM-DD HH:mm:SS</td>
+                            </tr>
+                            <tr>
+                                <td class="column1">3</td>
+                                <td class="column2">닉네임3</td>
+                                <td class="column3">점수3</td>
+                                <td class="column4">YYYY-MM-DD HH:mm:SS</td>
+                            </tr>
+                            <tr>
+                                <td class="column1">4</td>
+                                <td class="column2">닉네임4</td>
+                                <td class="column3">점수4</td>
+                                <td class="column4">YYYY-MM-DD HH:mm:SS</td>
+                            </tr>
+                            <tr>
+                                <td class="column1">5</td>
+                                <td class="column2">닉네임5</td>
+                                <td class="column3">점수5</td>
+                                <td class="column4">YYYY-MM-DD HH:mm:SS</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script layout:fragment="script">
+    $("tr[data-name='viewDetail']").on("click", function () {
+        let id = $(this).data("ranking-id");
+
+        location.href = "/hall/ranking/detail?id=" + id;
+    })
+
+</script>

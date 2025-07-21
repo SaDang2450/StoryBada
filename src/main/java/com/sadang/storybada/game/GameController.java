@@ -25,5 +25,11 @@ public class GameController {
 
         return "game/lotto";
     }
+
+    @GetMapping("/box/history")
+    public String box_history_view() {
+
+        return "game/box-history";
+    }
 }
 

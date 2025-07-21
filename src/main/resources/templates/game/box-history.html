@@ -6,87 +6,45 @@
 
     <div class="main-zone d-flex justify-content-center">
         <div class="game-zone">
-            <div class="box border-1 d-flex flex-column align-items-center justify-content-between">
-                <div class="h1">랜덤 박스 구매</div>
-                <table class="table table-borderless table-box-buying">
+            <div class="box-history border-1 d-flex flex-column align-items-center">
+                <div class="h1">랜덤 박스 개봉 기록</div>
+                <table class="table table-borderless table-box-history text-center">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>결과</th>
+                            <th>시간</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                    <tr class="box-image-row">
-                        <td>
-                            <div class="temp-image"></div>
-                        </td>
-                        <td>
-                            <div class="temp-image"></div>
-                        </td>
-                        <td>
-                            <div class="temp-image"></div>
-                        </td>
-                    </tr>
-                    <tr class="box-btn-row">
-                        <td>
-                            <button type="button" class="btn btn-primary form-control btn-box-buying btn-shadow">1개 구매
-                            </button>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-primary form-control btn-box-buying btn-shadow">5개 구매
-                            </button>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-primary form-control btn-box-buying btn-shadow">10개
-                                구매
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="box-image-row">
-                        <td>
-                            <div class="temp-image"></div>
-                        </td>
-                        <td>
-                            <div class="temp-image"></div>
-                        </td>
-                        <td>
-                            <div class="temp-image"></div>
-                        </td>
-                    </tr>
-                    <tr class="box-btn-row">
-                        <td>
-                            <button type="button" class="btn btn-primary form-control btn-box-buying btn-shadow">50개
-                                구매
-                            </button>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-primary form-control btn-box-buying btn-shadow">100개
-                                구매
-                            </button>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-primary form-control btn-box-buying btn-shadow">500개
-                                구매
-                            </button>
-                        </td>
-                    </tr>
+                        <tr style="height:10px;"></tr>
+                        <tr>
+                            <td>5</td>
+                            <td>0</td>
+                            <td>YYYY-MM-DD HH:mm:SS</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>100</td>
+                            <td>YYYY-MM-DD HH:mm:SS</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>50</td>
+                            <td>YYYY-MM-DD HH:mm:SS</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>5000</td>
+                            <td>YYYY-MM-DD HH:mm:SS</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>20</td>
+                            <td>YYYY-MM-DD HH:mm:SS</td>
+                        </tr>
                     </tbody>
                 </table>
-                <div class="font-larger">개봉까지 남은 시간 : SS</div>
-            </div>
-            <div class="box-betting border-1 d-flex flex-column align-items-center justify-content-between">
-                <table class="table table-borderless table-box-betting font-larger text-center">
-                    <tbody>
-                    <tr>
-                        <td class="column1">랜덤 박스 보유 개수</td>
-                        <td class="column2">120</td>
-                        <td class="column3">개</td>
-                    </tr>
-                    <tr>
-                        <td class="column1">평균 획득 포인트</td>
-                        <td class="column2">50</td>
-                        <td class="column3">HP</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div>
-                    <button id="boxHistoryBtn" type="button" class="btn btn-primary form-control btn-shadow">기록보기
-                    </button>
-                </div>
             </div>
         </div>
 
@@ -210,8 +168,6 @@
 </section>
 
 <script layout:fragment="script">
-    $("#boxHistoryBtn").on("click", function () {
-        location.href = "/game/box/history";
-    })
+
 </script>
 </html>

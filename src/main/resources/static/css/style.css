@@ -7,7 +7,9 @@ header {
 }
 
 .container {
+    width: 1440px;
     max-width: 1440px;
+    min-width: 1440px;
     padding-left: 0;
     padding-right: 0;
 }
@@ -26,7 +28,7 @@ header {
 
 /* left-sied-zone style */
 .left-side-zone {
-    width: 25%;
+    width: 360px;
     height: 900px;
 }
 
@@ -77,7 +79,7 @@ header {
 
 /* frontpage style */
 .main-zone {
-    width: 75%;
+    width: 1080px;
     height: 900px;
 }
 
@@ -105,7 +107,7 @@ header {
 
 /* loginpage style */
 .login-box {
-    width: 62.5%
+    width: 900px;
 }
 
 .login-box-header {
@@ -148,6 +150,12 @@ header {
 .game-zone > .box,
 .game-zone > .lotto {
     height: 600px;
+    margin-bottom: 60px;
+    padding: 40px;
+}
+
+.game-zone > .box-history {
+    height: 860px;
     margin-bottom: 60px;
     padding: 40px;
 }
@@ -222,6 +230,32 @@ header {
     width: 100px;
 }
 
+/* box-history */
+.table-box-history {
+    width: 500px;
+    margin-top: 20px;
+}
+
+.table-box-history > thead {
+    border-bottom: 1px solid black;
+    border-spacing: 1px;
+}
+
+.table-box-history > thead > tr > .column1,
+.table-box-history > tbody > tr > .column1 {
+    width: 50px;
+}
+
+.table-box-history > thead > tr > .column2,
+.table-box-history > tbody > tr > .column2 {
+    width: 200px;
+}
+
+.table-box-history > thead > tr > .column3,
+.table-box-history > tbody > tr > .column3 {
+    width: 250px;
+}
+
 /* lotto */
 .lotto > .lotto-game {
     width: 400px;
@@ -237,9 +271,67 @@ header {
     width: 60px
 }
 
+/* hall */
+.hall-register-box {
+    width: 750px;
+    height: 600px;
+}
+
+.hall-ranking-box {
+    width: 900px;
+
+}
+
+.hall-ranking-box-header {
+    height: 75px;
+    background-color: #D9D9D9;
+    border-bottom: 1px solid black;
+}
+
+.hall-ranking-box-contents {
+    padding-top: 20px;
+}
+
+.hall-ranking-box-contents-div {
+    min-height: 650px;
+    padding: 20px 40px 40px;
+}
+
+.hall-ranking-nav {
+    width: 850px;
+}
+
+.hall-ranking-nav > ul > li {
+    width: 100px;
+    display: flex;
+    justify-content: center
+}
+
+.table-hall-ranking > thead {
+    border-bottom: 1px solid black;
+    border-spacing: 1px;
+}
+
+.hall-detail-box {
+    width: 1000px;
+    height: 500px;
+}
+
+.hall-comment {
+    width: 600px;
+    height: 300px;
+}
+
 .temp-image {
     width: 120px;
     height: 120px;
+    background-color: #D9D9D9;
+    margin: 0 auto;
+}
+
+.temp-image2 {
+    width: 300px;
+    height: 300px;
     background-color: #D9D9D9;
     margin: 0 auto;
 }
