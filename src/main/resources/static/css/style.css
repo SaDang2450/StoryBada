@@ -317,7 +317,8 @@ header {
     height: 500px;
 }
 
-.hall-comment {
+.hall-comment,
+.hall-register-box > div > div > .form-control {
     width: 600px;
     height: 300px;
 }
