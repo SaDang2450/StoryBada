@@ -7,18 +7,20 @@
 
     <div class="main-zone d-flex justify-content-center">
         <div class="hall-register-box mt-5 border-1 d-flex justify-content-center align-items-center">
-            <div class="w-75">
+            <div style="width: 600px;">
                 <div class="h1 text-center mb-3">전당 등록</div>
                 <div>
                     <div class="mb-3">등록 닉네임</div>
                     <textarea class="form-control input-shadow mb-3 p-3" style="resize: none;" placeholder="전당 등록 멘트 입력"
                               autocomplete="off"></textarea>
                     <div class="d-flex align-items-center">
-                        <div class="mr-3"><label for="hallImageFileInput"><i class="bi bi-image cursor-pointer h1"></i></label><input
-                                id="hallImageFileInput" type="file" class="d-none"></div>
-                        <div><span id="hallInputFileName">fakepath/ss.png</span></div>
+                        <div class="mr-3">
+                            <label for="hallImageFileInput"><i class="bi bi-image cursor-pointer h1"></i></label>
+                            <input id="hallImageFileInput" type="file" class="d-none">
+                        </div>
+                        <div><span id="hallInputFileName"></span></div>
                         <div class="ml-auto">
-                            <button type="button" class="btn btn-shadow">등록</button>
+                            <button type="button" class="btn btn-primary btn-shadow">등록</button>
                         </div>
                     </div>
                 </div>
@@ -29,6 +31,9 @@
 </section>
 
 <script layout:fragment="script">
-
+    $("#hallImageFileInput").on("change", function () {
+        let fileName = $("#hallImageFileInput").val();
+        $("#hallInputFileName").text(fileName);
+    })
 
 </script>

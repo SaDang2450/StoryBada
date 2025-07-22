@@ -113,6 +113,11 @@ header {
     height: 800px;
 }
 
+.find-box {
+    height: 430px;
+    margin-top: 80px;
+}
+
 .login-box-header,
 .mypage-box-header {
     height: 75px;
@@ -126,22 +131,26 @@ header {
 }
 
 .table-login,
+.table-find,
 .table-mypage1 {
     width: 900px;
 }
 
 
 .table-login > tbody > .comment-row,
+.table-find > tbody > .comment-row,
 .table-mypage1 > tbody > .comment-row {
     height: 40px;
 }
 
 .table-login > tbody > tr > .column1,
+.table-find > tbody > tr > .column1,
 .table-mypage1 > tbody > tr > .column1 {
     width: 20%;
 }
 
 .table-login > tbody > tr > .column2,
+.table-find > tbody > tr > .column2,
 .table-mypage1 > tbody > tr > .column2 {
     width: 60%;
 }
@@ -150,6 +159,7 @@ header {
     width: 20%;
 }
 
+.table-find > tbody > tr > .column3,
 .table-mypage1 > tbody > tr > .column3 {
     width: 10%;
 }
