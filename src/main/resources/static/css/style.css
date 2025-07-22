@@ -106,25 +106,43 @@ header {
 }
 
 /* loginpage style */
-.login-box {
+/* mypage style*/
+.login-box,
+.mypage-box {
     width: 900px;
+    height: 800px;
 }
 
-.login-box-header {
+.login-box-header,
+.mypage-box-header {
     height: 75px;
     background-color: #D9D9D9;
     border-bottom: 1px solid black;
 }
 
-.table-login > tbody > .comment-row {
+.login-box-contents,
+.mypage-box-contents {
+    padding-top: 40px
+}
+
+.table-login,
+.table-mypage1 {
+    width: 900px;
+}
+
+
+.table-login > tbody > .comment-row,
+.table-mypage1 > tbody > .comment-row {
     height: 40px;
 }
 
-.table-login > tbody > tr > .column1 {
+.table-login > tbody > tr > .column1,
+.table-mypage1 > tbody > tr > .column1 {
     width: 20%;
 }
 
-.table-login > tbody > tr > .column2 {
+.table-login > tbody > tr > .column2,
+.table-mypage1 > tbody > tr > .column2 {
     width: 60%;
 }
 
@@ -132,12 +150,28 @@ header {
     width: 20%;
 }
 
-.input-shadow {
-    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.25);
+.table-mypage1 > tbody > tr > .column3 {
+    width: 10%;
 }
 
-.btn-shadow {
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+.table-mypage2 {
+    width: 600px;
+}
+
+.table-mypage2 > tbody > tr {
+    height: 100px;
+}
+
+.table-mypage2 > tbody > tr > td {
+    width: 300px;
+}
+
+.table-myhall {
+    width: 700px;
+}
+
+.entrance-table {
+    height: 580px;
 }
 
 /* gamepage style */
@@ -307,7 +341,8 @@ header {
     justify-content: center
 }
 
-.table-hall-ranking > thead {
+.table-hall-ranking > thead,
+.table-myhall > thead {
     border-bottom: 1px solid black;
     border-spacing: 1px;
 }
@@ -341,6 +376,14 @@ header {
 /* common style */
 .border-1 {
     border: 1px solid black;
+}
+
+.input-shadow {
+    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.25);
+}
+
+.btn-shadow {
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
 .font-small {

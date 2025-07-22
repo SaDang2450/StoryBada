@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<section layout:fragment="contents" class="container d-flex justify-content-center">
+    <div class="mypage-box mt-5 border-1">
+        <div class="mypage-box-header d-flex align-items-center p-3">
+            <i class="bi bi-file-earmark-person h3 m-0"></i><span class="h3 m-0">마이페이지</span>
+        </div>
+        <div class="mypage-box-contents d-flex justify-content-center">
+            <div>
+                <div>
+                    <table class="table table-borderless table-mypage1">
+                        <tbody>
+                        <tr>
+                            <td class="column1 text-right align-middle">아이디</td>
+                            <td class="column2"><span class="input-group-text form-control input-shadow">유저 아이디</span>
+                            </td>
+                            <td class="column3"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="column1 text-right align-middle">비밀번호 변경</td>
+                            <td class="column2"><input type="password" class="form-control input-shadow"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="column1 pb-0 text-right align-middle">비밀번호 확인</td>
+                            <td class="column2 pb-0"><input type="password" class="form-control input-shadow"></td>
+                        </tr>
+                        <tr class="comment-row">
+                            <td class="column1"></td>
+                            <td class="column2 py-0"><span class="align-top text-danger">비밀번호 불일치</span></td>
+                        </tr>
+                        <tr>
+                            <td class="column1 text-right align-middle">인증 E-mail</td>
+                            <td class="column2"><span class="input-group-text form-control input-shadow">유저 이메일</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <table class="table table-borderless table-mypage2 text-center mt-4">
+                        <tbody>
+                        <tr>
+                            <td class="column1"><a href="#" class="user-info-href">출석체크</a></td>
+                            <td class="column2"><a href="/user/change" class="user-info-href">캐릭터 전환</a></td>
+                        </tr>
+                        <tr>
+                            <td class="column1"><a href="/user/myhall" class="user-info-href">전당 등록 기록 보기</a></td>
+                            <td class="column2"><a href="#" class="user-info-href-red">회원 탈퇴</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-primary btn-shadow" style="width:100px;">저장</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script layout:fragment="script">
+
+
+</script>

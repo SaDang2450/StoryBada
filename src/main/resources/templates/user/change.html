@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<section layout:fragment="contents" class="container d-flex justify-content-center">
+    <div class="mypage-box mt-5 border-1">
+        <div class="mypage-box-header d-flex align-items-center p-3">
+            <i class="bi bi-file-earmark-person h3 m-0"></i><span class="h3 m-0">Entrance</span>
+        </div>
+        <div class="mypage-box-contents d-flex justify-content-center">
+            <div>
+                <div class="entrance-table">
+                    <table class="table table-borderless table-myhall text-center">
+                        <thead>
+                        <tr>
+                            <td>닉네임</td>
+                            <td>보유 포인트</td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr style="height:10px;"></tr>
+                        <tr>
+                            <td>닉네임1</td>
+                            <td>포인트1</td>
+                            <td><a href="#" class="user-info-href-red">삭제</a></td>
+                        </tr>
+                        <tr>
+                            <td>닉네임2</td>
+                            <td>포인트2</td>
+                            <td><a href="#" class="user-info-href-red">삭제</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="entrance-create">
+                    <div class="d-flex justify-content-center">
+                        <input type="text" class="form-control input-shadow col-6 mr-5" placeholder="닉네임 입력" autocomplete="off">
+                        <button type="button" class="btn btn-primary btn-shadow form-control col-2">생성</button>
+                    </div>
+                    <div class="text-center text-black-50"><span>개인당 10개까지 보유 가능 / 개인 중복 닉네임 보유 불가</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script layout:fragment="script">
+
+
+</script>
