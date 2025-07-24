@@ -6,15 +6,55 @@
 
     <article class="main-zone d-flex justify-content-center">
         <div class="col-8 mt-5 d-flex flex-column">
-            <a href="/frontpage/information" class="header-link"><div id="siteInfoBanner" class="main-banner site-info-banner cursor-pointer">사이트 소개</div></a>
-            <a href="/game/dice" class="header-link"><div class="main-banner play-banner cursor-pointer">즐길거리 1 : 주사위 홀짝</div></a>
-            <a href="/game/box" class="header-link"><div class="main-banner play-banner cursor-pointer">즐길거리 2 : 랜덤 박스</div></a>
-            <a href="/game/lotto" class="header-link"><div class="main-banner play-banner cursor-pointer">즐길거리 3 : 로또 6/45</div></a>
+            <a href="/frontpage/information" class="header-link">
+                <div id="siteInfoBanner" class="main-banner site-info-banner cursor-pointer">사이트 소개</div>
+            </a>
+            <a href="/game/dice" class="header-link">
+                <div class="main-banner play-banner cursor-pointer">즐길거리 1 : 주사위 홀짝</div>
+            </a>
+            <a href="/game/box" class="header-link">
+                <div class="main-banner play-banner cursor-pointer">즐길거리 2 : 랜덤 박스</div>
+            </a>
+            <a href="/game/lotto" class="header-link">
+                <div class="main-banner play-banner cursor-pointer">즐길거리 3 : 로또 6/45</div>
+            </a>
         </div>
     </article>
 </section>
 
 <script layout:fragment="script">
 
+    $("#loginForm").on("submit", function (e) {
+        // form 태그 원래의 기능을 제거
+        e.preventDefault();
+
+        let loginId = $("#loginIdInput").val();
+        let password = $("#passwordInput").val();
+
+        // validation
+        if (loginId === "") {
+            alert("아이디 입력");
+            return;
+        }
+
+        if (password === "") {
+            alert("패스워드 입력");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/user/login",
+            data: {
+                "loginId": loginId,
+                "password": password
+            },
+            success: function(response) {
+
+
+            }
+        })
+
+    })
 </script>
 </html>

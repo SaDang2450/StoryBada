@@ -1,0 +1,24 @@
+package com.sadang.storybada.dto;
+
+import com.sadang.storybada.name.domain.Name;
+import lombok.Builder;
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Builder
+@Getter
+public class UserDTO {
+
+    private long id;
+
+    private String loginId;
+    private String email;
+    private LocalDateTime createdAtUser;
+    private LocalDateTime updatedAtUser;
+
+    private List<Name> nameList;
+    private String mainName;
+
+}
