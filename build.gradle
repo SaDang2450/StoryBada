@@ -30,7 +30,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    //Thymelea
+    //Thymeleaf
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
 
     //DB
@@ -52,6 +52,10 @@ dependencies {
 
     //Bcrypt
     implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    //spring email
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
 }
 

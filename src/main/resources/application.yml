@@ -16,4 +16,19 @@ spring:
     url: jdbc:mysql://localhost:3306/storybada
     username: root
     password: ${mysql.password}
-
+  mail:
+    host: smtp.naver.com
+    username: ${email.username}
+    password: ${email.password}
+    properties:
+      mail:
+        debug: true
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.naver.com
+            enable: true

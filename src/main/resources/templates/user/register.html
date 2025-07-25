@@ -13,9 +13,12 @@
                     <tbody>
                     <tr>
                         <td class="column1 pb-0 text-right align-middle">아이디</td>
-                        <td class="column2 pb-0"><input type="text" class="form-control input-shadow" autocomplete="off"></td>
+                        <td class="column2 pb-0"><input id="loginIdInput" type="text" class="form-control input-shadow"
+                                                        autocomplete="off"></td>
                         <td class="column3 pb-0">
-                            <button type="button" class="btn btn-secondary btn-shadow">중복확인</button>
+                            <button id="loginIdDuplicationCheckBtn" type="button" class="btn btn-secondary btn-shadow">
+                                중복확인
+                            </button>
                         </td>
                     </tr>
                     <tr class="comment-row">
@@ -27,7 +30,8 @@
                     </tr>
                     <tr>
                         <td class="column1 text-right align-middle">비밀번호</td>
-                        <td class="column2"><input type="password" class="form-control input-shadow"></td>
+                        <td class="column2"><input id="passwordInput" type="password" class="form-control input-shadow">
+                        </td>
                         <td class="column3"></td>
                     </tr>
                     <tr>
@@ -37,7 +41,8 @@
                     </tr>
                     <tr>
                         <td class="column1 pb-0 text-right align-middle">비밀번호 확인</td>
-                        <td class="column2 pb-0"><input type="password" class="form-control input-shadow"></td>
+                        <td class="column2 pb-0"><input id="passwordConfirmInput" type="password"
+                                                        class="form-control input-shadow"></td>
                         <td class="column3 pb-0"></td>
                     </tr>
                     <tr class="comment-row">
@@ -47,7 +52,8 @@
                     </tr>
                     <tr>
                         <td class="column1 pb-0 text-right align-middle">대표 닉네임</td>
-                        <td class="column2 pb-0"><input type="text" class="form-control input-shadow" autocomplete="off"></td>
+                        <td class="column2 pb-0"><input id="nameInput" type="text" class="form-control input-shadow"
+                                                        autocomplete="off"></td>
                         <td class="column3 pb-0"></td>
                     </tr>
                     <tr class="comment-row">
@@ -58,21 +64,28 @@
                     </tr>
                     <tr>
                         <td class="column1 pb-0 text-right align-middle">E-mail</td>
-                        <td class="column2 pb-0"><input type="text" class="form-control input-shadow" autocomplete="off"></td>
+                        <td class="column2 pb-0"><input id="emailInput" type="text" class="form-control input-shadow"
+                                                        autocomplete="off"></td>
                         <td class="column3 pb-0">
-                            <button type="button" class="btn btn-primary btn-shadow">인증번호 받기</button>
+                            <button id="emailRequestBtn" type="button" class="btn btn-primary btn-shadow">인증번호 받기
+                            </button>
                         </td>
                     </tr>
                     <tr class="comment-row">
                         <td class="column1"></td>
-                        <td class="column2 py-0"><span></span><span class="align-top text-danger">네이버 메일주소(@naver.com)</span>만 허용합니다.<br></span>
+                        <td class="column2 py-0"><span></span><span
+                                class="align-top text-danger">네이버 메일주소(@naver.com)</span>만 허용합니다.<br></span>
                             <span class="align-top text-danger">이미 사용된 E-mail 입니다.</span></td>
                         <td class="column3"></td>
                     </tr>
                     <tr>
                         <td class="column1 text-right align-middle">인증번호</td>
-                        <td class="column2"><input type="text" class="form-control input-shadow" autocomplete="off"></td>
-                        <td class="column3"></td>
+                        <td class="column2"><input id="signInput" type="text" class="form-control input-shadow"
+                                                   autocomplete="off"></td>
+                        <td class="column3">
+                            <button id="emailConfirmBtn" type="button" class="btn btn-primary btn-shadow">인증번호 확인
+                            </button>
+                        </td>
                     </tr>
                     <tr>
                         <td class="column1"></td>
@@ -83,8 +96,8 @@
                 </table>
 
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-danger btn-shadow mx-3">회원가입</button>
-                    <button type="button" class="btn btn-secondary btn-shadow mx-3">취소</button>
+                    <button id="registerBtn" type="button" class="btn btn-danger btn-shadow mx-3">회원가입</button>
+                    <button id="cancelBtn" type="button" class="btn btn-secondary btn-shadow mx-3">취소</button>
                 </div>
             </div>
         </div>
@@ -93,6 +106,143 @@
 </section>
 
 <script layout:fragment="script">
+    let loginIdDuplicationCheck = false;
+    let emailDuplicationCheck = false;
+    let emailConfirmCheck = false;
+    let loginIdPass = false;
+    let emailPass = false;
+    let emailConfirmPass = false;
 
+    $("#loginIdDuplicationCheckBtn").on("click", function () {
+        let loginId = $("#loginIdInput").val();
+
+        // validation
+        if (loginId === null) {
+            alert("아이디 입력");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/user/duplicate-id",
+            data: {
+                "loginId": loginId
+            },
+            success: function (response) {
+                loginIdDuplicationCheck = true;
+
+                if (response.data) {
+                    alert("아이디 사용 가능");
+                    loginIdPass = true;
+                } else {
+                    alert("아이디 중복. 사용 불가능");
+                    loginIdPass = false;
+                }
+            },
+            error: function () {
+                alert("error : duplication check error");
+            }
+        })
+    })
+
+    $("#loginIdInput").on("input", function () {
+        loginIdDuplicationCheck = false;
+    })
+
+    $("#emailRequestBtn").on("click", function () {
+        let email = $("#emailInput").val();
+
+        // validation
+        if (email === null) {
+            alert("이메일 입력");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/user/email-request",
+            data: {
+                "email": email
+            },
+            success: function (response) {
+                emailDuplicationCheck = true;
+
+                if (response.data) {
+                    alert("인증 메일 발송");
+                    emailPass = true;
+                } else {
+                    alert("이메일 중복. 사용 불가");
+                    emailPass = false;
+                }
+            },
+            error: function () {
+                alert("error : email request error");
+            }
+        })
+    })
+
+    $("#emailInput").on("input", function () {
+        emailDuplicationCheck = false;
+    })
+
+    // email confirm 관련 코드 필요
+
+
+    $("#registerBtn").on("click", function () {
+        let loginId = $("#loginIdInput").val();
+        let password = $("#passwordInput").val();
+        let passwordConfirm = $("passwordConfirmInput").val();
+        let name = $("#nameInput").val();
+        let email = $("#emailInput").val();
+        let sign = $("#signInput").val();
+
+        // validation
+        if (loginId === null) {
+            alert("아이디 입력");
+            return;
+        }
+
+        if (password === null) {
+            alert("비밀번호 입력");
+            return;
+        }
+
+        if (password !== passwordConfirm) {
+            alert("비밀번호 확인");
+            return;
+        }
+
+        if (name === null) {
+            alert("대표 닉네임 입력");
+            return;
+        }
+
+        if (email === null) {
+            alert("이메일 입력");
+            return;
+        }
+
+        if (sign === null) {
+            alert("인증번호 입력");
+            return;
+        }
+
+        if (!loginIdDuplicationCheck) {
+            alert("아이디 중복 확인 체크 필요");
+            return;
+        }
+
+        if (!emailDuplicationCheck) {
+            alert("이메일 인증 필요");
+            return;
+        }
+
+        if (!emailConfirmCheck) {
+            alert("이메일 인증번호 확인 필요");
+            return;
+        }
+
+
+    })
 
 </script>

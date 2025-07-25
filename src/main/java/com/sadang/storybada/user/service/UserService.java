@@ -6,8 +6,8 @@ import com.sadang.storybada.name.service.NameService;
 import com.sadang.storybada.user.domain.User;
 import com.sadang.storybada.user.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -24,7 +24,6 @@ public class UserService {
         this.nameService = nameService;
     }
 
-
     public UserDTO getUser(String loginId, String password) {
 
         String encodedPassword = encoder.encode(password);
@@ -39,8 +38,15 @@ public class UserService {
 
             return UserDTO.builder().id(user.getId()).loginId(user.getLoginId()).email(user.getEmail()).nameList(nameList).mainName(mainName).build();
         }
+    }
 
+    public boolean duplicateIdCheck(@RequestParam String loginId) {
 
+        return userRepository.countByLoginId(loginId) == 0;
+    }
 
+    public boolean duplicateEmailCheck(String email) {
+
+        return userRepository.countByEmail(email) == 0;
     }
 }

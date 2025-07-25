@@ -1,6 +1,7 @@
 package com.sadang.storybada.user;
 
 import com.sadang.storybada.dto.UserDTO;
+import com.sadang.storybada.mail.service.JoinMailServiceImpl;
 import com.sadang.storybada.response.ApiResponse;
 import com.sadang.storybada.response.ResponseCode;
 import com.sadang.storybada.user.service.UserService;
@@ -15,13 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserRestController {
 
     private final UserService userService;
+    private final JoinMailServiceImpl joinMailServiceImpl;
 
-    public UserRestController(UserService userService) {
+    public UserRestController(UserService userService, JoinMailServiceImpl joinMailServiceImpl) {
         this.userService = userService;
+        this.joinMailServiceImpl = joinMailServiceImpl;
     }
 
     @PostMapping("/login")
-    public ApiResponse<Boolean> login(@RequestParam String loginId, @RequestParam String password, HttpSession session) {
+    public ApiResponse<Void> login(@RequestParam String loginId, @RequestParam String password, HttpSession session) {
 
         UserDTO userDTO = userService.getUser(loginId, password);
 
@@ -31,8 +34,30 @@ public class UserRestController {
             session.setAttribute("userId", userDTO.getId());
             session.setAttribute("mainName", userDTO.getMainName());
 
-            return ApiResponse.success(true);
+            return ApiResponse.success(null);
         }
     }
 
+    @PostMapping("/create")
+    public ApiResponse<Void> create(@RequestParam String loginId, @RequestParam String password, @RequestParam String name, @RequestParam String email, @RequestParam String sign) {
+
+        return null;
+    }
+
+    @PostMapping("/duplicate-id")
+    public ApiResponse<Boolean> duplicateId(@RequestParam String loginId) {
+
+        return ApiResponse.success(userService.duplicateIdCheck(loginId));
+    }
+
+    @PostMapping("/email-request")
+    public ApiResponse<Boolean> emailRequest(@RequestParam String email) throws Exception {
+
+        if (userService.duplicateEmailCheck(email)) {
+            joinMailServiceImpl.sendSimpleMessage(email);
+            return ApiResponse.success(true);
+        } else {
+            return ApiResponse.success(false);
+        }
+    }
 }

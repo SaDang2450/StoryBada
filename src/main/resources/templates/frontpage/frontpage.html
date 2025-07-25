@@ -50,11 +50,17 @@
                 "password": password
             },
             success: function(response) {
-
-
+                if(response.result === "success") {
+                    location.reload();
+                } else {
+                    alert(response.code + ": " + response.message);
+                }
+            }, error: function() {
+                alert("error : login error");
             }
         })
-
     })
+
+
 </script>
 </html>

@@ -10,13 +10,14 @@ public enum ResponseCode {
 
     // 2000 번대 - 회원가입 관련 에러
     DUPLICATE_ID(2001, "duplicate id"),
-    USER_JOIN_FAIL(2002, "user join fail"),
+    DUPLICATE_EMAIL(2002, "duplicate email"),
+    USER_JOIN_FAIL(2003, "user join fail"),
 
     // 3000 번대 - 로그인 관련 에러
     USER_LOGIN_FAIL(3001, "user login fail");
 
-    private int code;
-    private String message;
+    private final int code;
+    private final String message;
 
     ResponseCode(int code, String message) {
         this.code = code;
