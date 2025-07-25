@@ -1,11 +1,12 @@
 package com.sadang.storybada.user;
 
 import com.sadang.storybada.dto.UserDTO;
-import com.sadang.storybada.mail.service.JoinMailServiceImpl;
+import com.sadang.storybada.email.service.EmailService;
 import com.sadang.storybada.response.ApiResponse;
 import com.sadang.storybada.response.ResponseCode;
 import com.sadang.storybada.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,11 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserRestController {
 
     private final UserService userService;
-    private final JoinMailServiceImpl joinMailServiceImpl;
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public UserRestController(UserService userService, JoinMailServiceImpl joinMailServiceImpl) {
+    public UserRestController(UserService userService, EmailService emailService) {
         this.userService = userService;
-        this.joinMailServiceImpl = joinMailServiceImpl;
     }
 
     @PostMapping("/login")
@@ -39,9 +39,9 @@ public class UserRestController {
     }
 
     @PostMapping("/create")
-    public ApiResponse<Void> create(@RequestParam String loginId, @RequestParam String password, @RequestParam String name, @RequestParam String email, @RequestParam String sign) {
+    public ApiResponse<Boolean> create(@RequestParam String loginId, @RequestParam String password, @RequestParam String name, @RequestParam String email) {
 
-        return null;
+        return ApiResponse.success(userService.addUser(loginId, password, name, email));
     }
 
     @PostMapping("/duplicate-id")
@@ -50,14 +50,9 @@ public class UserRestController {
         return ApiResponse.success(userService.duplicateIdCheck(loginId));
     }
 
-    @PostMapping("/email-request")
-    public ApiResponse<Boolean> emailRequest(@RequestParam String email) throws Exception {
+    @PostMapping("/duplicate-email")
+    public ApiResponse<Boolean> duplicateEmail(@RequestParam String email) {
 
-        if (userService.duplicateEmailCheck(email)) {
-            joinMailServiceImpl.sendSimpleMessage(email);
-            return ApiResponse.success(true);
-        } else {
-            return ApiResponse.success(false);
-        }
+        return ApiResponse.success(userService.duplicateEmailCheck(email));
     }
 }

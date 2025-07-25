@@ -2,6 +2,7 @@ package com.sadang.storybada.name.service;
 
 import com.sadang.storybada.name.domain.Name;
 import com.sadang.storybada.name.repository.NameRepository;
+import jakarta.persistence.PersistenceException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,5 +25,17 @@ public class NameService {
         Name name = nameRepository.findByUserIdAndIsMain(userId, true);
 
         return name.getName();
+    }
+
+    public boolean addNameOfLoginId(String name, long userId) {
+
+        try {
+            nameRepository.save(Name.builder().userId(userId).name(name).isMain(true).build());
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 }

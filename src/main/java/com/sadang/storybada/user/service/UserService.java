@@ -5,6 +5,7 @@ import com.sadang.storybada.name.domain.Name;
 import com.sadang.storybada.name.service.NameService;
 import com.sadang.storybada.user.domain.User;
 import com.sadang.storybada.user.repository.UserRepository;
+import jakarta.persistence.PersistenceException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,21 +27,23 @@ public class UserService {
 
     public UserDTO getUser(String loginId, String password) {
 
-        String encodedPassword = encoder.encode(password);
-
-        User user = userRepository.findByLoginIdAndPassword(loginId, encodedPassword);
+        User user = userRepository.findByLoginId(loginId);
 
         if (user == null) {
             return null;
-        } else {
+        }
+        if (encoder.matches(password, user.getPassword())) {
             List<Name> nameList = nameService.getNameList(user.getId());
             String mainName = nameService.getMainName(user.getId());
 
             return UserDTO.builder().id(user.getId()).loginId(user.getLoginId()).email(user.getEmail()).nameList(nameList).mainName(mainName).build();
         }
+        else {
+            return null;
+        }
     }
 
-    public boolean duplicateIdCheck(@RequestParam String loginId) {
+    public boolean duplicateIdCheck(String loginId) {
 
         return userRepository.countByLoginId(loginId) == 0;
     }
@@ -48,5 +51,23 @@ public class UserService {
     public boolean duplicateEmailCheck(String email) {
 
         return userRepository.countByEmail(email) == 0;
+    }
+
+    public boolean addUser(String loginId, String password, String name, String email) {
+
+        String hashingPassword = encoder.encode(password);
+
+        try {
+            userRepository.save(User.builder().loginId(loginId).password(hashingPassword).email(email).build());
+            return nameService.addNameOfLoginId(name, getIdOfLoginId(loginId));
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public long getIdOfLoginId(String loginId) {
+
+        return userRepository.findByLoginId(loginId).getId();
     }
 }

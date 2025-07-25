@@ -1,5 +1,6 @@
 package com.sadang.storybada.user;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,5 +37,14 @@ public class UserController {
     public String change_view() {
 
         return "user/change";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+
+        session.removeAttribute("userId");
+        session.removeAttribute("mainName");
+
+        return "redirect:/frontpage";
     }
 }
