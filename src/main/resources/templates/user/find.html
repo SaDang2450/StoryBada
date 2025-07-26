@@ -13,7 +13,7 @@
                     <tbody>
                     <tr>
                         <td class="column1 pb-0 text-right align-middle">아이디</td>
-                        <td class="column2 pb-0"><input type="text" class="form-control input-shadow" autocomplete="off"></td>
+                        <td class="column2 pb-0"><input id="loginIdInput" type="text" class="form-control input-shadow" autocomplete="off"></td>
                         <td class="column3 pb-0"></td>
                     </tr>
                     <tr class="comment-row">
@@ -25,7 +25,7 @@
                     </tr>
                     <tr>
                         <td class="column1 pb-0 text-right align-middle">E-mail</td>
-                        <td class="column2 pb-0"><input type="text" class="form-control input-shadow" autocomplete="off"></td>
+                        <td class="column2 pb-0"><input id="emailInput" type="text" class="form-control input-shadow" autocomplete="off"></td>
                         <td class="column3 pb-0"></td>
                     </tr>
                     <tr class="comment-row">
@@ -39,8 +39,8 @@
                 </table>
 
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-danger btn-shadow mx-3">정보찾기</button>
-                    <button type="button" class="btn btn-secondary btn-shadow mx-3">취소</button>
+                    <button id="findBtn" type="button" class="btn btn-danger btn-shadow mx-3">정보찾기</button>
+                    <button id="cancelBtn" type="button" class="btn btn-secondary btn-shadow mx-3">취소</button>
                 </div>
             </div>
         </div>
@@ -49,6 +49,46 @@
 </section>
 
 <script layout:fragment="script">
+    $("#findBtn").on("click", function() {
+        let loginId = $("#loginIdInput").val();
+        let email = $("#emailInput").val();
 
+        const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@(naver.com)$/;
+
+        // validation
+        if(loginId === "") {
+            alert("아이디 입력");
+            return;
+        }
+
+        if (email === "") {
+            alert("이메일 입력");
+            return;
+        }
+        //
+        // if (!regEmail.test(email)) {
+        //     alert("네이버 메일만 가능");
+        //     return;
+        // }
+
+        $.ajax({
+            type: "POST",
+            url: "/user/find-register",
+            data: {
+                "loginId": loginId,
+                "email": email
+            },
+            success: function(response) {
+                if(response.data) {
+                    alert("임시 비밀번호 메일로 송신됨");
+                } else {
+                    alert("error : find fail");
+                }
+            },
+            error: function() {
+                alert("error : find error");
+            }
+        })
+    })
 
 </script>

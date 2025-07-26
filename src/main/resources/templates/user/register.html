@@ -47,7 +47,7 @@
                     </tr>
                     <tr class="comment-row">
                         <td class="column1"></td>
-                        <td class="column2 py-0"><span class="align-top text-danger">비밀번호 불일치</span></td>
+                        <td class="column2 py-0"><span id="passwordInvalidSpan" class="align-top text-danger d-none">비밀번호 불일치</span></td>
                         <td class="column3"></td>
                     </tr>
                     <tr>
@@ -268,6 +268,28 @@
 
     $("#signInput").on("input", function () {
         signCheck = false;
+    })
+
+    $("#passwordConfirmInput").on("input", function() {
+        let password = $("#passwordInput").val();
+        let passwordConfirm = $("#passwordConfirmInput").val();
+
+        if(password !== passwordConfirm) {
+            $("#passwordInvalidSpan").removeClass("d-none");
+        } else {
+            $("#passwordInvalidSpan").addClass("d-none");
+        }
+    })
+
+    $("#passwordInput").on("input", function() {
+        let password = $("#passwordInput").val();
+        let passwordConfirm = $("#passwordConfirmInput").val();
+
+        if(password !== passwordConfirm) {
+            $("#passwordInvalidSpan").removeClass("d-none");
+        } else {
+            $("#passwordInvalidSpan").addClass("d-none");
+        }
     })
 
     $("#registerBtn").on("click", function () {

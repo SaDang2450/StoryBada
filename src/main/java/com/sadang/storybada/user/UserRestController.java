@@ -55,4 +55,16 @@ public class UserRestController {
 
         return ApiResponse.success(userService.duplicateEmailCheck(email));
     }
+
+    @PostMapping("/find-register")
+    public ApiResponse<Boolean> findRegister(@RequestParam String loginId, @RequestParam String email) {
+
+        if(userService.findPasswordByEmail(loginId, email)) {
+
+            return ApiResponse.success(true);
+        } else {
+
+            return ApiResponse.success(false);
+        }
+    }
 }

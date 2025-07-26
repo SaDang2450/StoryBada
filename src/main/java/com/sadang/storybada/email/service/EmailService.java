@@ -18,6 +18,7 @@ public class EmailService {
     private final JavaMailSender mailSender;
     private int authNumber;
 
+
     @Value("${email.username}")
     private String setFrom;
 
@@ -28,21 +29,28 @@ public class EmailService {
 
     public void makeRandomNumber() {
         Random random = new Random();
-        StringBuilder randomNumber = new StringBuilder();
-        for (int i = 0; i < 6; i++) {
-            randomNumber.append(random.nextInt(10));
-        }
 
-        authNumber = Integer.parseInt(randomNumber.toString());
+        authNumber = Integer.parseInt(String.valueOf(random.nextInt(900000)+100000));
     }
+
 
     public void joinEmail(String email) {
         makeRandomNumber();
         String title = "[이야기바다] 회원가입 인증 메일입니다";
-        String content = "" +
-                "<div>" +
+        String content = "<div>" +
                 "   <h1>회원가입 인증 번호</h1><br> " +
                 "   <span>" + authNumber + "</span>" +
+                "</div>";
+        sendEmail(setFrom, email, title, content);
+        redisUtil.saveAuthNumber(Integer.toString(authNumber), email, EXPIRATION);
+    }
+
+    public void findEmail(String email, String tempPassword) {
+
+        String title = "[이야기바다] 임시 비밀빈호 메일입니다";
+        String content = "<div>" +
+                "   <h1>임시 비밀번호입니다.</h1> <br>" +
+                "   <span>" + tempPassword + "</span>" +
                 "</div>";
         sendEmail(setFrom, email, title, content);
     }
@@ -54,13 +62,11 @@ public class EmailService {
             helper.setFrom(setFrom);
             helper.setTo(email);
             helper.setSubject(title);
-            helper.setText(content);
+            helper.setText(content, true);
             mailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-
-        redisUtil.saveAuthNumber(Integer.toString(authNumber), email, EXPIRATION);
     }
 
     public Boolean verifyAuthNum(String email, String authNum) {

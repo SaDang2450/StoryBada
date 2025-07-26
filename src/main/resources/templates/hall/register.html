@@ -11,7 +11,7 @@
                 <div class="h1 text-center mb-3">전당 등록</div>
                 <div>
                     <div class="mb-3">등록 닉네임</div>
-                    <textarea class="form-control input-shadow mb-3 p-3" style="resize: none;" placeholder="전당 등록 멘트 입력"
+                    <textarea id="contentsInput" class="form-control input-shadow mb-3 p-3" style="resize: none;" placeholder="전당 등록 멘트 입력"
                               autocomplete="off"></textarea>
                     <div class="d-flex align-items-center">
                         <div class="mr-3">
@@ -20,7 +20,7 @@
                         </div>
                         <div><span id="hallInputFileName"></span></div>
                         <div class="ml-auto">
-                            <button type="button" class="btn btn-primary btn-shadow">등록</button>
+                            <button id="hallRegisterBtn" type="button" class="btn btn-primary btn-shadow">등록</button>
                         </div>
                     </div>
                 </div>
@@ -34,6 +34,40 @@
     $("#hallImageFileInput").on("change", function () {
         let fileName = $("#hallImageFileInput").val();
         $("#hallInputFileName").text(fileName);
+    })
+
+    $("#hallRegisterBtn").on("click", function() {
+        let contents = $("#contentsInput").val();
+        let imageFile = $("#hallImageFileInput")[0].files[0];
+
+        if(contents === "") {
+            alert("내용 입력");
+            return;
+        }
+
+        let formData = new FormData();
+        formData.append("contents", contents);
+        formData.append("imageFile", imageFile);
+
+        $.ajax({
+            type: "POST",
+            url: "/hall/create",
+            data: formData,
+            enctype: "multipart/form-data",
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if(response.data !== 0) {
+                    alert("전당 등록 완료");
+                    location.href = "/hall/ranking/detail?id=" + response.data;
+                } else {
+                    alert("error : upload fail");
+                }
+            },
+            error : function() {
+                alert("error : upload error");
+            }
+        })
     })
 
 </script>
