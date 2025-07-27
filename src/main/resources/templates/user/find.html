@@ -80,7 +80,8 @@
             },
             success: function(response) {
                 if(response.data) {
-                    alert("임시 비밀번호 메일로 송신됨");
+                    alert("임시 비밀번호 메일로 송신됨. 재로그인");
+                    location.href = "/frontpage";
                 } else {
                     alert("error : find fail");
                 }

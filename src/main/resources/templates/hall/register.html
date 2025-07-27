@@ -32,7 +32,9 @@
 
 <script layout:fragment="script">
     $("#hallImageFileInput").on("change", function () {
-        let fileName = $("#hallImageFileInput").val();
+        let fullFileName = $("#hallImageFileInput").val();
+        let fileName = fullFileName.split("\\")[2];
+
         $("#hallInputFileName").text(fileName);
     })
 

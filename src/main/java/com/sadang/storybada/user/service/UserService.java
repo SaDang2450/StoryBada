@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -80,10 +81,11 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findByLoginIdAndEmail(loginId, email);
 
         if(optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
             String tempPassword = makeRandomString();
             String hashingTempPassword = encoder.encode(tempPassword);
-            User user = optionalUser.get();
-            user.toBuilder().password(hashingTempPassword).build();
+            user = user.toBuilder().password(hashingTempPassword).updatedAt(LocalDateTime.now()).build();
             userRepository.save(user);
 
             emailService.findEmail(email, tempPassword);
