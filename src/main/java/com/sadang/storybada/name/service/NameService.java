@@ -21,6 +21,12 @@ public class NameService {
         return nameRepository.findByUserId(userId);
     }
 
+    public Long getMainNameId(long userId) {
+        Name name = nameRepository.findByUserIdAndIsMain(userId, true);
+
+        return name.getId();
+    }
+
     public String getMainName(long userId) {
         Name name = nameRepository.findByUserIdAndIsMain(userId, true);
 
@@ -38,4 +44,6 @@ public class NameService {
 
         return true;
     }
+
+
 }

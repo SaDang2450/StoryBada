@@ -19,6 +19,7 @@ public class UserDTO {
     private LocalDateTime updatedAtUser;
 
     private List<Name> nameList;
+    private Long mainNameId;
     private String mainName;
 
 }

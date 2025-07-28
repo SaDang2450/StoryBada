@@ -1,5 +1,5 @@
 <article class="left-side-zone border-1 p-3 d-flex flex-column">
-    <th:block th:if="${userId == null}">
+    <th:block th:if="${session.userId == null}">
         <div class="login border-1 p-3">
             <form id="loginForm">
                 <div class="my-3">로그인</div>
@@ -14,7 +14,7 @@
             </form>
         </div>
     </th:block>
-    <th:block th:if="${userId != null}">
+    <th:block th:if="${session.userId != null}">
         <div class="user-info border-1 p-3">
             <div class="row mb-3 mt-2 col-12">로그인 아이디 1</div>
             <div class="row ml-1 my-3 col-12">현재 캐릭터 명</div>

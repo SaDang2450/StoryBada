@@ -9,17 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class FrontController {
 
     @GetMapping("/frontpage")
-    public String frontpage_view(Model model, HttpSession session) {
-
-        try {
-            long userId = (long) session.getAttribute("userId");
-            String mainName = (String) session.getAttribute("mainName");
-
-            model.addAttribute("userId", userId);
-            model.addAttribute("mainName", mainName);
-        } catch (NullPointerException ignored) {
-
-        }
+    public String frontpage_view() {
 
         return "frontpage/frontpage";
     }

@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/game")
 public class GameController {
 
-    @GetMapping("/dice")
-    public String dice_view() {
-
-        return "game/dice";
-    }
+//    @GetMapping("/dice")
+//    public String dice_view() {
+//
+//        return "game/dice";
+//    }
 
     @GetMapping("/box")
     public String box_view() {

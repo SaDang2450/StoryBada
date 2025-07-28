@@ -6,6 +6,7 @@ import com.sadang.storybada.response.ApiResponse;
 import com.sadang.storybada.response.ResponseCode;
 import com.sadang.storybada.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,14 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserRestController {
 
     private final UserService userService;
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-    public UserRestController(UserService userService, EmailService emailService) {
-        this.userService = userService;
-    }
 
     @PostMapping("/login")
     public ApiResponse<Void> login(@RequestParam String loginId, @RequestParam String password, HttpSession session) {
@@ -33,6 +31,7 @@ public class UserRestController {
         } else {
             session.setAttribute("userId", userDTO.getId());
             session.setAttribute("mainName", userDTO.getMainName());
+            session.setAttribute("mainNameId", userDTO.getMainNameId());
 
             return ApiResponse.success(null);
         }
@@ -59,7 +58,7 @@ public class UserRestController {
     @PostMapping("/find-register")
     public ApiResponse<Boolean> findRegister(@RequestParam String loginId, @RequestParam String email) {
 
-        if(userService.findPasswordByEmail(loginId, email)) {
+        if (userService.findPasswordByEmail(loginId, email)) {
 
             return ApiResponse.success(true);
         } else {

@@ -7,6 +7,7 @@ import com.sadang.storybada.name.service.NameService;
 import com.sadang.storybada.user.domain.User;
 import com.sadang.storybada.user.repository.UserRepository;
 import jakarta.persistence.PersistenceException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,19 +18,13 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final BCryptPasswordEncoder encoder;
     private final UserRepository userRepository;
     private final NameService nameService;
     private final EmailService emailService;
-
-    public UserService(BCryptPasswordEncoder encoder, UserRepository userRepository, NameService nameService, EmailService emailService) {
-        this.encoder = encoder;
-        this.userRepository = userRepository;
-        this.nameService = nameService;
-        this.emailService = emailService;
-    }
 
     public UserDTO getUser(String loginId, String password) {
 
@@ -41,8 +36,9 @@ public class UserService {
         if (encoder.matches(password, user.getPassword())) {
             List<Name> nameList = nameService.getNameList(user.getId());
             String mainName = nameService.getMainName(user.getId());
+            Long nameId = nameService.getMainNameId(user.getId());
 
-            return UserDTO.builder().id(user.getId()).loginId(user.getLoginId()).email(user.getEmail()).nameList(nameList).mainName(mainName).build();
+            return UserDTO.builder().id(user.getId()).loginId(user.getLoginId()).email(user.getEmail()).nameList(nameList).mainNameId(nameId).mainName(mainName).build();
         }
         else {
             return null;

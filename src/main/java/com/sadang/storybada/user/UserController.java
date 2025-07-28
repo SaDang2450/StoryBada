@@ -44,6 +44,7 @@ public class UserController {
 
         session.removeAttribute("userId");
         session.removeAttribute("mainName");
+        session.removeAttribute("diceBettingTotal");
 
         return "redirect:/frontpage";
     }

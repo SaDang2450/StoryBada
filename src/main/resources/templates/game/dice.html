@@ -9,16 +9,31 @@
             <div class="dice border-1 d-flex flex-column align-items-center justify-content-between">
                 <div class="h1">주사위 홀짝</div>
                 <div class="dice-game border-1"></div>
-                <div class="font-larger">남은 시간 : SS</div>
-                <div class="font-larger"><span>현재 배팅 포인트</span> <span>3,000</span></div>
+                <table class="table table-borderless table-dice-info text-center font-larger mb-0">
+                    <tbody>
+                    <tr>
+                        <td style="width:70%">남은시간</td>
+                        <td style="width:30%">SS</td>
+                    </tr>
+                    <tr>
+                        <td style="width:70%">현재 베팅 포인트</td>
+                        <td style="width:30%"><span th:text="${session.diceBettingTotal}">3,000</span></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="dice-betting border-1 d-flex flex-column align-items-center justify-content-between">
-                <div class="h3 text-center">배팅</div>
-                <div><input type="text" class="form-control input-shadow" placeholder="배팅 액수 입력" autocomplete="off">
+                <div class="h3 text-center">베팅</div>
+                <div><input id="bettingHp" type="text" class="form-control input-shadow" placeholder="베팅 액수 입력"
+                            autocomplete="off">
                 </div>
                 <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-primary btn-shadow btn-even-odd">홀수</button>
-                    <button type="button" class="btn btn-danger btn-shadow btn-even-odd">짝수</button>
+                    <button name="bettingBtn" data-betting="odd" type="button"
+                            class="btn btn-primary btn-shadow btn-even-odd">홀수
+                    </button>
+                    <button name="bettingBtn" data-betting="even" type="button"
+                            class="btn btn-danger btn-shadow btn-even-odd">짝수
+                    </button>
                 </div>
             </div>
         </div>
@@ -143,6 +158,37 @@
 </section>
 
 <script layout:fragment="script">
+    $("button[name=bettingBtn]").on("click", function () {
+        let betting = $(this).data("betting");
+        let hp = $("#bettingHp").val();
 
+        // validation
+        if (hp === "") {
+            alert("베팅 금액 입력");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/game/dice/bet",
+            data: {
+                "betting": betting,
+                "hp": hp
+            },
+            success: function (response) {
+                if (response.data) {
+                    alert("배팅 성공");
+                    location.reload();
+                } else {
+                    alert("error : dice betting fail");
+                    location.reload();
+                }
+            },
+            error: function () {
+                alert("error : dice betting error");
+            }
+
+        })
+    })
 </script>
 </html>

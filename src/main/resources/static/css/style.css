@@ -242,6 +242,11 @@ header {
     width: 120px;
 }
 
+.table-dice-info {
+    width: 300px;
+    height:120px;
+}
+
 /* box */
 .table-box-buying > tbody > .box-image-row {
     width: 450px;
