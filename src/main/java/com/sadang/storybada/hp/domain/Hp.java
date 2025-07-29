@@ -20,10 +20,10 @@ public class Hp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    private Long nameId;
-    private Long point;
+    private long nameId;
+    private long point;
     private String game;
 
     @CreationTimestamp

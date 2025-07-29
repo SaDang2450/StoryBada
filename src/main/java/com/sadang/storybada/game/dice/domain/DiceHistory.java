@@ -20,7 +20,7 @@ public class DiceHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     private long game;
     private boolean result;

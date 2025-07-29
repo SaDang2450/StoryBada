@@ -17,10 +17,10 @@ public class DiceBuffer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    private Long nameId;
-    private Long hp;
+    private long nameId;
+    private long hp;
     private boolean result;
 
     @CreationTimestamp

@@ -51,4 +51,9 @@ public class DiceBufferService {
 
         return diceBufferRepository.findAll();
     }
+
+    public void flushDiceBuffer() {
+
+        diceBufferRepository.deleteAllInBatch();
+    }
 }

@@ -20,11 +20,11 @@ public class Hall {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    private Long userId;
+    private long userId;
     private String name;
-    private Long hp;
+    private long hp;
     private String contents;
     private String imagePath;
 

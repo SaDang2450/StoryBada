@@ -20,8 +20,8 @@ public class Name {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Long userId;
+    private long id;
+    private long userId;
     private String name;
     private boolean isMain;
 
