@@ -1,5 +1,6 @@
 package com.sadang.storybada.game.dice;
 
+import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.game.dice.service.DiceBufferService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,8 @@ public class DiceController {
     @GetMapping("/dice")
     public String dice_view(HttpSession session) {
 
-        long mainNameId = (Long) session.getAttribute("mainNameId");
+        UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
+        long mainNameId = userDTO.getMainNameId();
         session.setAttribute("diceBettingTotal",diceBufferService.getTotalBettingAmount(mainNameId));
 
         return "game/dice";

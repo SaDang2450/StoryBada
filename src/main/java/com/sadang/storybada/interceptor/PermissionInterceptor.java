@@ -1,5 +1,6 @@
 package com.sadang.storybada.interceptor;
 
+import com.sadang.storybada.dto.UserDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -13,11 +14,11 @@ public class PermissionInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
 
         HttpSession session = request.getSession();
+        UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
 
-        Long userId = (Long) session.getAttribute("userId");
         String uri = request.getRequestURI();
 
-        if(userId == null) {
+        if(userDTO == null) {
             if(uri.startsWith("/game")) {
                 response.sendRedirect("/user/register");
                 return false;

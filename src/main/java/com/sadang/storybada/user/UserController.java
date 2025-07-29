@@ -42,9 +42,7 @@ public class UserController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
 
-        session.removeAttribute("userId");
-        session.removeAttribute("mainName");
-        session.removeAttribute("diceBettingTotal");
+        session.removeAttribute("userDTO");
 
         return "redirect:/frontpage";
     }

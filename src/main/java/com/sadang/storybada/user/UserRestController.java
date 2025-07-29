@@ -29,9 +29,7 @@ public class UserRestController {
         if (userDTO == null) {
             return ApiResponse.fail(ResponseCode.USER_LOGIN_FAIL);
         } else {
-            session.setAttribute("userId", userDTO.getId());
-            session.setAttribute("mainName", userDTO.getMainName());
-            session.setAttribute("mainNameId", userDTO.getMainNameId());
+            session.setAttribute("userDTO", userDTO);
 
             return ApiResponse.success(null);
         }
@@ -40,7 +38,11 @@ public class UserRestController {
     @PostMapping("/create")
     public ApiResponse<Boolean> create(@RequestParam String loginId, @RequestParam String password, @RequestParam String name, @RequestParam String email) {
 
-        return ApiResponse.success(userService.addUser(loginId, password, name, email));
+        if (userService.addUser(loginId, password, name, email) == null) {
+            return ApiResponse.success(false);
+        } else {
+            return ApiResponse.success(true);
+        }
     }
 
     @PostMapping("/duplicate-id")

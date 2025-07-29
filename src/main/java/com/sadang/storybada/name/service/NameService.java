@@ -1,21 +1,19 @@
 package com.sadang.storybada.name.service;
 
+import com.sadang.storybada.hp.service.HpService;
 import com.sadang.storybada.name.domain.Name;
 import com.sadang.storybada.name.repository.NameRepository;
-import jakarta.persistence.PersistenceException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class NameService {
 
     private final NameRepository nameRepository;
-
-    public NameService(NameRepository nameRepository) {
-        this.nameRepository = nameRepository;
-    }
+    private final HpService hpService;
 
     public List<Name> getNameList(long userId) {
         return nameRepository.findByUserId(userId);
@@ -33,17 +31,14 @@ public class NameService {
         return name.getName();
     }
 
-    public boolean addNameOfLoginId(String name, long userId) {
+    public Name addName(String name, long userId) {
 
-        try {
-            nameRepository.save(Name.builder().userId(userId).name(name).isMain(true).build());
-        } catch (PersistenceException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        return true;
+        return nameRepository.save(Name.builder().userId(userId).name(name).isMain(true).build());
     }
 
+    public long getCurrentPointByNameId(long nameId) {
+
+        return hpService.getCurrentPointByNameId(nameId);
+    }
 
 }

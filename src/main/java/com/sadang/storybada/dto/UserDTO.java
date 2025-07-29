@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Builder
+@Builder(toBuilder = true)
 @Getter
 public class UserDTO {
 
@@ -21,5 +21,7 @@ public class UserDTO {
     private List<Name> nameList;
     private Long mainNameId;
     private String mainName;
+
+    private Long point;
 
 }

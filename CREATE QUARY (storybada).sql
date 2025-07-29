@@ -122,3 +122,14 @@ CREATE TABLE `lottobuffer` (
     `updatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+SELECT * FROM `dicebuffer`;
+
+SELECT * FROM `name`;
+SELECT * FROM `hp`;
+
+INSERT INTO `hp`
+(`nameId`, `point`, `game`)
+VALUE
+(1, 10000, 'Register');
+
+

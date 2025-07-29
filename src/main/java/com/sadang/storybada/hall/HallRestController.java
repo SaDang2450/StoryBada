@@ -1,5 +1,6 @@
 package com.sadang.storybada.hall;
 
+import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.hall.domain.Hall;
 import com.sadang.storybada.hall.service.HallService;
 import com.sadang.storybada.response.ApiResponse;
@@ -23,7 +24,8 @@ public class HallRestController {
     @PostMapping("/create")
     public ApiResponse<Long> hallCreate(HttpSession session, @RequestParam String contents, @RequestParam(required = false) MultipartFile imageFile) {
 
-        long userId = Long.parseLong(session.getAttribute("userId").toString());
+        UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
+        long userId = userDTO.getId();
 
         Hall hall = hallService.addHall(userId, contents, imageFile);
 

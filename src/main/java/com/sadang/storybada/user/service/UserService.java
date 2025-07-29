@@ -2,6 +2,8 @@ package com.sadang.storybada.user.service;
 
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.email.service.EmailService;
+import com.sadang.storybada.hp.domain.Hp;
+import com.sadang.storybada.hp.service.HpService;
 import com.sadang.storybada.name.domain.Name;
 import com.sadang.storybada.name.service.NameService;
 import com.sadang.storybada.user.domain.User;
@@ -25,6 +27,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final NameService nameService;
     private final EmailService emailService;
+    private final HpService hpService;
 
     public UserDTO getUser(String loginId, String password) {
 
@@ -37,10 +40,10 @@ public class UserService {
             List<Name> nameList = nameService.getNameList(user.getId());
             String mainName = nameService.getMainName(user.getId());
             Long nameId = nameService.getMainNameId(user.getId());
+            Long currentPoint = nameService.getCurrentPointByNameId(nameId);
 
-            return UserDTO.builder().id(user.getId()).loginId(user.getLoginId()).email(user.getEmail()).nameList(nameList).mainNameId(nameId).mainName(mainName).build();
-        }
-        else {
+            return UserDTO.builder().id(user.getId()).loginId(user.getLoginId()).email(user.getEmail()).nameList(nameList).mainNameId(nameId).mainName(mainName).point(currentPoint).build();
+        } else {
             return null;
         }
     }
@@ -55,17 +58,15 @@ public class UserService {
         return userRepository.countByEmail(email) == 0;
     }
 
-    public boolean addUser(String loginId, String password, String name, String email) {
+    public User addUser(String loginId, String password, String name, String email) {
 
         String hashingPassword = encoder.encode(password);
 
-        try {
-            userRepository.save(User.builder().loginId(loginId).password(hashingPassword).email(email).build());
-            return nameService.addNameOfLoginId(name, getIdOfLoginId(loginId));
-        } catch (PersistenceException e) {
-            e.printStackTrace();
-            return false;
-        }
+        User registeredUser = userRepository.save(User.builder().loginId(loginId).password(hashingPassword).email(email).build());
+        Name registeredName = nameService.addName(name, registeredUser.getId());
+        Hp registerdHp = hpService.addHpRecord(registeredName.getId(), 10000, "Register");
+
+        return registeredUser;
     }
 
     public long getIdOfLoginId(String loginId) {
@@ -76,7 +77,7 @@ public class UserService {
     public boolean findPasswordByEmail(String loginId, String email) {
         Optional<User> optionalUser = userRepository.findByLoginIdAndEmail(loginId, email);
 
-        if(optionalUser.isPresent()) {
+        if (optionalUser.isPresent()) {
             User user = optionalUser.get();
 
             String tempPassword = makeRandomString();
@@ -105,7 +106,7 @@ public class UserService {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder sb = new StringBuilder();
 
-        for(int i = 0 ; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             int index = random.nextInt(characters.length());
             sb.append(characters.charAt(index));
         }
