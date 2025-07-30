@@ -176,8 +176,14 @@
                 "hp": hp
             },
             success: function (response) {
-                if (response.data) {
+                if (response.code === 1000) {
                     alert("배팅 성공");
+                    location.reload();
+                } else if (response.code === 4001) {
+                    alert("error : dice betting fail\n" + response.message);
+                    location.reload();
+                } else if (response.code === 4002) {
+                    alert("error : dice betting fail\n" + response.message);
                     location.reload();
                 } else {
                     alert("error : dice betting fail");

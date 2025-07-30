@@ -45,6 +45,7 @@ public class UserService {
         }
     }
 
+    // 우선은 전체 정보 갱신으로 구현했으나, 이후 상황 봐서 포인트 갱신만 필요함이 판명나면 수정.
     public UserDTO reloadCurrentUserDTO(long id) {
 
         Optional<User> optionalUser = userRepository.findById(id);

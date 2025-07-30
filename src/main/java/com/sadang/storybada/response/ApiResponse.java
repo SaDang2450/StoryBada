@@ -15,7 +15,7 @@ public class ApiResponse<T> {
     private T data;
 
     public static <T> ApiResponse<T> success(T data) {
-        return new  ApiResponse<T>("success", ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), data);
+        return new ApiResponse<T>("success", ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), data);
     }
 
     public static <T> ApiResponse<T> fail(ResponseCode code) {

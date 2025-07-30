@@ -5,6 +5,7 @@ import com.sadang.storybada.game.dice.domain.DiceBuffer;
 import com.sadang.storybada.game.dice.repository.DiceBufferRepository;
 import com.sadang.storybada.hp.service.HpService;
 import com.sadang.storybada.name.service.NameService;
+import com.sadang.storybada.response.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,20 +20,31 @@ public class DiceBufferService {
     private final NameService nameService;
     private final HpService hpService;
 
-    public DiceBuffer insertDiceBetting(UserDTO userDTO, String betting, long hp) {
+    public ResponseCode diceBettingValidation(UserDTO userDTO, String betting, long hp) {
 
         long currentPoint = nameService.getCurrentPointByNameId(userDTO.getMainNameId());
+        boolean result = Objects.equals(betting, "odd");
+
+        if (!diceBufferRepository.findByNameIdAndResult(userDTO.getMainNameId(), !result).isEmpty()) {
+
+            return ResponseCode.DICE_REVERSE_BETTING;
+        }
 
         if (currentPoint < hp) {
-            return null;
-        } else {
-            boolean result;
-            result = Objects.equals(betting, "odd");
-            long nameId = userDTO.getMainNameId();
-            hpService.addHpRecord(nameId, hp * (-1), "DiceBetting");
 
-            return diceBufferRepository.save(DiceBuffer.builder().nameId(userDTO.getMainNameId()).result(result).hp(hp).build());
+            return ResponseCode.DICE_POINT_NOT_ENOUGH;
         }
+
+        return ResponseCode.SUCCESS;
+    }
+
+    public DiceBuffer insertDiceBetting(UserDTO userDTO, String betting, long hp) {
+
+        boolean result = Objects.equals(betting, "odd");
+        long nameId = userDTO.getMainNameId();
+        hpService.addHpRecord(nameId, hp * (-1), "DiceBetting");
+
+        return diceBufferRepository.save(DiceBuffer.builder().nameId(userDTO.getMainNameId()).result(result).hp(hp).build());
     }
 
     public long getTotalBettingAmount(long nameId) {
@@ -56,4 +68,5 @@ public class DiceBufferService {
 
         diceBufferRepository.deleteAllInBatch();
     }
+
 }

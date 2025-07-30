@@ -6,6 +6,7 @@ import com.sadang.storybada.game.dice.service.DiceBufferService;
 import com.sadang.storybada.game.dice.service.DiceHallService;
 import com.sadang.storybada.game.dice.service.DiceHistoryService;
 import com.sadang.storybada.hp.service.HpService;
+import com.sadang.storybada.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -35,6 +36,7 @@ public class PlayDiceGame {
     private final DiceHallService diceHallService;
     private final DiceBufferService diceBufferService;
     private final HpService hpService;
+    private final UserService userService;
 
     public boolean makeRandomDiceResult() {
         Random random = new Random();

@@ -4,6 +4,7 @@ import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.game.dice.service.DiceBufferService;
 import com.sadang.storybada.hp.service.HpService;
 import com.sadang.storybada.response.ApiResponse;
+import com.sadang.storybada.response.ResponseCode;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,18 +21,24 @@ public class DiceRestController {
     private final HpService hpService;
 
     @PostMapping("bet")
-    public ApiResponse<Boolean> addBetting(HttpSession session, @RequestParam String betting, @RequestParam long hp) {
+    public ApiResponse<Void> addBetting(HttpSession session, @RequestParam String betting, @RequestParam long hp) {
 
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
-        if (diceBufferService.insertDiceBetting(userDTO, betting, hp) == null) {
 
-            return ApiResponse.success(false);
-        } else {
+        // Validation
+        ResponseCode responseCode = diceBufferService.diceBettingValidation(userDTO, betting, hp);
+        if (responseCode != ResponseCode.SUCCESS) {
 
-            userDTO = userDTO.toBuilder().point(hpService.getCurrentPointByNameId(userDTO.getMainNameId())).build();
-            session.setAttribute("userDTO", userDTO);
-
-            return ApiResponse.success(true);
+            return ApiResponse.fail(responseCode);
         }
+
+        // betting
+        diceBufferService.insertDiceBetting(userDTO, betting, hp);
+
+        // Reload
+        userDTO = userDTO.toBuilder().point(hpService.getCurrentPointByNameId(userDTO.getMainNameId())).build();
+        session.setAttribute("userDTO", userDTO);
+
+        return ApiResponse.success(null);
     }
 }

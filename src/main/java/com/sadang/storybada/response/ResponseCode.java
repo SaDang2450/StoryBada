@@ -14,7 +14,12 @@ public enum ResponseCode {
     USER_JOIN_FAIL(2003, "user join fail"),
 
     // 3000 번대 - 로그인 관련 에러
-    USER_LOGIN_FAIL(3001, "user login fail");
+    USER_LOGIN_FAIL(3001, "user login fail"),
+
+    // 4000 번대 - DICE 게임 관련 에러
+    DICE_POINT_NOT_ENOUGH(4001, "point is not enough"),
+    DICE_REVERSE_BETTING(4002, "you have bet opposite side");
+
 
     private final int code;
     private final String message;
