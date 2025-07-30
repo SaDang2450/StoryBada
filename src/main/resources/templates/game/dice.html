@@ -17,7 +17,7 @@
                     </tr>
                     <tr>
                         <td style="width:70%">현재 베팅 포인트</td>
-                        <td style="width:30%"><span th:text="${session.diceBettingTotal}">3,000</span></td>
+                        <td style="width:30%"><span id="diceBettingTotal" th:text="${session.diceBettingTotal}">3,000</span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -204,6 +204,22 @@
         let remainTime = 59 - seconds;
 
         $("#remainTimeSpan").text(remainTime);
+
+        if(remainTime === 59) {
+            $.ajax({
+                type: "POST",
+                url:"/game/dice/reload",
+                success: function(response) {
+                    if(response.data) {
+                        $("#diceBettingTotal").load(location.href + " #diceBettingTotal");
+                        $("#currentPoint").load(location.href + " #currentPoint");
+                    }
+                },
+                error: function() {
+                    alert("error: reload error");
+                }
+            })
+        }
     }
 
     setInterval(updateRemainTime, 1000);
