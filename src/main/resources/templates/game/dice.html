@@ -13,7 +13,7 @@
                     <tbody>
                     <tr>
                         <td style="width:70%">남은시간</td>
-                        <td style="width:30%">SS</td>
+                        <td id="remainTimeSpan" style="width:30%">SS</td>
                     </tr>
                     <tr>
                         <td style="width:70%">현재 베팅 포인트</td>
@@ -196,5 +196,19 @@
 
         })
     })
+
+    function updateRemainTime() {
+        let now = new Date();
+        let seconds = now.getSeconds().toString().padStart(2, '0');
+
+        let remainTime = 59 - seconds;
+
+        $("#remainTimeSpan").text(remainTime);
+    }
+
+    setInterval(updateRemainTime, 1000);
+
+    updateRemainTime();
+
 </script>
 </html>
