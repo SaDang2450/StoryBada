@@ -1,6 +1,7 @@
 package com.sadang.storybada.game.dice.job;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.JobParametersInvalidException;
@@ -17,10 +18,10 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class DiceGameScheduler {
 
-    private JobLauncher jobLauncher;
-    private PlayDiceGame playDiceGame;
+    private final JobLauncher jobLauncher;
+    private final Job playTheDiceGame;
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 * * * * *", zone="Asia/Seoul")
     public void runDiceGame() {
         LocalDateTime now = LocalDateTime.now();
         long hour = now.getHour();
@@ -31,7 +32,7 @@ public class DiceGameScheduler {
         JobParameters jobParameters = new JobParametersBuilder().addLong("game", game).toJobParameters();
 
         try{
-            jobLauncher.run(playDiceGame.playDiceGame(), jobParameters);
+            jobLauncher.run(playTheDiceGame, jobParameters);
         } catch (JobInstanceAlreadyCompleteException | JobExecutionAlreadyRunningException |
                  JobParametersInvalidException | JobRestartException e) {
             throw new RuntimeException(e);

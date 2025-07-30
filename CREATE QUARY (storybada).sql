@@ -130,6 +130,6 @@ SELECT * FROM `hp`;
 INSERT INTO `hp`
 (`nameId`, `point`, `game`)
 VALUE
-(1, 10000, 'Register');
+(3, 100000, 'Test');
 
 

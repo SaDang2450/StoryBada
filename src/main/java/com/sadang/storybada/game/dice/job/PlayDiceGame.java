@@ -43,29 +43,30 @@ public class PlayDiceGame {
     }
 
     @Bean
-    public Job playDiceGame() {
-        return new JobBuilder("playDiceGame", jobRepository)
-                .start(makeDiceGameResult(null))
-                .next(chargeDiceGameResult(null))
-                .next(flushDiceBuffer())
+    public Job playTheDiceGame(Step makeDiceGameResult, Step chargeDiceGameResult, Step flushDiceBuffer) {
+        return new JobBuilder("playTheDiceGame", jobRepository)
+                .start(makeDiceGameResult)
+                .next(chargeDiceGameResult)
+                .next(flushDiceBuffer)
                 .build();
     }
 
     @Bean
     @JobScope
-    public Step makeDiceGameResult(@Value("#{jobParameters['game']}") Integer game) {
+    public Step makeDiceGameResult(@Value("#{jobParameters[game]}") Long game) {
         return new StepBuilder("makeDiceGameResult", jobRepository).tasklet(new Tasklet() {
             @Override
             public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
                 contribution.getStepExecution().getJobExecution().getExecutionContext()
-                        .put("recentDiceGameResult", diceHistoryService.addDiceHistory(1, makeRandomDiceResult()));
+                        .put("recentDiceGameResult", diceHistoryService.addDiceHistory(game, makeRandomDiceResult()));
                 return RepeatStatus.FINISHED;
             }
         }, transactionManager).build();
     }
 
     @Bean
-    public Step chargeDiceGameResult(@Value("#{jobParameters['game']}") Integer game) {
+    @JobScope
+    public Step chargeDiceGameResult(@Value("#{jobParameters[game]}") Long game) {
         return new StepBuilder("chargeDiceGameResult", jobRepository).tasklet(new Tasklet() {
             @Override
             public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
@@ -76,7 +77,7 @@ public class PlayDiceGame {
                 long recentGameNumber = recentDiceHistory.getGame();
                 boolean recentResult = recentDiceHistory.isResult();
 
-                for(DiceBuffer diceBuffer : diceBufferList){
+                for (DiceBuffer diceBuffer : diceBufferList) {
                     long nameId = diceBuffer.getNameId();
                     long hp = diceBuffer.getHp();
                     boolean result = diceBuffer.isResult();
@@ -105,5 +106,6 @@ public class PlayDiceGame {
             }
         }, transactionManager).build();
     }
+
 }
 

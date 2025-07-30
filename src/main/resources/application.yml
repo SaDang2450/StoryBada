@@ -16,6 +16,8 @@ spring:
     url: jdbc:mysql://localhost:3306/storybada
     username: root
     password: ${mysql.password}
+  main:
+    allow-bean-definition-overriding: true
   mail:
     host: smtp.naver.com
     username: ${email.username}
@@ -37,6 +39,9 @@ spring:
     redis:
       host: localhost
       port: 6379
+  batch:
+    jdbc:
+      initialize-schema: always
 server:
   servlet:
     session:
