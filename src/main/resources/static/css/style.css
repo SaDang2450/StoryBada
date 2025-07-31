@@ -244,7 +244,7 @@ header {
 
 .table-dice-info {
     width: 300px;
-    height:120px;
+    height: 120px;
 }
 
 /* box */
@@ -263,6 +263,11 @@ header {
     width: 120px;
 }
 
+.table-box-info {
+    width: 300px;
+    height: 60px;
+}
+
 .table-box-betting {
     width: 400px;
 }
@@ -278,6 +283,7 @@ header {
 .table-box-betting > tbody > tr > .column3 {
     width: 100px;
 }
+
 
 /* box-history */
 .table-box-history {

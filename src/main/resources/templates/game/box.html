@@ -23,15 +23,18 @@
                     </tr>
                     <tr class="box-btn-row">
                         <td>
-                            <button type="button" class="btn btn-primary form-control btn-box-buying btn-shadow">1개 구매
+                            <button name="buyingBoxBtn" data-amount=1 type="button"
+                                    class="btn btn-primary form-control btn-box-buying btn-shadow">1개 구매
                             </button>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary form-control btn-box-buying btn-shadow">5개 구매
+                            <button name="buyingBoxBtn" data-amount=5 type="button"
+                                    class="btn btn-primary form-control btn-box-buying btn-shadow">5개 구매
                             </button>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary form-control btn-box-buying btn-shadow">10개
+                            <button name="buyingBoxBtn" data-amount=10 type="button"
+                                    class="btn btn-primary form-control btn-box-buying btn-shadow">10개
                                 구매
                             </button>
                         </td>
@@ -49,36 +52,46 @@
                     </tr>
                     <tr class="box-btn-row">
                         <td>
-                            <button type="button" class="btn btn-primary form-control btn-box-buying btn-shadow">50개
+                            <button name="buyingBoxBtn" data-amount=50 type="button"
+                                    class="btn btn-primary form-control btn-box-buying btn-shadow">50개
                                 구매
                             </button>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary form-control btn-box-buying btn-shadow">100개
+                            <button name="buyingBoxBtn" data-amount=100 type="button"
+                                    class="btn btn-primary form-control btn-box-buying btn-shadow">100개
                                 구매
                             </button>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary form-control btn-box-buying btn-shadow">500개
+                            <button name="buyingBoxBtn" data-amount=500 type="button"
+                                    class="btn btn-primary form-control btn-box-buying btn-shadow">500개
                                 구매
                             </button>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-                <div class="font-larger">개봉까지 남은 시간 : SS</div>
+                <table class="table table-borderless table-box-info text-center font-larger mb-0">
+                    <tbody>
+                    <tr>
+                        <td style="width:70%">개봉까지 남은시간</td>
+                        <td id="remainTimeSpan" style="width:30%">SS</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="box-betting border-1 d-flex flex-column align-items-center justify-content-between">
                 <table class="table table-borderless table-box-betting font-larger text-center">
                     <tbody>
                     <tr>
                         <td class="column1">랜덤 박스 보유 개수</td>
-                        <td class="column2">120</td>
+                        <td id="holdingBoxAmountSpan" class="column2" th:text="${session.holdingBoxAmount}">120</td>
                         <td class="column3">개</td>
                     </tr>
                     <tr>
                         <td class="column1">평균 획득 포인트</td>
-                        <td class="column2">50</td>
+                        <td id="averageBoxGetPointSpan" class="column2" th:text="${session.averageBoxGetPoint}">50</td>
                         <td class="column3">HP</td>
                     </tr>
                     </tbody>
@@ -213,5 +226,62 @@
     $("#boxHistoryBtn").on("click", function () {
         location.href = "/game/box/history";
     })
+
+    $("#buyingBoxBtn").on("click", function () {
+        let amount = $(this).data("amount");
+
+        $.ajax({
+            type: "POST",
+            url: "/game/box/buying",
+            data: {
+                "amount": amount
+            },
+            success: function (response) {
+                if (response.data === 1000) {
+                    alert("buying box succeed : " + amount);
+                    location.reload();
+                }
+            },
+            error: function () {
+                alert("error : box buying error");
+            }
+        })
+
+
+    })
+
+
+    function updateRemainTime() {
+        let now = new Date();
+        let seconds = now.getSeconds();
+
+        let remainTime = 80 - seconds;
+        if (remainTime >= 60) {
+            remainTime -= 60;
+        }
+
+        $("#remainTimeSpan").text(remainTime);
+
+        if (remainTime === 59) {
+            $.ajax({
+                type: "POST",
+                url: "/game/dice/reload",
+                success: function (response) {
+                    if (response.data) {
+                        $("#holdingBoxAmountSpan").load(location.href + " #holdingBoxAmountSpan");
+                        $("#averageBoxGetPointSpan").load(location.href + " #averageBoxGetPointSpan");
+                        $("#currentPoint").load(location.href + " #currentPoint");
+                    }
+                },
+                error: function () {
+                    alert("error: reload error");
+                }
+            })
+        }
+    }
+
+    setInterval(updateRemainTime, 1000);
+
+    updateRemainTime();
 </script>
 </html>

@@ -123,6 +123,7 @@ CREATE TABLE `lottobuffer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 SELECT * FROM `dicebuffer`;
+SELECT * FROM `dicebuffer`;
 
 SELECT * FROM `name`;
 SELECT * FROM `hp`;
@@ -130,6 +131,6 @@ SELECT * FROM `hp`;
 INSERT INTO `hp`
 (`nameId`, `point`, `game`)
 VALUE
-(3, 100000, 'Test');
+(1, 100000, 'Test');
 
 
