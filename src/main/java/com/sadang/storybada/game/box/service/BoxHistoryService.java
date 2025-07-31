@@ -13,6 +13,6 @@ public class BoxHistoryService {
 
     public BoxHistory addBoxHistory(long game, String[] results) {
 
-        return boxHistoryRepository.save(BoxHistory.builder().game(game).result1(results[0]).result2(results[1]).result3(results[2]).result4(results[3]).build());
+        return boxHistoryRepository.save(BoxHistory.builder().game(game).result1(results[0]).result2(results[1]).result3(results[2]).result4(results[3]).result5(results[4]).build());
     }
 }

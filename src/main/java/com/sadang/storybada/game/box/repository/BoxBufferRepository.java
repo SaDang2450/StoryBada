@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface BoxBufferRepository extends JpaRepository<BoxBuffer,Long> {
 
     List<BoxBuffer> findByNameId(long nameId);
+
 }

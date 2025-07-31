@@ -76,7 +76,7 @@ CREATE TABLE `boxhistory` (
     `result2` TEXT NOT NULL,
     `result3` TEXT NOT NULL,
     `result4` TEXT NOT NULL,
-    `result5` TEXT NOt NULL,
+    `result5` TEXT NOT NULL,
     `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -122,15 +122,17 @@ CREATE TABLE `lottobuffer` (
     `updatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-SELECT * FROM `dicebuffer`;
-SELECT * FROM `dicebuffer`;
+SELECT * FROM `boxbuffer`;
+SELECT * FROM `boxhistory`;
+SELECT * FROM `boxhall`;
 
 SELECT * FROM `name`;
 SELECT * FROM `hp`;
 
+
 INSERT INTO `hp`
 (`nameId`, `point`, `game`)
 VALUE
-(1, 100000, 'Test');
+(3, 100000, 'Test');
 
 

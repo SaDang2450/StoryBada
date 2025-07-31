@@ -3,6 +3,7 @@ package com.sadang.storybada.game.box.job;
 import com.sadang.storybada.game.box.domain.BoxBuffer;
 import com.sadang.storybada.game.box.domain.BoxHistory;
 import com.sadang.storybada.game.box.service.BoxBufferService;
+import com.sadang.storybada.game.box.service.BoxHallService;
 import com.sadang.storybada.game.box.service.BoxHistoryService;
 import com.sadang.storybada.hp.service.HpService;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class PlayBoxGame {
     private final PlatformTransactionManager transactionManager;
     private final BoxBufferService boxBufferService;
     private final BoxHistoryService boxHistoryService;
+    private final BoxHallService boxHallService;
     private final HpService hpService;
 
     @Bean
@@ -44,23 +46,9 @@ public class PlayBoxGame {
                 .from(refundBox).on("*").to(flushBoxBuffer)
                 .from(isGamePlay).on("OVER_FIVE_BOXES").to(makeRandomResult)
                 .from(makeRandomResult).on("*").to(chargeBoxGameResult)
+                .from(chargeBoxGameResult).on("*").to(flushBoxBuffer)
                 .end()
                 .build();
-    }
-
-    @Bean
-    public Step refundBox() {
-        return new StepBuilder("refundBox", jobRepository).tasklet(new Tasklet() {
-            @Override
-            public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-                List<BoxBuffer> boxBufferList = boxBufferService.getAllBoxBuffer();
-                for (BoxBuffer boxBuffer : boxBufferList) {
-                    hpService.addHpRecord(boxBuffer.getNameId(), 1000, "BoxRefund");
-                }
-
-                return RepeatStatus.FINISHED;
-            }
-        }, transactionManager).build();
     }
 
     @Bean
@@ -81,6 +69,20 @@ public class PlayBoxGame {
         }, transactionManager).build();
     }
 
+    @Bean
+    public Step refundBox() {
+        return new StepBuilder("refundBox", jobRepository).tasklet(new Tasklet() {
+            @Override
+            public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+                List<BoxBuffer> boxBufferList = boxBufferService.getAllBoxBuffer();
+                for (BoxBuffer boxBuffer : boxBufferList) {
+                    hpService.addHpRecord(boxBuffer.getNameId(), 1000, "BoxRefund");
+                }
+
+                return RepeatStatus.FINISHED;
+            }
+        }, transactionManager).build();
+    }
 
     @Bean
     public Step makeRandomResult() {
@@ -91,17 +93,18 @@ public class PlayBoxGame {
                 int limit = count / 5;
 
                 List<Integer> numbers = new ArrayList<Integer>();
-                for (int i = 1; i < count; i++) {
+                for (int i = 1; i <= count; i++) {
                     numbers.add(i);
                 }
 
                 Collections.shuffle(numbers);
 
-                String[] results = new String[4];
+                String[] results = new String[5];
                 results[0] = numbers.subList(0, limit).toString();
                 results[1] = numbers.subList(limit, 2 * limit).toString();
                 results[2] = numbers.subList(2 * limit, 3 * limit).toString();
-                results[3] = numbers.subList(3 * limit, count).toString();
+                results[3] = numbers.subList(3 * limit, 4 * limit).toString();
+                results[4] = numbers.subList(4 * limit, count).toString();
 
                 contribution.getStepExecution().getJobExecution().getExecutionContext().put("results", results);
 
@@ -116,32 +119,24 @@ public class PlayBoxGame {
         return new StepBuilder("chargeBoxGameResult", jobRepository).tasklet(new Tasklet() {
             @Override
             public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-                String[] results = contribution.getStepExecution().getJobExecution().getExecutionContext().get("result1", String[].class);
-                for (String result : results) {
-                    result = result.replace("[", "");
-                    result = result.replace("]", "");
+                String[] results = contribution.getStepExecution().getJobExecution().getExecutionContext().get("results", String[].class);
+                for (int i = 0; i < 5; i++) {
+                    results[i] = results[i].replace("[", "");
+                    results[i] = results[i].replace("]", "");
+                    results[i] = results[i].replace(" ", "");
                 }
 
-                BoxHistory currentBoxHistory = boxHistoryService.addBoxHistory(game, results);
-                List<BoxBuffer> currentBoxBufferList = boxBufferService.getAllBoxBuffer();
-                List<List<Integer>> mappingList = new ArrayList<>();
+                boxHistoryService.addBoxHistory(game, results);
 
-                for (int i = 0 ; i < 4; i++) {
-                    mappingList.add(new ArrayList<Integer>());
-                }
+                for (int i = 0; i < 5; i++) {
+                    String[] result = results[i].split(",");
 
-                for (int i = 0 ; i < 4; i++) {
-                    String[] resultArray = results[i].split(",");
-                    for(String result : resultArray) {
-                        mappingList.get(i).add(Integer.parseInt(result));
+                    for (String s : result) {
+                        long nameId = boxBufferService.getAllBoxBuffer().get(Integer.parseInt(s) - 1).getNameId();
+                        boxHallService.addBoxHall(game, nameId, i + 1);
+                        hpService.addHpRecord(nameId, 500 * (4 - i), "BoxGameResult");
                     }
                 }
-
-                for (BoxBuffer boxBuffer : currentBoxBufferList) {
-                    
-
-                }
-
 
                 return RepeatStatus.FINISHED;
             }

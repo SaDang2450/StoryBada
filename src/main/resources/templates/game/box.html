@@ -86,12 +86,12 @@
                     <tbody>
                     <tr>
                         <td class="column1">랜덤 박스 보유 개수</td>
-                        <td id="holdingBoxAmountSpan" class="column2" th:text="${session.holdingBoxAmount}">120</td>
+                        <td class="column2"><span id="holdingBoxAmountSpan" th:text="${session.holdingBoxAmount}">120</span></td>
                         <td class="column3">개</td>
                     </tr>
                     <tr>
                         <td class="column1">평균 획득 포인트</td>
-                        <td id="averageBoxGetPointSpan" class="column2" th:text="${session.averageBoxGetPoint}">50</td>
+                        <td class="column2"><span id="averageBoxGetPointSpan" th:text="${session.averageBoxGetPoint}">50</span></td>
                         <td class="column3">HP</td>
                     </tr>
                     </tbody>
@@ -227,7 +227,7 @@
         location.href = "/game/box/history";
     })
 
-    $("#buyingBoxBtn").on("click", function () {
+    $("button[name=buyingBoxBtn]").on("click", function () {
         let amount = $(this).data("amount");
 
         $.ajax({
@@ -237,8 +237,11 @@
                 "amount": amount
             },
             success: function (response) {
-                if (response.data === 1000) {
+                if (response.code === 1000) {
                     alert("buying box succeed : " + amount);
+                    location.reload();
+                } else if (response.code === 4001) {
+                    alert("error : box buying fail\n" + response.message);
                     location.reload();
                 }
             },

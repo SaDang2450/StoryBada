@@ -2,6 +2,7 @@ package com.sadang.storybada.game.box;
 
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.game.box.service.BoxBufferService;
+import com.sadang.storybada.hp.service.HpService;
 import com.sadang.storybada.response.ApiResponse;
 import com.sadang.storybada.response.ResponseCode;
 import jakarta.servlet.http.HttpSession;
@@ -17,14 +18,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class BoxRestController {
 
     private final BoxBufferService boxBufferService;
+    private final HpService hpService;
 
     @PostMapping("/box/buying")
     public ApiResponse<ResponseCode> buyingBox(HttpSession session, @RequestParam int amount) {
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
         long nameId = userDTO.getMainNameId();
 
+        // Validation
+        long hp = amount * 1000L;
+        ResponseCode responseCode = boxBufferService.boxBettingValidation(userDTO, hp);
+        if (responseCode != ResponseCode.SUCCESS) {
+
+            return ApiResponse.fail(responseCode);
+        }
+
         for(int i = 0 ; i < amount; i ++) {
             boxBufferService.addBox(nameId);
+            hpService.addHpRecord(nameId, -1000, "BoxBuying");
         }
 
         return ApiResponse.success(ResponseCode.SUCCESS);

@@ -16,6 +16,9 @@ public class BoxHallService {
     public long getAverageGetPoint(long nameId) {
 
         List<BoxHall> boxHallList = boxHallRepository.findByNameId(nameId);
+        if(boxHallList.isEmpty()){
+            return 0;
+        }
 
         long sum = 0;
         for (BoxHall boxHall : boxHallList) {
@@ -37,5 +40,10 @@ public class BoxHallService {
         }
 
         return (sum - 1000L * boxHallList.size()) / boxHallList.size();
+    }
+
+    public BoxHall addBoxHall(Long game, long nameId, int rank) {
+
+        return boxHallRepository.save(BoxHall.builder().gameId(game).nameId(nameId).result(rank).build());
     }
 }
