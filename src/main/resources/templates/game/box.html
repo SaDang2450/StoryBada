@@ -76,7 +76,7 @@
                     <tbody>
                     <tr>
                         <td style="width:70%">개봉까지 남은시간</td>
-                        <td id="remainTimeSpan" style="width:30%">SS</td>
+                        <td style="width:30%"><span id="remainTimeSpan">SS</span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -239,11 +239,13 @@
             success: function (response) {
                 if (response.code === 1000) {
                     alert("buying box succeed : " + amount);
-                    location.reload();
                 } else if (response.code === 4001) {
                     alert("error : box buying fail\n" + response.message);
-                    location.reload();
+                } else {
+                    alert("error : dice betting fail");
                 }
+
+                location.reload();
             },
             error: function () {
                 alert("error : box buying error");

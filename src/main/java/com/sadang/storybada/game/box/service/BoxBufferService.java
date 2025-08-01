@@ -19,13 +19,13 @@ public class BoxBufferService {
     private final BoxBufferRepository boxBufferRepository;
     private final NameService nameService;
 
-    public ResponseCode boxBettingValidation(UserDTO userDTO, long hp) {
+    public ResponseCode boxBuyingValidation(UserDTO userDTO, long hp) {
 
         long currentPoint = nameService.getCurrentPointByNameId(userDTO.getMainNameId());
 
         if (currentPoint < hp) {
 
-            return ResponseCode.DICE_POINT_NOT_ENOUGH;
+            return ResponseCode.POINT_NOT_ENOUGH;
         }
 
         return ResponseCode.SUCCESS;

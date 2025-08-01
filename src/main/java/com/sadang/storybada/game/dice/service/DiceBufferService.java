@@ -25,20 +25,20 @@ public class DiceBufferService {
         long currentPoint = nameService.getCurrentPointByNameId(userDTO.getMainNameId());
         boolean result = Objects.equals(betting, "odd");
 
+        if (currentPoint < hp) {
+
+            return ResponseCode.POINT_NOT_ENOUGH;
+        }
+
         if (!diceBufferRepository.findByNameIdAndResult(userDTO.getMainNameId(), !result).isEmpty()) {
 
             return ResponseCode.DICE_REVERSE_BETTING;
         }
 
-        if (currentPoint < hp) {
-
-            return ResponseCode.DICE_POINT_NOT_ENOUGH;
-        }
-
         return ResponseCode.SUCCESS;
     }
 
-    public DiceBuffer insertDiceBetting(UserDTO userDTO, String betting, long hp) {
+    public DiceBuffer addDiceBetting(UserDTO userDTO, String betting, long hp) {
 
         boolean result = Objects.equals(betting, "odd");
         long nameId = userDTO.getMainNameId();

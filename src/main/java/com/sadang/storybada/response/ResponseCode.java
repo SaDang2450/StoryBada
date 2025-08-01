@@ -17,8 +17,9 @@ public enum ResponseCode {
     USER_LOGIN_FAIL(3001, "user login fail"),
 
     // 4000 번대 - 게임 관련 에러
-    DICE_POINT_NOT_ENOUGH(4001, "point is not enough"),
-    DICE_REVERSE_BETTING(4002, "you have bet opposite side");
+    POINT_NOT_ENOUGH(4001, "point is not enough"),
+    DICE_REVERSE_BETTING(4002, "you have bet opposite side"),
+    LOTTO_ALREADY_BOUGHT(4003, "you have bought a lotto");
 
 
     private final int code;

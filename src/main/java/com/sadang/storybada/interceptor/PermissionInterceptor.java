@@ -32,6 +32,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
             }
         }
 
+        // 이하 미사용
 //        if(userDTO == null) {
 //            if(uri.startsWith("/game")) {
 //                response.sendRedirect("/user/register");

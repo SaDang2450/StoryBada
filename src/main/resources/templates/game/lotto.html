@@ -3,15 +3,88 @@
       layout:decorate="~{layout/default}">
 <section layout:fragment="contents" class="container d-flex justify-content-center">
     <th:block th:replace="~{fragments/left-side-zone :: article}"></th:block>
-
+    <!--    <div class="selected">1</div>-->
     <div class="main-zone d-flex justify-content-center">
         <div class="game-zone">
             <div class="lotto border-1 d-flex flex-column align-items-center justify-content-between">
                 <div class="h1">로또 6/45</div>
-                <div class="lotto-game border-1"></div>
-                <div class="font-larger">남은 시간 : SS</div>
+                <table class="table table-borderless table-lotto-game text-center">
+                    <tbody>
+                    <tr>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="1">1</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="2">2</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="3">3</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="4">4</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="5">5</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="6">6</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="7">7</div></td>
+                    </tr>
+                    <tr>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="8">8</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="9">9</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="10">10</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="11">11</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="12">12</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="13">13</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="14">14</div></td>
+                    </tr>
+                    <tr>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="15">15</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="16">16</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="17">17</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="18">18</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="19">19</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="20">20</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="21">21</div></td>
+                    </tr>
+                    <tr>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="22">22</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="23">23</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="24">24</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="25">25</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="26">26</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="27">27</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="28">28</div></td>
+                    </tr>
+                    <tr>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="29">29</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="30">30</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="31">31</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="32">32</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="33">33</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="34">34</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="35">35</div></td>
+                    </tr>
+                    <tr>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="36">36</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="37">37</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="38">38</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="39">39</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="40">40</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="41">41</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="42">42</div></td>
+                    </tr>
+                    <tr>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="43">43</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="44">44</div></td>
+                        <td><div class="lotto-number not-selected cursor-pointer" data-value="45">45</div></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-borderless table-box-info text-center font-larger mb-0">
+                    <tbody>
+                    <tr>
+                        <td style="width:70%">남은시간</td>
+                        <td style="width:30%"><span id="remainTimeSpan">SS</span></td>
+                    </tr>
+                    </tbody>
+                </table>
                 <div style="width: 70px">
-                    <button type="button" class="btn btn-secondary form-control btn-shadow">구매</button>
+                    <button id="buyingLottoBtn" type="button" class="btn btn-secondary form-control btn-shadow">구매</button>
                 </div>
             </div>
             <div class="lotto-betting border-1 d-flex flex-column align-items-center justify-content-between">
@@ -164,6 +237,105 @@
 </section>
 
 <script layout:fragment="script">
+    let count = 0;
+    let lottoNumberArray = [];
 
+    $(".lotto-number").on("click", function () {
+        // Validation
+        let currentSelectedCount = lottoNumberArray.length;
+        let classCount = $(".selected").length;
+
+        if(currentSelectedCount !== classCount) {
+            alert("something went wrong");
+            return;
+        } else {
+            count = classCount;
+        }
+        //
+
+        if ($(this).hasClass("selected")) {
+            let index = lottoNumberArray.indexOf($(this).data("value"));
+            lottoNumberArray.splice(index, 1);
+            count--;
+            $(this).removeClass("selected");
+            $(this).addClass("not-selected");
+            return;
+        }
+
+        if ($(this).hasClass("not-selected")) {
+            if (count < 6) {
+                lottoNumberArray.push($(this).data("value"));
+                count++;
+                $(this).removeClass("not-selected");
+                $(this).addClass("selected");
+            } else {
+                alert("over 6");
+            }
+        }
+    })
+
+    $("#buyingLottoBtn").on("click", function() {
+        // Validation
+        if(lottoNumberArray.length !== 6) {
+            alert("select 6 numbers");
+            return;
+        }
+        //
+
+        $.ajax({
+            type: "POST",
+            url: "/game/lotto/buying",
+            data: {
+                "lottoNumberArray": lottoNumberArray
+            },
+            success: function(response) {
+                if(response.code === 1000) {
+                    alert("lotto is bought successfully");
+                } else if (response.code === 4001) {
+                    alert("error : lotto buying fail\n" + response.message);
+                } else if (response.code === 4003) {
+                    alert("error : lotto buying fail\n" + response.message);
+                } else {
+                    alert("error : dice betting fail");
+                }
+
+                location.reload();
+            },
+            error: function() {
+                alert("error : lotto buying error");
+            }
+        })
+    })
+
+
+    function updateRemainTime() {
+        let now = new Date();
+        let seconds = now.getSeconds();
+
+        let remainTime = 100 - seconds;
+        if (remainTime >= 60) {
+            remainTime -= 60;
+        }
+
+        $("#remainTimeSpan").text(remainTime);
+
+        // if (remainTime === 59) {
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "/game/dice/reload",
+        //         success: function (response) {
+        //             if (response.data) {
+        //             }
+        //         },
+        //         error: function () {
+        //             alert("error: reload error");
+        //         }
+        //     })
+        // }
+    }
+
+    setInterval(updateRemainTime, 1000);
+
+    updateRemainTime();
 </script>
 </html>

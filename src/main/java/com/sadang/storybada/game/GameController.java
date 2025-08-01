@@ -19,12 +19,12 @@ public class GameController {
 //
 //        return "game/box";
 //    }
-
-    @GetMapping("/lotto")
-    public String lotto_view() {
-
-        return "game/lotto";
-    }
+//
+//    @GetMapping("/lotto")
+//    public String lotto_view() {
+//
+//        return "game/lotto";
+//    }
 //
 //    @GetMapping("/box/history")
 //    public String box_history_view() {

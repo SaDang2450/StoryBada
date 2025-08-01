@@ -35,11 +35,11 @@ public class DiceRestController {
         }
 
         // betting
-        diceBufferService.insertDiceBetting(userDTO, betting, hp);
+        diceBufferService.addDiceBetting(userDTO, betting, hp);
 
         // Reload
-        userDTO = userDTO.toBuilder().point(hpService.getCurrentPointByNameId(userDTO.getMainNameId())).build();
-        session.setAttribute("userDTO", userDTO);
+//        userDTO = userDTO.toBuilder().point(hpService.getCurrentPointByNameId(userDTO.getMainNameId())).build();
+//        session.setAttribute("userDTO", userDTO);
 
         return ApiResponse.success(null);
     }
@@ -51,7 +51,7 @@ public class DiceRestController {
         long mainNameId = newUserDTO.getMainNameId();
 
         session.setAttribute("userDTO", newUserDTO);
-        session.setAttribute("diceBettingTotal",diceBufferService.getTotalBettingAmount(mainNameId));
+        session.setAttribute("diceBettingTotal", diceBufferService.getTotalBettingAmount(mainNameId));
 
         return ApiResponse.success(true);
     }

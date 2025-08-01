@@ -13,26 +13,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/game")
+@RequestMapping("/game/box")
 @RequiredArgsConstructor
 public class BoxRestController {
 
     private final BoxBufferService boxBufferService;
     private final HpService hpService;
 
-    @PostMapping("/box/buying")
+    @PostMapping("/buying")
     public ApiResponse<ResponseCode> buyingBox(HttpSession session, @RequestParam int amount) {
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
         long nameId = userDTO.getMainNameId();
 
         // Validation
         long hp = amount * 1000L;
-        ResponseCode responseCode = boxBufferService.boxBettingValidation(userDTO, hp);
+        ResponseCode responseCode = boxBufferService.boxBuyingValidation(userDTO, hp);
         if (responseCode != ResponseCode.SUCCESS) {
 
             return ApiResponse.fail(responseCode);
         }
 
+        // Buying
         for(int i = 0 ; i < amount; i ++) {
             boxBufferService.addBox(nameId);
             hpService.addHpRecord(nameId, -1000, "BoxBuying");
