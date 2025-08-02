@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -14,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Table(name="`lottohistory`")
 @Entity
-public class LottoHistory {
+public class LottoHistory implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

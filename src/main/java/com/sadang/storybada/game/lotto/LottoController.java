@@ -2,6 +2,8 @@ package com.sadang.storybada.game.lotto;
 
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.game.lotto.service.LottoBufferService;
+import com.sadang.storybada.game.lotto.service.LottoHallService;
+import com.sadang.storybada.game.lotto.service.LottoHistoryService;
 import com.sadang.storybada.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class LottoController {
 
-    private final LottoBufferService lottoBufferService;
+    private final LottoHallService lottoHallService;
     private final UserService userService;
 
     @GetMapping("/lotto")
@@ -22,9 +24,10 @@ public class LottoController {
 
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
         UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
-        long mainNameId = newUserDTO.getMainNameId();
+        long nameId = newUserDTO.getMainNameId();
 
         session.setAttribute("userDTO", newUserDTO);
+        session.setAttribute("myLottoHistory", lottoHallService.getMyLottoHistory(nameId));
 
         return "game/lotto";
     }

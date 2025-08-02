@@ -8,6 +8,8 @@ import com.sadang.storybada.response.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class LottoBufferService {
@@ -19,6 +21,9 @@ public class LottoBufferService {
 
         long nameId = userDTO.getMainNameId();
         hpService.addHpRecord(nameId, -1000, "Buying Lotto");
+        lotto = lotto.replace("[","");
+        lotto = lotto.replace("]","");
+        lotto = lotto.replace(" ","");
 
         return lottoBufferRepository.save(LottoBuffer.builder().nameId(nameId).lotto(lotto).build());
     }
@@ -36,5 +41,15 @@ public class LottoBufferService {
         }
 
         return ResponseCode.SUCCESS;
+    }
+
+    public List<LottoBuffer> getAllBuffer() {
+
+        return lottoBufferRepository.findAll();
+    }
+
+    public void flushLottoBuffer() {
+
+        lottoBufferRepository.deleteAllInBatch();
     }
 }

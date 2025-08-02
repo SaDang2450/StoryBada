@@ -48,10 +48,10 @@ public class DiceRestController {
     public ApiResponse<Boolean> reloadCurrentUserDTO(HttpSession session) {
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
         UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
-        long mainNameId = newUserDTO.getMainNameId();
+        long nameId = newUserDTO.getMainNameId();
 
         session.setAttribute("userDTO", newUserDTO);
-        session.setAttribute("diceBettingTotal", diceBufferService.getTotalBettingAmount(mainNameId));
+        session.setAttribute("diceBettingTotal", diceBufferService.getTotalBettingAmount(nameId));
 
         return ApiResponse.success(true);
     }

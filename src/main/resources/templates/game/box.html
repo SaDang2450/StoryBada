@@ -270,7 +270,7 @@
         if (remainTime === 59) {
             $.ajax({
                 type: "POST",
-                url: "/game/dice/reload",
+                url: "/game/box/reload",
                 success: function (response) {
                     if (response.data) {
                         $("#holdingBoxAmountSpan").load(location.href + " #holdingBoxAmountSpan");
