@@ -41,10 +41,7 @@ public class BoxRestController {
         }
 
         // Buying
-        for(int i = 0 ; i < amount; i ++) {
-            boxBufferService.addBox(nameId);
-            hpService.addHpRecord(nameId, -1000, "BoxBuying");
-        }
+        boxBufferService.addBox(nameId, amount);
 
         return ApiResponse.success(ResponseCode.SUCCESS);
     }

@@ -32,4 +32,9 @@ public class HpService {
             return sum;
         }
     }
+
+    public List<Hp> addHpRecordAll(List<Hp> hpRecordList) {
+
+        return hpRepository.saveAll(hpRecordList);
+    }
 }

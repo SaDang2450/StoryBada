@@ -1,10 +1,12 @@
 package com.sadang.storybada.game.box.job;
 
 import com.sadang.storybada.game.box.domain.BoxBuffer;
+import com.sadang.storybada.game.box.domain.BoxHall;
 import com.sadang.storybada.game.box.domain.BoxHistory;
 import com.sadang.storybada.game.box.service.BoxBufferService;
 import com.sadang.storybada.game.box.service.BoxHallService;
 import com.sadang.storybada.game.box.service.BoxHistoryService;
+import com.sadang.storybada.hp.domain.Hp;
 import com.sadang.storybada.hp.service.HpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.ExitStatus;
@@ -130,12 +132,16 @@ public class PlayBoxGame {
 
                 for (int i = 0; i < 5; i++) {
                     String[] result = results[i].split(",");
+                    List<BoxHall> boxHallList = new ArrayList<>();
+                    List<Hp> hpRecordList = new ArrayList<>();
 
                     for (String s : result) {
                         long nameId = boxBufferService.getAllBoxBuffer().get(Integer.parseInt(s) - 1).getNameId();
-                        boxHallService.addBoxHall(game, nameId, i + 1);
-                        hpService.addHpRecord(nameId, 500 * (4 - i), "BoxGameResult");
+                        boxHallList.add(BoxHall.builder().gameId(game).nameId(nameId).result(i + 1).build());
+                        hpRecordList.add(Hp.builder().nameId(nameId).point(500L * (4 - i)).game("BoxGameResult").build());
                     }
+                    boxHallService.addBoxHallAll(boxHallList);
+                    hpService.addHpRecordAll(hpRecordList);
                 }
 
                 return RepeatStatus.FINISHED;
