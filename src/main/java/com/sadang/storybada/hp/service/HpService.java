@@ -19,6 +19,11 @@ public class HpService {
         return hpRepository.save(Hp.builder().nameId(nameId).point(point).game(game).build());
     }
 
+    public List<Hp> addHpRecordAll(List<Hp> hpRecordList) {
+
+        return hpRepository.saveAll(hpRecordList);
+    }
+
     public long getCurrentPointByNameId(long nameId) {
 
         List<Hp> hpList = hpRepository.findByNameId(nameId);
@@ -33,8 +38,4 @@ public class HpService {
         }
     }
 
-    public List<Hp> addHpRecordAll(List<Hp> hpRecordList) {
-
-        return hpRepository.saveAll(hpRecordList);
-    }
 }
