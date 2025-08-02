@@ -132,11 +132,12 @@ public class PlayBoxGame {
 
                 for (int i = 0; i < 5; i++) {
                     String[] result = results[i].split(",");
+                    List<BoxBuffer> boxBufferList = boxBufferService.getAllBoxBuffer();
                     List<BoxHall> boxHallList = new ArrayList<>();
                     List<Hp> hpRecordList = new ArrayList<>();
 
                     for (String s : result) {
-                        long nameId = boxBufferService.getAllBoxBuffer().get(Integer.parseInt(s) - 1).getNameId();
+                        long nameId = boxBufferList.get(Integer.parseInt(s) - 1).getNameId();
                         boxHallList.add(BoxHall.builder().gameId(game).nameId(nameId).result(i + 1).build());
                         hpRecordList.add(Hp.builder().nameId(nameId).point(500L * (4 - i)).game("BoxGameResult").build());
                     }

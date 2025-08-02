@@ -2,6 +2,7 @@ package com.sadang.storybada.hp.service;
 
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.hp.domain.Hp;
+import com.sadang.storybada.hp.repository.HpBulkRepository;
 import com.sadang.storybada.hp.repository.HpRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,15 +14,16 @@ import java.util.List;
 public class HpService {
 
     private final HpRepository hpRepository;
+    private final HpBulkRepository hpBulkRepository;
 
     public Hp addHpRecord(long nameId, long point, String game) {
 
         return hpRepository.save(Hp.builder().nameId(nameId).point(point).game(game).build());
     }
 
-    public List<Hp> addHpRecordAll(List<Hp> hpRecordList) {
+    public void addHpRecordAll(List<Hp> hpRecordList) {
 
-        return hpRepository.saveAll(hpRecordList);
+        hpBulkRepository.saveAll(hpRecordList);
     }
 
     public long getCurrentPointByNameId(long nameId) {

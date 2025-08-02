@@ -2,6 +2,7 @@ package com.sadang.storybada.game.box.service;
 
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.game.box.domain.BoxBuffer;
+import com.sadang.storybada.game.box.repository.BoxBufferBulkRepository;
 import com.sadang.storybada.game.box.repository.BoxBufferRepository;
 import com.sadang.storybada.hp.domain.Hp;
 import com.sadang.storybada.hp.service.HpService;
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class BoxBufferService {
 
     private final BoxBufferRepository boxBufferRepository;
+    private final BoxBufferBulkRepository boxBufferBulkRepository;
     private final NameService nameService;
     private final HpService hpService;
 
@@ -41,7 +43,7 @@ public class BoxBufferService {
             boxBufferList.add(BoxBuffer.builder().nameId(nameId).build());
         }
 
-        boxBufferRepository.saveAll(boxBufferList);
+        boxBufferBulkRepository.saveAll(boxBufferList);
         hpService.addHpRecord(nameId, -1000L * amount, "boxBuying");
     }
 

@@ -1,6 +1,8 @@
 package com.sadang.storybada.game.box.service;
 
 import com.sadang.storybada.game.box.domain.BoxHall;
+import com.sadang.storybada.game.box.repository.BoxBufferRepository;
+import com.sadang.storybada.game.box.repository.BoxHallBulkRepository;
 import com.sadang.storybada.game.box.repository.BoxHallRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import java.util.List;
 public class BoxHallService {
 
     private final BoxHallRepository boxHallRepository;
+    private final BoxHallBulkRepository boxHallBulkRepository;
 
     public long getAverageGetPoint(long nameId) {
 
@@ -43,8 +46,8 @@ public class BoxHallService {
         return (sum - 1000L * boxHallList.size()) / boxHallList.size();
     }
 
-    public List<BoxHall> addBoxHallAll(List<BoxHall> boxHallList) {
+    public void addBoxHallAll(List<BoxHall> boxHallList) {
 
-        return boxHallRepository.saveAll(boxHallList);
+        boxHallBulkRepository.saveAll(boxHallList);
     }
 }
