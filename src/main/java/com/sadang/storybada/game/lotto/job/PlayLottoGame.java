@@ -107,13 +107,13 @@ public class PlayLottoGame {
                             hpService.addHpRecord(nameId, 1629012000L, "Lotto-1");
                             break;
                         case 2:
-                            hpService.addHpRecord(nameId, 6961589,"Lotto-2");
+                            hpService.addHpRecord(nameId, 6961590,"Lotto-2");
                             break;
                         case 3:
-                            hpService.addHpRecord(nameId, 146559,"Lotto-3");
+                            hpService.addHpRecord(nameId, 146560,"Lotto-3");
                             break;
                         case 4:
-                            hpService.addHpRecord(nameId, 8912,"Lotto-4");
+                            hpService.addHpRecord(nameId, 8910,"Lotto-4");
                             break;
                         case 5:
                             hpService.addHpRecord(nameId, 1320,"Lotto-5");

@@ -162,11 +162,19 @@
         let betting = $(this).data("betting");
         let hp = $("#bettingHp").val();
 
+        const regHp = /^[0-9]*$/;
+
         // validation
         if (hp === "") {
             alert("베팅 금액 입력");
             return;
         }
+
+        if(!regHp.test(hp)) {
+            alert("베팅 금액 숫자로 입력");
+            return;
+        }
+        //
 
         $.ajax({
             type: "POST",
@@ -208,10 +216,8 @@
                 type: "POST",
                 url:"/game/dice/reload",
                 success: function(response) {
-                    if(response.data) {
-                        $("#diceBettingTotal").load(location.href + " #diceBettingTotal");
-                        $("#currentPoint").load(location.href + " #currentPoint");
-                    }
+                    $("#diceBettingTotal").text(response.diceBettingTotal);
+                    $("#currentPoint").text(response.userDTO.point);
                 },
                 error: function() {
                     alert("error: reload error");

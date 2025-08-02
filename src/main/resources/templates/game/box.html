@@ -272,11 +272,9 @@
                 type: "POST",
                 url: "/game/box/reload",
                 success: function (response) {
-                    if (response.data) {
-                        $("#holdingBoxAmountSpan").load(location.href + " #holdingBoxAmountSpan");
-                        $("#averageBoxGetPointSpan").load(location.href + " #averageBoxGetPointSpan");
-                        $("#currentPoint").load(location.href + " #currentPoint");
-                    }
+                    $("#holdingBoxAmountSpan").text(response.holdingBoxAmount);
+                    $("#averageBoxGetPointSpan").text(response.averageBoxGetPoint);
+                    $("#currentPoint").text(response.userDTO.point);
                 },
                 error: function () {
                     alert("error: reload error");

@@ -316,6 +316,7 @@ header {
 .table-lotto-game {
     width: 350px;
     height: 350px;
+    margin-top: 15px;
 }
 
 .table-lotto-game > tbody > tr > td {
@@ -343,14 +344,20 @@ header {
     color: white;
 }
 
-.table-lotto-betting {
+.table-lotto-history {
     width: 480px;
 }
 
-.table-lotto-betting > tbody > tr > td {
-    width: 60px
+.table-lotto-history > tbody > tr > td {
+    width: 60px;
+    white-space: nowrap;
 }
 
+.table-lotto-history > tbody > tr > .history {
+    width: 60px;
+    white-space: nowrap;
+    text-align: start;
+}
 /* hall */
 .hall-register-box {
     width: 750px;

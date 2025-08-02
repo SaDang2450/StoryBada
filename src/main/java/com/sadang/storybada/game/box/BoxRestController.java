@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/game/box")
 @RequiredArgsConstructor
@@ -47,14 +50,24 @@ public class BoxRestController {
     }
 
     @PostMapping("/reload")
-    public ApiResponse<Boolean> reloadCurrentUserDTO(HttpSession session) {
+    public Map<String, Object> reloadCurrentUserDTO(HttpSession session) {
+        Map<String, Object> resultMap = new HashMap<>();
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
         UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
+
         long nameId = newUserDTO.getMainNameId();
+        long averageBoxGetPoint = boxHallService.getAverageGetPoint(nameId);
+        long holdingBoxAmount = boxBufferService.getHoldingBoxAmount(nameId);
 
         session.setAttribute("userDTO", newUserDTO);
-        session.setAttribute("averageBoxGetPoint", boxHallService.getAverageGetPoint(nameId));
+        session.setAttribute("holdingBoxAmount", holdingBoxAmount);
+        session.setAttribute("averageBoxGetPoint", averageBoxGetPoint);
 
-        return ApiResponse.success(true);
+        resultMap.put("userDTO", newUserDTO);
+        resultMap.put("holdingBoxAmount", holdingBoxAmount);
+        resultMap.put("averageBoxGetPoint", averageBoxGetPoint);
+
+        return resultMap;
     }
+
 }

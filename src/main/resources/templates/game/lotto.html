@@ -182,27 +182,27 @@
                 <div class="font-larger">마이 히스토리</div>
                 <hr style="width: 80%; background-color: black;">
                 <div id="myLottoHistory">
-                    <table class="table table-borderless table-lotto-betting font-larger text-center">
+                    <table class="table table-borderless table-lotto-history font-larger text-start">
                         <tbody>
                         <tr>
                             <td>1등</td>
-                            <td><span th:text="${session.myLottoHistory[0]}">0</span>회</td>
+                            <td><span id="myLottoHistory0" th:text="${session.myLottoHistory[0]}">0</span>회</td>
                             <td></td>
                             <td>2등</td>
-                            <td><span th:text="${session.myLottoHistory[1]}">0</span>회</td>
+                            <td><span id="myLottoHistory1" th:text="${session.myLottoHistory[1]}">0</span>회</td>
                             <td></td>
                             <td>3등</td>
-                            <td><span th:text="${session.myLottoHistory[2]}">0</span>회</td>
+                            <td><span id="myLottoHistory2" th:text="${session.myLottoHistory[2]}">0</span>회</td>
                         </tr>
                         <tr>
                             <td>4등</td>
-                            <td><span th:text="${session.myLottoHistory[3]}">0</span>회</td>
+                            <td><span id="myLottoHistory3" th:text="${session.myLottoHistory[3]}">0</span>회</td>
                             <td></td>
                             <td>5등</td>
-                            <td><span th:text="${session.myLottoHistory[4]}">0</span>회</td>
+                            <td><span id="myLottoHistory4" th:text="${session.myLottoHistory[4]}">0</span>회</td>
                             <td></td>
                             <td>6등</td>
-                            <td><span th:text="${session.myLottoHistory[5]}">0</span>회</td>
+                            <td><span id="myLottoHistory5" th:text="${session.myLottoHistory[5]}">0</span>회</td>
                         </tr>
                         </tbody>
                     </table>
@@ -417,10 +417,10 @@
                 type: "POST",
                 url: "/game/lotto/reload",
                 success: function (response) {
-                    if (response.data) {
-                        $("#myLottoHistory").load(location.href + " #myLottoHistory");
-                        $("#currentPoint").load(location.href + " #currentPoint");
+                    for(i = 0; i < 6; i++) {
+                        $("#myLottoHistory"+i).text(response.myLottoHistory[i]);
                     }
+                    $("#currentPoint").text(response.userDTO.point);
                 },
                 error: function () {
                     alert("error: reload error");

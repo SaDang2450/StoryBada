@@ -3,12 +3,17 @@ package com.sadang.storybada.game.box;
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.game.box.service.BoxBufferService;
 import com.sadang.storybada.game.box.service.BoxHallService;
+import com.sadang.storybada.response.ApiResponse;
 import com.sadang.storybada.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/game")
@@ -38,4 +43,6 @@ public class BoxController {
 
         return "game/box-history";
     }
+
+
 }

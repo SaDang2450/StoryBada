@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/game/lotto")
@@ -45,14 +47,19 @@ public class LottoRestController {
     }
 
     @PostMapping("/reload")
-    public ApiResponse<Boolean> reloadCurrentUserDTO(HttpSession session) {
+    public Map<String, Object> reloadCurrentUserDTO(HttpSession session) {
+        Map<String, Object> resultMap = new HashMap<>();
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
         UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
         long nameId = newUserDTO.getMainNameId();
+        int[] myLottoHistory = lottoHallService.getMyLottoHistory(nameId);
 
         session.setAttribute("userDTO", newUserDTO);
-        session.setAttribute("myLottoHistory", lottoHallService.getMyLottoHistory(nameId));
+        session.setAttribute("myLottoHistory", myLottoHistory);
 
-        return ApiResponse.success(true);
+        resultMap.put("userDTO", newUserDTO);
+        resultMap.put("myLottoHistory", myLottoHistory);
+
+        return resultMap;
     }
 }
