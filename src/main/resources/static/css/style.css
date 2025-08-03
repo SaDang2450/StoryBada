@@ -181,6 +181,11 @@ header {
     width: 700px;
 }
 
+.table-myname > thead {
+    border-bottom: 1px solid black;
+    border-spacing: 1px;
+}
+
 .table-myname > thead > tr > .column1 {
     width: 200px;
 }

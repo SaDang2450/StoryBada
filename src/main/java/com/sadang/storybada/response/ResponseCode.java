@@ -17,6 +17,7 @@ public enum ResponseCode {
     USER_LOGIN_FAIL(3001, "user login fail"),
     USER_PASSWORD_INCORRECT(3002, "user password incorrect"),
     USER_NAME_DUPLICATE(3003, "user name duplicate"),
+    TOO_MANY_NAMES(3004, "too many names"),
 
     // 4000 번대 - 게임 관련 에러
     POINT_NOT_ENOUGH(4001, "point is not enough"),

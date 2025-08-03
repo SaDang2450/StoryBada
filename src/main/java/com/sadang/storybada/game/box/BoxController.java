@@ -39,7 +39,12 @@ public class BoxController {
     }
 
     @GetMapping("/box/history")
-    public String box_history_view() {
+    public String box_history_view(HttpSession session) {
+
+        UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
+        UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
+
+        session.setAttribute("userDTO", newUserDTO);
 
         return "game/box-history";
     }

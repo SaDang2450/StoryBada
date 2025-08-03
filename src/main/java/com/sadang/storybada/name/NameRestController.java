@@ -1,12 +1,15 @@
 package com.sadang.storybada.name;
 
 import com.sadang.storybada.dto.UserDTO;
+import com.sadang.storybada.name.domain.Name;
 import com.sadang.storybada.name.service.NameService;
 import com.sadang.storybada.response.ApiResponse;
 import com.sadang.storybada.response.ResponseCode;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,15 +22,20 @@ public class NameRestController {
     public ApiResponse<ResponseCode> createName(HttpSession session, @RequestParam String name) {
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
 
-        // 중복 여부 확인
-        if (nameService.duplicationCheck(name, userDTO.getId())) {
-            nameService.addName(name, userDTO.getId());
-
-            return ApiResponse.success(ResponseCode.SUCCESS);
-        } else {
+        // Validation
+        if (!nameService.duplicationCheck(name, userDTO.getId())) {             // 중복 여부 확인
 
             return ApiResponse.fail(ResponseCode.USER_NAME_DUPLICATE);
+        } else if (nameService.howManyNames(userDTO.getId()) >= 10) {           // 10개 제한
+
+            return ApiResponse.fail(ResponseCode.TOO_MANY_NAMES);
         }
+        //
+
+        nameService.addName(name, userDTO.getId());
+
+        return ApiResponse.success(ResponseCode.SUCCESS);
+
     }
 
     @PostMapping("/change")

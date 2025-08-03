@@ -41,6 +41,7 @@ public class NameService {
     }
 
     public void addName(String name, long userId) {
+
         // 기존 main name 조사 > 있으면 false로 전환
         Optional<Name> optionalCurrentMainName = nameRepository.findByUserIdAndIsMain(userId, true);
         if (optionalCurrentMainName.isPresent()) {
@@ -64,14 +65,14 @@ public class NameService {
         long currentMainNameId = userDTO.getMainNameId();
 
         Optional<Name> optionalCurrentMainName = nameRepository.findById(currentMainNameId);
-        if(optionalCurrentMainName.isPresent()) {
+        if (optionalCurrentMainName.isPresent()) {
             Name currentMainName = optionalCurrentMainName.get();
             currentMainName = currentMainName.toBuilder().isMain(false).build();
             nameRepository.save(currentMainName);
         }
 
         Optional<Name> optionalNewMainName = nameRepository.findById(id);
-        if(optionalNewMainName.isPresent()) {
+        if (optionalNewMainName.isPresent()) {
             Name newMainName = optionalNewMainName.get();
             newMainName = newMainName.toBuilder().isMain(true).build();
             nameRepository.save(newMainName);
@@ -103,4 +104,9 @@ public class NameService {
     }
 
 
+    public int howManyNames(long id) {
+        List<Name> nameList = nameRepository.findByUserId(id);
+
+        return nameList.size();
+    }
 }
