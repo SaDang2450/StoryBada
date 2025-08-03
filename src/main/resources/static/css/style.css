@@ -177,6 +177,22 @@ header {
     width: 300px;
 }
 
+.table-myname {
+    width: 700px;
+}
+
+.table-myname > thead > tr > .column1 {
+    width: 200px;
+}
+
+.table-myname > thead > tr > .column2 {
+    width: 300px;
+}
+
+.table-myname > thead > tr > .column3 {
+    width: 200px;
+}
+
 .table-myhall {
     width: 700px;
 }

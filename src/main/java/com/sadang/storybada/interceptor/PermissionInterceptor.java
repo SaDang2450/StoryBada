@@ -18,15 +18,22 @@ public class PermissionInterceptor implements HandlerInterceptor {
 
         String uri = request.getRequestURI();
 
-        if(uri.startsWith("/game")) {
-            if(userDTO == null) {
+        if (uri.startsWith("/game")) {
+            if (userDTO == null) {
                 response.sendRedirect("/user/register");
                 return false;
             }
         }
 
-        if(uri.startsWith("/user/register")) {
-            if(userDTO != null) {
+        if (uri.startsWith("/user/register")) {
+            if (userDTO != null) {
+                response.sendRedirect("/frontpage");
+                return false;
+            }
+        }
+
+        if (uri.startsWith("/user") || uri.startsWith("/hall/register")) {
+            if (userDTO == null) {
                 response.sendRedirect("/frontpage");
                 return false;
             }

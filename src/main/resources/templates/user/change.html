@@ -10,33 +10,28 @@
         <div class="mypage-box-contents d-flex justify-content-center">
             <div>
                 <div class="entrance-table">
-                    <table class="table table-borderless table-myhall text-center">
+                    <table class="table table-borderless table-myname text-center">
                         <thead>
                         <tr>
-                            <th>닉네임</th>
-                            <th>보유 포인트</th>
-                            <th></th>
+                            <th class="column1">닉네임</th>
+                            <th class="column2">보유 포인트</th>
+                            <th class="column3">삭제</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr style="height:10px;"></tr>
-                        <tr>
-                            <td>닉네임1</td>
-                            <td>포인트1</td>
-                            <td><a href="#" class="user-info-href-red">삭제</a></td>
-                        </tr>
-                        <tr>
-                            <td>닉네임2</td>
-                            <td>포인트2</td>
-                            <td><a href="#" class="user-info-href-red">삭제</a></td>
+                        <tr th:each="nameDTO : ${session.userDTO.nameDTOList}">
+                            <td th:data-id="${nameDTO.id}" th:text="${nameDTO.name}" class="cursor-pointer change-name">닉네임1</td>
+                            <td th:text="${nameDTO.currentPoint}">포인트1</td>
+                            <td><a th:if="${nameDTO.isMain} != true" th:data-id="${nameDTO.id}" class="user-info-href-red cursor-pointer delete-name">삭제</a></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="entrance-create">
                     <div class="d-flex justify-content-center">
-                        <input type="text" class="form-control input-shadow col-6 mr-5" placeholder="닉네임 입력" autocomplete="off">
-                        <button type="button" class="btn btn-primary btn-shadow form-control col-2">생성</button>
+                        <input id="nameInput" type="text" class="form-control input-shadow col-6 mr-5" placeholder="닉네임 입력" autocomplete="off">
+                        <button id="createNameBtn" type="button" class="btn btn-primary btn-shadow form-control col-2">생성</button>
                     </div>
                     <div class="text-center text-black-50"><span>개인당 10개까지 보유 가능 / 개인 중복 닉네임 보유 불가</span></div>
                 </div>
@@ -47,6 +42,89 @@
 </section>
 
 <script layout:fragment="script">
+    $("#createNameBtn").on("click", function() {
+        let name = $("#nameInput").val();
 
+        // Validation
+        if(name === "") {
+            alert("닉네임 입력");
+            return;
+        }
+        //
+
+        $.ajax({
+            type: "POST",
+            url: "/name/create",
+            data: {
+                "name": name
+            },
+            success: function(response) {
+                if(response.code === 1000) {
+                    alert("닉네임 생성 완료");
+                    location.reload();
+                } else if (response.code === 3003) {
+                    alert("닉네임 중복");
+                    location.reload();
+                } else {
+                    alert("error: create name fail");
+                }
+
+            },
+            error: function() {
+                alert("error: create name error");
+            }
+
+        })
+    })
+
+    $(".change-name").on("click", function() {
+        let id = $(this).data("id");
+
+        $.ajax({
+            type: "POST",
+            url: "/name/change",
+            data: {
+                "id": id
+            },
+            success: function(response) {
+                if(response.data) {
+                    alert("changed main name");
+                    location.reload();
+                } else {
+                    alert("error : change main name fail");
+                }
+            },
+            error: function() {
+                alert("error: change name error");
+            }
+        })
+    })
+
+    $(".delete-name").on("click", function() {
+        let id = $(this).data("id");
+
+        if(confirm("닉네임 삭제") === true) {
+            $.ajax({
+                type: "DELETE",
+                url: "/name/delete",
+                data: {
+                    "id": id
+                },
+                success: function(response) {
+                    if(response.data) {
+                        alert("name deleted");
+                        location.reload();
+                    } else {
+                        alert("error : name delete fail");
+                    }
+                },
+                error: function() {
+                    alert("error : name delete error");
+                }
+            })
+        } else {
+            location.reload();
+        }
+    })
 
 </script>

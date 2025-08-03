@@ -2,6 +2,7 @@ package com.sadang.storybada.user;
 
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.email.service.EmailService;
+import com.sadang.storybada.name.service.NameService;
 import com.sadang.storybada.response.ApiResponse;
 import com.sadang.storybada.response.ResponseCode;
 import com.sadang.storybada.user.service.UserService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserRestController {
 
     private final UserService userService;
+    private final NameService nameService;
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @PostMapping("/login")
@@ -80,11 +82,12 @@ public class UserRestController {
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
 
         // 비밀번호 확인 후 삭제
-        if(userService.passwordConfirm(userDTO, password)) {
+        if (userService.passwordConfirm(userDTO, password)) {
             userService.deleteUser(userDTO);
             return ApiResponse.success(ResponseCode.SUCCESS);
         } else {
             return ApiResponse.success(ResponseCode.USER_PASSWORD_INCORRECT);
         }
     }
+
 }

@@ -18,7 +18,7 @@ public class UserDTO {
     private LocalDateTime createdAtUser;
     private LocalDateTime updatedAtUser;
 
-    private List<Name> nameList;
+    private List<NameDTO> nameDTOList;
     private Long mainNameId;
     private String mainName;
 

@@ -1,5 +1,6 @@
 package com.sadang.storybada.user.service;
 
+import com.sadang.storybada.dto.NameDTO;
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.email.service.EmailService;
 import com.sadang.storybada.hp.service.HpService;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -35,11 +37,18 @@ public class UserService {
         }
         if (encoder.matches(password, user.getPassword())) {
             List<Name> nameList = nameService.getNameList(user.getId());
-            String mainName = nameService.getMainName(user.getId());
-            Long nameId = nameService.getMainNameId(user.getId());
-            Long currentPoint = nameService.getCurrentPointByNameId(nameId);
+            List<NameDTO> nameDTOList = new ArrayList<>();
 
-            return UserDTO.builder().id(user.getId()).loginId(user.getLoginId()).email(user.getEmail()).nameList(nameList).mainNameId(nameId).mainName(mainName).point(currentPoint).build();
+            String mainName = nameService.getMainName(user.getId());
+            long nameId = nameService.getMainNameId(user.getId());
+            long currentPoint = nameService.getCurrentPointByNameId(nameId);
+
+            for(Name name : nameList){
+                long nameCurrentPoint = nameService.getCurrentPointByNameId(name.getId());
+                nameDTOList.add(NameDTO.builder().id(name.getId()).userId(name.getUserId()).name(name.getName()).isMain(name.isMain()).currentPoint(nameCurrentPoint).build());
+            }
+
+            return UserDTO.builder().id(user.getId()).loginId(user.getLoginId()).email(user.getEmail()).nameDTOList(nameDTOList).mainNameId(nameId).mainName(mainName).point(currentPoint).build();
         } else {
             return null;
         }
@@ -53,11 +62,18 @@ public class UserService {
             User user = optionalUser.get();
 
             List<Name> nameList = nameService.getNameList(user.getId());
-            String mainName = nameService.getMainName(user.getId());
-            Long nameId = nameService.getMainNameId(user.getId());
-            Long currentPoint = nameService.getCurrentPointByNameId(nameId);
+            List<NameDTO> nameDTOList = new ArrayList<>();
 
-            return UserDTO.builder().id(user.getId()).loginId(user.getLoginId()).email(user.getEmail()).nameList(nameList).mainNameId(nameId).mainName(mainName).point(currentPoint).build();
+            String mainName = nameService.getMainName(user.getId());
+            long nameId = nameService.getMainNameId(user.getId());
+            long currentPoint = nameService.getCurrentPointByNameId(nameId);
+
+            for(Name name : nameList){
+                long nameCurrentPoint = nameService.getCurrentPointByNameId(name.getId());
+                nameDTOList.add(NameDTO.builder().id(name.getId()).userId(name.getUserId()).name(name.getName()).isMain(name.isMain()).currentPoint(nameCurrentPoint).build());
+            }
+
+            return UserDTO.builder().id(user.getId()).loginId(user.getLoginId()).email(user.getEmail()).nameDTOList(nameDTOList).mainNameId(nameId).mainName(mainName).point(currentPoint).build();
         }
 
         return null;
@@ -78,8 +94,7 @@ public class UserService {
         String hashingPassword = encoder.encode(password);
 
         User registeredUser = userRepository.save(User.builder().loginId(loginId).password(hashingPassword).email(email).build());
-        Name registeredName = nameService.addName(name, registeredUser.getId());
-        hpService.addHpRecord(registeredName.getId(), 10000, "Register");
+        nameService.addName(name, registeredUser.getId());
 
         return registeredUser;
     }
