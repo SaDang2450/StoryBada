@@ -7,6 +7,7 @@ import com.sadang.storybada.hp.repository.HpRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,4 +41,12 @@ public class HpService {
         }
     }
 
+    public void deleteAllByNameId(List<Long> nameIdList) {
+        List<Hp> hpList = new ArrayList<>();
+        for (Long nameId : nameIdList) {
+            hpList.addAll(hpRepository.findByNameId(nameId));
+        }
+
+        hpRepository.deleteAll(hpList);
+    }
 }

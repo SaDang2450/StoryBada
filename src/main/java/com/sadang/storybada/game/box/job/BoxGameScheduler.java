@@ -29,7 +29,7 @@ public class BoxGameScheduler {
 
         long game = hour * 60 + minute + 1;
 
-        JobParameters jobParameters = new JobParametersBuilder().addLong("game", game).toJobParameters();
+        JobParameters jobParameters = new JobParametersBuilder().addLong("game", game).addLocalDateTime("localDateTime", now).toJobParameters();
 
         try {
             jobLauncher.run(playTheBoxGame, jobParameters);

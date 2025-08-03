@@ -104,10 +104,19 @@ public class UserService {
         }
     }
 
-    public void updatePassword(String loginId, String oldPassword, String newPassword) {
-        User user = userRepository.findByLoginId(loginId);
+    public Boolean updatePassword(UserDTO userDTO, String password) {
+        long id = userDTO.getId();
 
-
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            String hashingPassword = encoder.encode(password);
+            user = user.toBuilder().password(hashingPassword).updatedAt(LocalDateTime.now()).build();
+            userRepository.save(user);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public String makeRandomString() {
@@ -124,4 +133,27 @@ public class UserService {
         return sb.toString();
     }
 
+    public boolean passwordConfirm(UserDTO userDTO, String password) {
+        long id = userDTO.getId();
+
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            return encoder.matches(password, user.getPassword());
+        } else {
+            return false;
+        }
+    }
+
+    public void deleteUser(UserDTO userDTO) {
+        long id = userDTO.getId();
+
+        // 삭제대상 1 : user Table
+        Optional<User> optionalUser = userRepository.findById(id);
+        optionalUser.ifPresent(userRepository::delete);
+
+        // 삭제대상 2 : name Table + HP Table
+        nameService.deleteAllByUserId(id);
+    }
 }

@@ -8,4 +8,6 @@ import java.util.List;
 public interface HpRepository extends JpaRepository<Hp, Long> {
 
     List<Hp> findByNameId(long nameId);
+
+    void deleteAllByNameId(long nameId);
 }

@@ -7,11 +7,9 @@ import com.sadang.storybada.response.ResponseCode;
 import com.sadang.storybada.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -66,6 +64,27 @@ public class UserRestController {
         } else {
 
             return ApiResponse.success(false);
+        }
+    }
+
+    @PutMapping("/update")
+    public ApiResponse<Boolean> update(HttpSession session, @RequestParam String password) {
+        UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
+        session.removeAttribute("userDTO");
+
+        return ApiResponse.success(userService.updatePassword(userDTO, password));
+    }
+
+    @PostMapping("/unregister")
+    public ApiResponse<ResponseCode> passwordConfirm(HttpSession session, @RequestParam String password) {
+        UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
+
+        // 비밀번호 확인 후 삭제
+        if(userService.passwordConfirm(userDTO, password)) {
+            userService.deleteUser(userDTO);
+            return ApiResponse.success(ResponseCode.SUCCESS);
+        } else {
+            return ApiResponse.success(ResponseCode.USER_PASSWORD_INCORRECT);
         }
     }
 }

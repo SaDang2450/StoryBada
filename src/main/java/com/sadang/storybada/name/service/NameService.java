@@ -6,6 +6,7 @@ import com.sadang.storybada.name.repository.NameRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,4 +42,16 @@ public class NameService {
         return hpService.getCurrentPointByNameId(nameId);
     }
 
+    public void deleteAllByUserId(long id) {
+
+        List<Name> nameList = nameRepository.findByUserId(id);
+        nameRepository.deleteAll(nameList);
+
+        List<Long> nameIdList = new ArrayList<>();
+        for (Name name : nameList) {
+            nameIdList.add(name.getId());
+        }
+
+        hpService.deleteAllByNameId(nameIdList);
+    }
 }
