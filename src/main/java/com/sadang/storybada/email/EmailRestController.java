@@ -4,6 +4,7 @@ import com.sadang.storybada.dto.EmailConfirmDTO;
 import com.sadang.storybada.dto.EmailRequestDTO;
 import com.sadang.storybada.email.service.EmailService;
 import com.sadang.storybada.response.ApiResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,17 +21,19 @@ public class EmailRestController {
     }
 
     @PostMapping("/send")
-    public ApiResponse<Boolean> sendJoinMail(@RequestParam String email) {
+    public ApiResponse<Boolean> sendJoinMail(HttpSession session, @RequestParam String email) {
 
-        emailService.joinEmail(email);
+        int authNumber = emailService.joinEmail(email);
+        session.setAttribute("authNumber", authNumber);
 
         return ApiResponse.success(true);
     }
 
     @PostMapping("/confirm")
-    public ApiResponse<Boolean> mailConfirm(@RequestParam String email, @RequestParam String authNum) {
+    public ApiResponse<Boolean> mailConfirm(HttpSession session, @RequestParam int authNum) {
 
-        Boolean result = emailService.verifyAuthNum(email, authNum);
+        int authNumber = (int) session.getAttribute("authNumber");
+        Boolean result = emailService.verifyAuthNum(authNum, authNumber);
 
         return ApiResponse.success(result);
     }

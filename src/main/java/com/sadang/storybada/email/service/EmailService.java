@@ -13,10 +13,8 @@ import java.util.Random;
 @Service
 public class EmailService {
 
-    private static final int EXPIRATION = 300000;
     private final RedisUtil redisUtil;
     private final JavaMailSender mailSender;
-    private int authNumber;
 
 
     @Value("${email.username}")
@@ -27,22 +25,25 @@ public class EmailService {
         this.mailSender = mailSender;
     }
 
-    public void makeRandomNumber() {
+    public int makeRandomNumber() {
         Random random = new Random();
 
-        authNumber = Integer.parseInt(String.valueOf(random.nextInt(900000)+100000));
+        return Integer.parseInt(String.valueOf(random.nextInt(900000) + 100000));
     }
 
 
-    public void joinEmail(String email) {
-        makeRandomNumber();
+    public int joinEmail(String email) {
+        int authNumber = makeRandomNumber();
         String title = "[이야기바다] 회원가입 인증 메일입니다";
         String content = "<div>" +
                 "   <h1>회원가입 인증 번호</h1><br> " +
                 "   <span>" + authNumber + "</span>" +
                 "</div>";
         sendEmail(setFrom, email, title, content);
-        redisUtil.saveAuthNumber(Integer.toString(authNumber), email, EXPIRATION);
+        return makeRandomNumber();
+
+
+//        redisUtil.saveAuthNumber(Integer.toString(authNumber), email, EXPIRATION);
     }
 
     public void findEmail(String email, String tempPassword) {
@@ -69,8 +70,10 @@ public class EmailService {
         }
     }
 
-    public Boolean verifyAuthNum(String email, String authNum) {
+    public Boolean verifyAuthNum(int authNum, int authNumber) {
 
-        return redisUtil.getData(authNum).equals(email);
+        return authNum == authNumber;
+//        return redisUtil.getData(authNum).equals(email);
     }
+
 }

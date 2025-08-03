@@ -224,6 +224,7 @@
         let authNum = $("#signInput").val();
 
         const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@(naver.com)$/;
+        const regAuthNum = /^[0-9]*$/
 
         // validation
         if (email === "") {
@@ -241,11 +242,16 @@
             return;
         }
 
+        if (!regAuthNum.test(authNum)) {
+            alert("인증번호 숫자 입력");
+            return;
+        }
+        //
+
         $.ajax({
             type: "POST",
             url: "/email/confirm",
             data: {
-                "email": email,
                 "authNum": authNum
             },
             success: function (response) {
