@@ -28,13 +28,11 @@
                     </tbody>
                 </table>
                 <div class="pagination">
-                    <a th:if="${!session.myBoxHistoryPage.first}" th:href="@{/game/box/history?page=${session.myBoxHistoryPage.number - 1}}">[이전]</a>
-<!--                    <th:block th:each="i : ${#numbers.sequence(session.pageListMap['startpage'], session.pageListMap['endPage'])}">-->
-<!--                        <a th:href="@{/game/box/history?page=${i}}" th:text="${i}"></a>-->
-<!--                    </th:block>-->
-<!--                    <th:block th:if="${session.pageListMap['hasNext']}">-->
-<!--                        <a th:href="@{/game/box/history?page=${session.pageListMap['endPage'] + 1}}">[다음]</a>-->
-<!--                    </th:block>-->
+                    <a th:if="${session.hasPrevGroup}" th:href="@{/game/box/history(page=${session.prevGroupPage})}">[이전]</a>
+                    <span th:each="i : ${#numbers.sequence(session.startPage, session.endPage)}">
+                        <a th:href = "@{/game/box/history(page=${i})}" th:text = "${i}" th:classappend="${(i - 1) == session.myBoxHistoryPage.number} ? 'current' : ''"></a>
+                    </span>
+                    <a th:if="${session.hasNextGroup}" th:href="@{/game/box/history(page=${session.nextGroupPage})}">[다음]</a>
                 </div>
             </div>
         </div>

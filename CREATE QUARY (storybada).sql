@@ -122,10 +122,19 @@ CREATE TABLE `lottobuffer` (
     `updatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+SELECT * FROM `lottobuffer`;
+SELECT * FROM `lottohistory`;
+SELECT * FROM `lottohall`;
+
 SELECT * FROM `boxbuffer`;
 SELECT * FROM `boxhistory`;
 SELECT * FROM `boxhall`;
 
+SELECT * FROM `dicebuffer`;
+SELECT * FROM `dicehistory`;
+SELECT * FROM `dicehall`;
+
+SELECT * FROM `user`;
 SELECT * FROM `name`;
 SELECT * FROM `hp`;
 
@@ -133,6 +142,6 @@ SELECT * FROM `hp`;
 INSERT INTO `hp`
 (`nameId`, `point`, `game`)
 VALUE
-(3, 100000, 'Test');
+(6, 100000, 'Test');
 
 

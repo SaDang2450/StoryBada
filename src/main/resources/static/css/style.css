@@ -333,6 +333,21 @@ header {
     width: 250px;
 }
 
+.box-history > .pagination {
+    margin-top: 10px;
+}
+
+.box-history > .pagination > a,
+.box-history > .pagination > span > a {
+    margin: 0 5px;
+    text-decoration : none;
+}
+
+.box-history > .pagination > span > .current {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
 /* lotto */
 
 .table-lotto-game {
