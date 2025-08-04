@@ -10,41 +10,32 @@
                 <div class="h1">랜덤 박스 개봉 기록</div>
                 <table class="table table-borderless table-box-history text-center">
                     <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>결과</th>
-                            <th>시간</th>
-                        </tr>
+                    <tr>
+                        <th>No.</th>
+                        <th>결과</th>
+                        <th>시간</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr style="height:10px;"></tr>
-                        <tr>
-                            <td>5</td>
-                            <td>0</td>
-                            <td>YYYY-MM-DD HH:mm:SS</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>100</td>
-                            <td>YYYY-MM-DD HH:mm:SS</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>50</td>
-                            <td>YYYY-MM-DD HH:mm:SS</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>5000</td>
-                            <td>YYYY-MM-DD HH:mm:SS</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>20</td>
-                            <td>YYYY-MM-DD HH:mm:SS</td>
-                        </tr>
+                    <tr style="height:10px;"></tr>
+                    <tr th:each="myBoxHistoryDTO : ${session.myBoxHistoryDTOList}">
+                        <td th:text="${myBoxHistoryDTO.count}">12</td>
+                        <td th:text="${myBoxHistoryDTO.result}">0</td>
+                        <td th:text="${#temporals.format(myBoxHistoryDTO.createdAt, 'YYYY-MM-dd HH:mm')}">YYYY-MM-DD
+                            HH:mm:SS
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
+                <div class="pagination">
+                    <a th:if="${!session.myBoxHistoryPage.first}" th:href="@{/game/box/history?page=${session.myBoxHistoryPage.number - 1}}">[이전]</a>
+<!--                    <th:block th:each="i : ${#numbers.sequence(session.pageListMap['startpage'], session.pageListMap['endPage'])}">-->
+<!--                        <a th:href="@{/game/box/history?page=${i}}" th:text="${i}"></a>-->
+<!--                    </th:block>-->
+<!--                    <th:block th:if="${session.pageListMap['hasNext']}">-->
+<!--                        <a th:href="@{/game/box/history?page=${session.pageListMap['endPage'] + 1}}">[다음]</a>-->
+<!--                    </th:block>-->
+                </div>
             </div>
         </div>
 
