@@ -25,9 +25,8 @@ public class HallRestController {
     public ApiResponse<Long> hallCreate(HttpSession session, @RequestParam String contents, @RequestParam(required = false) MultipartFile imageFile) {
 
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
-        long userId = userDTO.getId();
 
-        Hall hall = hallService.addHall(userId, contents, imageFile);
+        Hall hall = hallService.addHall(userDTO, contents, imageFile);
 
         if(hall == null) {
             return ApiResponse.success(0L);

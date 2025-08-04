@@ -171,4 +171,15 @@ public class UserService {
         // 삭제대상 2 : name Table + HP Table
         nameService.deleteAllByUserId(id);
     }
+
+    public String getLoginIdById(long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            return user.getLoginId();
+        } else {
+            return null;
+        }
+    }
 }

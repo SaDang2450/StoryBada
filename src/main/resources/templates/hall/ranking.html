@@ -32,35 +32,11 @@
                             </thead>
                             <tbody>
                             <tr style="height:10px;"></tr>
-                            <tr data-name="viewDetail" data-ranking-id="1" class="cursor-pointer">
-                                <td class="column1">1</td>
-                                <td class="column2">닉네임1</td>
-                                <td class="column3">점수1</td>
-                                <td class="column4">YYYY-MM-DD HH:mm:SS</td>
-                            </tr>
-                            <tr data-name="viewDetail" data-ranking-id="2" class="cursor-pointer">
-                                <td class="column1">2</td>
-                                <td class="column2">닉네임2</td>
-                                <td class="column3">점수2</td>
-                                <td class="column4">YYYY-MM-DD HH:mm:SS</td>
-                            </tr>
-                            <tr>
-                                <td class="column1">3</td>
-                                <td class="column2">닉네임3</td>
-                                <td class="column3">점수3</td>
-                                <td class="column4">YYYY-MM-DD HH:mm:SS</td>
-                            </tr>
-                            <tr>
-                                <td class="column1">4</td>
-                                <td class="column2">닉네임4</td>
-                                <td class="column3">점수4</td>
-                                <td class="column4">YYYY-MM-DD HH:mm:SS</td>
-                            </tr>
-                            <tr>
-                                <td class="column1">5</td>
-                                <td class="column2">닉네임5</td>
-                                <td class="column3">점수5</td>
-                                <td class="column4">YYYY-MM-DD HH:mm:SS</td>
+                            <tr th:each="HallDTO : ${session.HallDTOList}" data-name="viewDetail" th:data-ranking-id="${HallDTO.id}" class="cursor-pointer">
+                                <td class="column1" th:text="${HallDTO.ranking}">1</td>
+                                <td class="column2" th:text="${HallDTO.name}">닉네임1</td>
+                                <td class="column3" th:text="${HallDTO.hp}">점수1</td>
+                                <td class="column4" th:text="${#temporals.format(HallDTO.createdAt, 'YYYY-MM-dd HH:mm:SS')}">YYYY-MM-DD HH:mm:SS</td>
                             </tr>
                             </tbody>
                         </table>

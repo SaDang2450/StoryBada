@@ -10,7 +10,7 @@
             <div style="width: 600px;">
                 <div class="h1 text-center mb-3">전당 등록</div>
                 <div>
-                    <div class="mb-3">등록 닉네임</div>
+                    <div id="registerUser" class="mb-3" th:text="${session.userDTO.mainName}">등록 닉네임</div>
                     <textarea id="contentsInput" class="form-control input-shadow mb-3 p-3" style="resize: none;" placeholder="전당 등록 멘트 입력"
                               autocomplete="off"></textarea>
                     <div class="d-flex align-items-center">
