@@ -85,6 +85,47 @@ public class BoxHallService {
         return boxHallRepository.findByNameId(nameId, PageRequest.of(pageNum - 1, PAGE_HISTORY_COUNT, Sort.by(Sort.Order.desc("createdAt"))));
     }
 
+    public Map<String, Map> getMyHistoryPageData(long nameId, int pageNum) {
+        Page<BoxHall> myBoxHistoryPage = boxHallRepository.findByNameId(nameId, PageRequest.of(pageNum - 1, PAGE_HISTORY_COUNT, Sort.by(Sort.Order.desc("createdAt"))));
+        Map<String, Map> resultMap = new HashMap<>();
+        Map<String, Boolean> resultBooleanMap = new HashMap<>();
+        Map<String, Integer> resultIntegerMap = new HashMap<>();
+
+        int currentPage = myBoxHistoryPage.getNumber();
+        int totalPages = myBoxHistoryPage.getTotalPages();
+
+        if (totalPages == 0) {
+            totalPages = 1;
+        }
+
+        int currentGroup = currentPage / BLOCK_PAGE_NUM_COUNT;
+        int startPage = currentGroup * BLOCK_PAGE_NUM_COUNT + 1;
+        int endPage = Math.min(startPage + BLOCK_PAGE_NUM_COUNT - 1, totalPages);
+
+        if (startPage > endPage) {
+            endPage = startPage;
+        }
+
+        boolean hasPrevGroup = startPage > 1;
+        boolean hasNextGroup = endPage < totalPages - 1;
+
+        int prevGroupPage = Math.max(startPage - 1, 1);
+        int nextGroupPage = (endPage + 1) >= totalPages ? totalPages - 1 : endPage + 1;
+
+        resultBooleanMap.put("hasPrevGroup", hasPrevGroup);
+        resultBooleanMap.put("hasNextGroup", hasNextGroup);
+
+        resultIntegerMap.put("startPage", startPage);
+        resultIntegerMap.put("endPage", endPage);
+        resultIntegerMap.put("prevGroupPage", prevGroupPage);
+        resultIntegerMap.put("nextGroupPage", nextGroupPage);
+
+        resultMap.put("booleanMap", resultBooleanMap);
+        resultMap.put("integerMap", resultIntegerMap);
+
+        return resultMap;
+    }
+
 //    public Map<String, Object> getPageList(long nameId, int pageNum) {
 //        Page<BoxHall> page = boxHallRepository.findByNameId(nameId, PageRequest.of(pageNum - 1, PAGE_HISTORY_COUNT, Sort.by(Sort.Order.desc("createdAt"))));
 //

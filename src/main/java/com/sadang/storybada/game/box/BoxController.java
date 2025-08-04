@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,40 +49,19 @@ public class BoxController {
         long nameId = newUserDTO.getMainNameId();
 
         // pagination 관련
-        int maxPageButtons = 10;
         Page<BoxHall> myBoxHistoryPage = boxHallService.getMyHistoryPage(nameId, page);
         List<MyBoxHistoryDTO> myBoxHistoryDTOList = boxHallService.getMyBoxHisotryDTOListPage(nameId, page);
-
-        int currentPage = myBoxHistoryPage.getNumber();
-        int totalPages = myBoxHistoryPage.getTotalPages();
-
-        if (totalPages == 0) {
-            totalPages = 1;
-        }
-
-        int currentGroup = currentPage / maxPageButtons;
-        int startPage = currentGroup * maxPageButtons + 1;
-        int endPage = Math.min(startPage + maxPageButtons - 1, totalPages);
-
-        if (startPage > endPage) {
-            endPage = startPage;
-        }
-
-        boolean hasPrevGroup = startPage > 1;
-        boolean hasNextGroup = endPage < totalPages - 1;
-
-        int prevGroupPage = Math.max(startPage - 1, 1);
-        int nextGroupPage = (endPage + 1) >= totalPages ? totalPages - 1 : endPage + 1;
+        Map<String, Map> pagingData = boxHallService.getMyHistoryPageData(nameId, page);
 
         session.setAttribute("userDTO", newUserDTO);
         session.setAttribute("myBoxHistoryDTOList", myBoxHistoryDTOList);
         session.setAttribute("myBoxHistoryPage", myBoxHistoryPage);
-        session.setAttribute("startPage", startPage);
-        session.setAttribute("endPage", endPage);
-        session.setAttribute("hasPrevGroup", hasPrevGroup);
-        session.setAttribute("hasNextGroup", hasNextGroup);
-        session.setAttribute("prevGroupPage", prevGroupPage);
-        session.setAttribute("nextGroupPage", nextGroupPage);
+        session.setAttribute("startPage", pagingData.get("integerMap").get("startPage"));
+        session.setAttribute("endPage", pagingData.get("integerMap").get("endPage"));
+        session.setAttribute("hasPrevGroup", pagingData.get("booleanMap").get("hasPrevGroup"));
+        session.setAttribute("hasNextGroup", pagingData.get("booleanMap").get("hasNextGroup"));
+        session.setAttribute("prevGroupPage", pagingData.get("integerMap").get("prevGroupPage"));
+        session.setAttribute("nextGroupPage", pagingData.get("integerMap").get("nextGroupPage"));
 
         return "game/box-history";
     }
