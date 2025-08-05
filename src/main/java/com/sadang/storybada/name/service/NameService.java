@@ -1,7 +1,6 @@
 package com.sadang.storybada.name.service;
 
 import com.sadang.storybada.dto.UserDTO;
-import com.sadang.storybada.hp.service.HpService;
 import com.sadang.storybada.name.domain.Name;
 import com.sadang.storybada.name.repository.NameRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,6 @@ import java.util.Optional;
 public class NameService {
 
     private final NameRepository nameRepository;
-    private final HpService hpService;
 
     public List<Name> getNameList(long userId) {
         return nameRepository.findByUserId(userId);
@@ -40,7 +38,7 @@ public class NameService {
         return name.map(Name::getName).orElse(null);
     }
 
-    public void addName(String name, long userId) {
+    public Name addName(String name, long userId) {
 
         // 기존 main name 조사 > 있으면 false로 전환
         Optional<Name> optionalCurrentMainName = nameRepository.findByUserIdAndIsMain(userId, true);
@@ -51,14 +49,7 @@ public class NameService {
         }
 
         // 새로운 name을 main name 으로 생성
-        Name registeredName = nameRepository.save(Name.builder().userId(userId).name(name).isMain(true).build());
-
-        hpService.addHpRecord(registeredName.getId(), 10000, "Register");
-    }
-
-    public long getCurrentPointByNameId(long nameId) {
-
-        return hpService.getCurrentPointByNameId(nameId);
+        return nameRepository.save(Name.builder().userId(userId).name(name).isMain(true).build());
     }
 
     public void changeMainName(UserDTO userDTO, long id) {
@@ -79,7 +70,7 @@ public class NameService {
         }
     }
 
-    public void deleteAllByUserId(long id) {
+    public List<Long> deleteAllByUserId(long id) {
 
         List<Name> nameList = nameRepository.findByUserId(id);
         nameRepository.deleteAll(nameList);
@@ -89,7 +80,7 @@ public class NameService {
             nameIdList.add(name.getId());
         }
 
-        hpService.deleteAllByNameId(nameIdList);
+        return nameIdList;
     }
 
     public boolean duplicationCheck(String name, long userId) {
@@ -108,5 +99,11 @@ public class NameService {
         List<Name> nameList = nameRepository.findByUserId(id);
 
         return nameList.size();
+    }
+
+    public String getNameById(long nameId) {
+        Optional<Name> optionalName = nameRepository.findById(nameId);
+
+        return optionalName.map(Name::getName).orElse(null);
     }
 }

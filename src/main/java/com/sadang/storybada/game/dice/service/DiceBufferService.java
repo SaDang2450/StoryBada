@@ -22,7 +22,7 @@ public class DiceBufferService {
 
     public ResponseCode diceBettingValidation(UserDTO userDTO, String betting, long hp) {
 
-        long currentPoint = nameService.getCurrentPointByNameId(userDTO.getMainNameId());
+        long currentPoint = hpService.getCurrentPointByNameId(userDTO.getMainNameId());
         boolean result = Objects.equals(betting, "odd");
 
         if (currentPoint < hp) {

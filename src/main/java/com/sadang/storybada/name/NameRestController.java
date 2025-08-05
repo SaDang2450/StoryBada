@@ -1,6 +1,7 @@
 package com.sadang.storybada.name;
 
 import com.sadang.storybada.dto.UserDTO;
+import com.sadang.storybada.hp.service.HpService;
 import com.sadang.storybada.name.domain.Name;
 import com.sadang.storybada.name.service.NameService;
 import com.sadang.storybada.response.ApiResponse;
@@ -17,6 +18,7 @@ import java.util.List;
 public class NameRestController {
 
     private final NameService nameService;
+    private final HpService hpService;
 
     @PostMapping("/create")
     public ApiResponse<ResponseCode> createName(HttpSession session, @RequestParam String name) {
@@ -32,7 +34,8 @@ public class NameRestController {
         }
         //
 
-        nameService.addName(name, userDTO.getId());
+        Name registeredName = nameService.addName(name, userDTO.getId());
+        hpService.addHpRecord(registeredName.getId(), 10000, "Register");
 
         return ApiResponse.success(ResponseCode.SUCCESS);
 
@@ -50,6 +53,7 @@ public class NameRestController {
     public ApiResponse<ResponseCode> deleteName(@RequestParam long id) {
 
         nameService.deleteNameById(id);
+        hpService.deleteHpByNameId(id);
         return ApiResponse.success(ResponseCode.SUCCESS);
     }
 }

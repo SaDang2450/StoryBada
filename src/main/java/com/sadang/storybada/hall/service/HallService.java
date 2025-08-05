@@ -58,7 +58,7 @@ public class HallService {
     }
 
     public Page<Hall> getHallPage(int pageNum) {
-        return hallRepository.findAllLimit50(PageRequest.of(pageNum - 1, PAGE_HALL_COUNT, Sort.by(Sort.Order.desc("hp"))));
+        return hallRepository.findAll(PageRequest.of(pageNum - 1, PAGE_HALL_COUNT, Sort.by(Sort.Order.desc("hp"))));
     }
 
     public List<HallDTO> getHallDTOList(int pageNum) {

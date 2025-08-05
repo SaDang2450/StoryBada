@@ -10,6 +10,4 @@ import java.util.List;
 
 public interface HallRepository extends JpaRepository<Hall, Long> {
     List<Hall> findAllByOrderByHpDesc();
-
-    Page<Hall> findAllLimit50(Pageable pageable);
 }

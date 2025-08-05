@@ -41,10 +41,10 @@ public class UserService {
 
             String mainName = nameService.getMainName(user.getId());
             long nameId = nameService.getMainNameId(user.getId());
-            long currentPoint = nameService.getCurrentPointByNameId(nameId);
+            long currentPoint = hpService.getCurrentPointByNameId(nameId);
 
             for(Name name : nameList){
-                long nameCurrentPoint = nameService.getCurrentPointByNameId(name.getId());
+                long nameCurrentPoint = hpService.getCurrentPointByNameId(name.getId());
                 nameDTOList.add(NameDTO.builder().id(name.getId()).userId(name.getUserId()).name(name.getName()).isMain(name.isMain()).currentPoint(nameCurrentPoint).build());
             }
 
@@ -66,10 +66,10 @@ public class UserService {
 
             String mainName = nameService.getMainName(user.getId());
             long nameId = nameService.getMainNameId(user.getId());
-            long currentPoint = nameService.getCurrentPointByNameId(nameId);
+            long currentPoint = hpService.getCurrentPointByNameId(nameId);
 
             for(Name name : nameList){
-                long nameCurrentPoint = nameService.getCurrentPointByNameId(name.getId());
+                long nameCurrentPoint = hpService.getCurrentPointByNameId(name.getId());
                 nameDTOList.add(NameDTO.builder().id(name.getId()).userId(name.getUserId()).name(name.getName()).isMain(name.isMain()).currentPoint(nameCurrentPoint).build());
             }
 
@@ -94,7 +94,8 @@ public class UserService {
         String hashingPassword = encoder.encode(password);
 
         User registeredUser = userRepository.save(User.builder().loginId(loginId).password(hashingPassword).email(email).build());
-        nameService.addName(name, registeredUser.getId());
+        Name registeredName = nameService.addName(name, registeredUser.getId());
+        hpService.addHpRecord(registeredName.getId(), 10000, "Register");
 
         return registeredUser;
     }
@@ -169,7 +170,8 @@ public class UserService {
         optionalUser.ifPresent(userRepository::delete);
 
         // 삭제대상 2 : name Table + HP Table
-        nameService.deleteAllByUserId(id);
+        List<Long> nameIdList = nameService.deleteAllByUserId(id);
+        hpService.deleteAllByNameId(nameIdList);
     }
 
     public String getLoginIdById(long id) {

@@ -10,4 +10,8 @@ public interface HpRepository extends JpaRepository<Hp, Long> {
     List<Hp> findByNameId(long nameId);
 
     void deleteAllByNameId(long nameId);
+
+    List<Hp> findTop10ByGameOrderByPointDescCreatedAtDesc(String diceGame);
+
+    void deleteByNameId(long id);
 }

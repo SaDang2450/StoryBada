@@ -15,4 +15,9 @@ public class DiceHallService {
 
         return diceHallRepository.save(DiceHall.builder().gameId(recentGameNumber).nameId(nameId).result(result).build());
     }
+
+    public long getDiceCountByGameId(long game) {
+
+        return diceHallRepository.countByGameIdAndResult(game, true);
+    }
 }

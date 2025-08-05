@@ -27,7 +27,7 @@ public class BoxBufferService {
 
     public ResponseCode boxBuyingValidation(UserDTO userDTO, long hp) {
 
-        long currentPoint = nameService.getCurrentPointByNameId(userDTO.getMainNameId());
+        long currentPoint = hpService.getCurrentPointByNameId(userDTO.getMainNameId());
 
         if (currentPoint < hp) {
 
