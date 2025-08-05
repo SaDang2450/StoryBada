@@ -36,7 +36,7 @@ public class DiceRestController {
 
             return ApiResponse.fail(responseCode);
         }
-
+//
         // betting
         diceBufferService.addDiceBetting(userDTO, betting, hp);
 
