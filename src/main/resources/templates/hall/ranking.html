@@ -32,15 +32,23 @@
                             </thead>
                             <tbody>
                             <tr style="height:10px;"></tr>
-                            <tr th:each="HallDTO : ${session.HallDTOList}" data-name="viewDetail" th:data-ranking-id="${HallDTO.id}" class="cursor-pointer">
-                                <td class="column1" th:text="${HallDTO.ranking}">1</td>
-                                <td class="column2" th:text="${HallDTO.name}">닉네임1</td>
-                                <td class="column3" th:text="${HallDTO.hp}">점수1</td>
-                                <td class="column4" th:text="${#temporals.format(HallDTO.createdAt, 'YYYY-MM-dd HH:mm:SS')}">YYYY-MM-DD HH:mm:SS</td>
+                            <tr th:each="hallDTO : ${hallDTOList}" data-name="viewDetail" th:data-ranking-id="${hallDTO.id}" class="cursor-pointer">
+                                <td class="column1" th:text="${hallDTO.ranking}">1</td>
+                                <td class="column2" th:text="${hallDTO.name}">닉네임1</td>
+                                <td class="column3" th:text="${hallDTO.hp}">점수1</td>
+                                <td class="column4" th:text="${#temporals.format(hallDTO.createdAt, 'YYYY-MM-dd HH:mm:SS')}">YYYY-MM-DD HH:mm:SS</td>
                             </tr>
                             </tbody>
                         </table>
-
+                        <div class="d-flex justify-content-center">
+                            <div class="pagination">
+                                <a th:if="${hasPrevGroup}" th:href="@{/hall/ranking(page=${prevGroupPage})}">[이전]</a>
+                                <span th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                                <a th:href = "@{/hall/ranking(page=${i})}" th:text = "${i}" th:classappend="${(i - 1) == hallPage.number} ? 'current' : ''"></a>
+                                </span>
+                                <a th:if="${hasNextGroup}" th:href="@{/hall/ranking(page=${nextGroupPage})}">[다음]</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

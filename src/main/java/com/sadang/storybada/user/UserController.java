@@ -16,12 +16,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/register")
-    public String login_view(HttpSession session) {
-
-        UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
-        UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
-
-        session.setAttribute("userDTO", newUserDTO);
+    public String login_view() {
 
         return "user/register";
     }

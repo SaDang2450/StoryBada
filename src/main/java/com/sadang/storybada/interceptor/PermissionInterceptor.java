@@ -18,7 +18,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 
         String uri = request.getRequestURI();
 
-        if (uri.startsWith("/game")) {
+        if (uri.startsWith("/game") || uri.startsWith("/hall")) {
             if (userDTO == null) {
                 response.sendRedirect("/user/register");
                 return false;
@@ -32,12 +32,12 @@ public class PermissionInterceptor implements HandlerInterceptor {
             }
         }
 
-        if (uri.startsWith("/user") || uri.startsWith("/hall/register")) {
-            if (userDTO == null) {
-                response.sendRedirect("/frontpage");
-                return false;
-            }
-        }
+//        if (uri.startsWith("/user")) {
+//            if (userDTO == null) {
+//                response.sendRedirect("/frontpage");
+//                return false;
+//            }
+//        }
 
         // 이하 미사용
 //        if(userDTO == null) {
