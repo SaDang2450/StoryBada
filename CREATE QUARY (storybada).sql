@@ -136,7 +136,8 @@ SELECT * FROM `dicehall`;
 
 SELECT * FROM `user`;
 SELECT * FROM `name`;
-SELECT * FROM `hp`;
+SELECT * FROM `hp`
+SELECT * FROM `hall`;
 
 
 INSERT INTO `hp`
@@ -144,4 +145,5 @@ INSERT INTO `hp`
 VALUE
 (6, 100000, 'Test');
 
+SELECT * FROM `boxhall` WHERE `nameId` = 3;
 

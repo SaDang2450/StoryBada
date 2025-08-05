@@ -139,7 +139,7 @@ public class PlayBoxGame {
                     for (String s : result) {
                         long nameId = boxBufferList.get(Integer.parseInt(s) - 1).getNameId();
                         boxHallList.add(BoxHall.builder().gameId(game).nameId(nameId).result(i + 1).build());
-                        hpRecordList.add(Hp.builder().nameId(nameId).point(500L * (4 - i)).game("BoxGameResult").build());
+                        hpRecordList.add(Hp.builder().nameId(nameId).point(500L * (4 - i)).game("BoxGame").build());
                     }
                     boxHallService.addBoxHallAll(boxHallList);
                     hpService.addHpRecordAll(hpRecordList);

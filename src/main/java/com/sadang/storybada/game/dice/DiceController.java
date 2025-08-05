@@ -43,4 +43,25 @@ public class DiceController {
 
         return "game/dice";
     }
+
+    @GetMapping("/dice/reload/recent")
+    public String dice_reload_recent(HttpSession session, Model model) {
+
+        List<DiceHistoryDTO> diceHistoryDTOList = diceHistoryService.getTop10RecentHistoryDTO();
+
+        model.addAttribute("diceRecentDTOList", diceHistoryDTOList);
+
+        return "game/dice :: tableDiceRecentFragment";
+    }
+
+    @GetMapping("/dice/reload/hall")
+    public String dice_reload_hall(HttpSession session, Model model) {
+
+        List<HallDTO> diceHallDTOList = hpService.getTop10DiceHallDTO();
+
+        model.addAttribute("diceHallDTOList", diceHallDTOList);
+
+        return "game/dice :: tableDiceHallFragment";
+    }
+
 }

@@ -54,6 +54,7 @@ public class NameRestController {
 
         nameService.deleteNameById(id);
         hpService.deleteHpByNameId(id);
+
         return ApiResponse.success(ResponseCode.SUCCESS);
     }
 }

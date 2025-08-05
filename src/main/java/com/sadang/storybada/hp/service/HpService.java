@@ -6,6 +6,7 @@ import com.sadang.storybada.hp.domain.Hp;
 import com.sadang.storybada.hp.repository.HpBulkRepository;
 import com.sadang.storybada.hp.repository.HpRepository;
 import com.sadang.storybada.name.service.NameService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +54,12 @@ public class HpService {
         hpRepository.deleteAll(hpList);
     }
 
+    @Transactional
+    public void deleteHpByNameId(long nameId) {
+
+        hpRepository.deleteByNameId(nameId);
+    }
+
     public List<HallDTO> getTop10DiceHallDTO() {
         List<Hp> diceHpList = hpRepository.findTop10ByGameOrderByPointDescCreatedAtDesc("DiceGame");
         List<HallDTO> hallDTOList = new ArrayList<>();
@@ -65,7 +72,15 @@ public class HpService {
         return hallDTOList;
     }
 
-    public void deleteHpByNameId(long nameId) {
-        hpRepository.deleteByNameId(nameId);
+    public List<HallDTO> getTop10BoxHallDTO() {
+        List<Hp> boxHpList = hpRepository.findTop10ByGameOrderByPointDescCreatedAtDesc("BoxGame");
+        List<HallDTO> hallDTOList = new ArrayList<>();
+
+        int ranking = 1;
+        for (Hp hp : boxHpList) {
+            hallDTOList.add(HallDTO.builder().ranking(ranking++).name(nameService.getNameById(hp.getNameId())).hp(hp.getPoint()).build());
+        }
+
+        return hallDTOList;
     }
 }
