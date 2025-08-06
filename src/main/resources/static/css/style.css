@@ -56,8 +56,12 @@ header {
     text-decoration: none;
 }
 
-.simple-hall-title {
-    font-size: larger;
+.simple-hall {
+    height: 500px;
+}
+
+.simple-hall-inbox {
+    height: 400px;
 }
 
 .table-hall > tbody > tr {

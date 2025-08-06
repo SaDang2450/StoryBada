@@ -1,21 +1,27 @@
 package com.sadang.storybada.hall.service;
 
+import com.sadang.storybada.common.FileManager;
 import com.sadang.storybada.dto.HallDTO;
+import com.sadang.storybada.dto.LeftHallDTO;
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.hall.domain.Hall;
 import com.sadang.storybada.hall.repository.HallRepository;
 import com.sadang.storybada.hp.service.HpService;
-import com.sadang.storybada.name.service.NameService;
 import com.sadang.storybada.user.service.UserService;
 import jakarta.persistence.PersistenceException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import com.sadang.storybada.common.FileManager;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -38,12 +44,6 @@ public class HallService {
         } catch (PersistenceException e) {
             return null;
         }
-    }
-
-    public Hall getHallById(long id) {
-        Optional<Hall> optionalHall = hallRepository.findById(id);
-
-        return optionalHall.orElse(null);
     }
 
     public HallDTO getHallDTOById(long id) {
@@ -118,4 +118,8 @@ public class HallService {
 
         return resultMap;
     }
+
+    // 일간 주간 월간 랭킹 관련 (left-side-zone)
+
+
 }

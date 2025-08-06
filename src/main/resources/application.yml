@@ -42,6 +42,8 @@ spring:
   batch:
     jdbc:
       initialize-schema: always
+  cache:
+    type: simple
 server:
   servlet:
     session:

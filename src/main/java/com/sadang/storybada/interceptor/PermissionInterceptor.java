@@ -18,7 +18,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 
         String uri = request.getRequestURI();
 
-        if (uri.startsWith("/game") || uri.startsWith("/hall")) {
+        if (uri.startsWith("/game") || uri.startsWith("/hall/register")) {
             if (userDTO == null) {
                 response.sendRedirect("/user/register");
                 return false;

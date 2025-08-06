@@ -24,11 +24,6 @@ public class UserController {
     @GetMapping("/find")
     public String find_view(HttpSession session) {
 
-        UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
-        UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
-
-        session.setAttribute("userDTO", newUserDTO);
-
         return "user/find";
     }
 

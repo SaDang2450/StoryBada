@@ -40,77 +40,50 @@
 
         <nav>
             <ul class="nav">
-                <li class="nav-item"><a class="nav-link cursor-pointer">일간</a></li>
-                <li class="nav-item"><a class="nav-link cursor-pointer">주간</a></li>
-                <li class="nav-item"><a class="nav-link cursor-pointer">월간</a></li>
+                <li class="nav-item"><a class="nav-link cursor-pointer hall-reload" data-period="daily">일간</a></li>
+                <li class="nav-item"><a class="nav-link cursor-pointer hall-reload" data-period="weekly">주간</a></li>
+                <li class="nav-item"><a class="nav-link cursor-pointer hall-reload" data-period="monthly">월간</a></li>
             </ul>
         </nav>
-        <div class="p-3 border-1">
-            <div class="font-small">
-                <span>기간 : YYYY-MM-DD HH시 MM분</span> <br>
-                <span>&emsp;&emsp;&emsp;&emsp;&emsp; ~ YYYY-MM-DD HH시 MM분</span>
-            </div>
-            <hr>
-            <div>
-                <table class="table table-sm table-borderless font-small table-hall mb-0">
-                    <!-- th:each 구문 이용해서 반복문 구현하기-->
-                    <!-- 넘치는 구문 처리하는 class 처리 해야함  -->
-                    <tr>
-                        <td class="column1">1</td>
-                        <td class="column2">닉네임1</td>
-                        <td class="column3">코멘트1</td>
-                    </tr>
-                    <tr>
-                        <td class="column1">2</td>
-                        <td class="column2">닉네임2</td>
-                        <td class="column3">코멘트2</td>
-                    </tr>
-                    <tr>
-                        <td class="column1">3</td>
-                        <td class="column2">닉네임3</td>
-                        <td class="column3">코멘트3</td>
-                    </tr>
-                    <tr>
-                        <td class="column1">4</td>
-                        <td class="column2">닉네임4</td>
-                        <td class="column3">코멘트4</td>
-                    </tr>
-                    <tr>
-                        <td class="column1">5</td>
-                        <td class="column2">닉네임5</td>
-                        <td class="column3">코멘트5</td>
-                    </tr>
-                    <tr>
-                        <td class="column1">6</td>
-                        <td class="column2">닉네임6</td>
-                        <td class="column3">코멘트6</td>
-                    </tr>
-                    <tr>
-                        <td class="column1">7</td>
-                        <td class="column2">닉네임7</td>
-                        <td class="column3">코멘트7</td>
-                    </tr>
-                    <tr>
-                        <td class="column1">8</td>
-                        <td class="column2">닉네임8</td>
-                        <td class="column3">코멘트8</td>
-                    </tr>
-                    <tr>
-                        <td class="column1">9</td>
-                        <td class="column2">닉네임9</td>
-                        <td class="column3">코멘트9</td>
-                    </tr>
-                    <tr>
-                        <td class="column1">10</td>
-                        <td class="column2">닉네임10</td>
-                        <td class="column3">코멘트10</td>
-                    </tr>
-                </table>
+        <div class="simple-hall-inbox p-3 border-1">
+            <div id="hall">
+                <div th:fragment="hall">
+                    <div class="font-small">
+                        <span>기간 : </span><span th:text="${#temporals.format(range[0],'YYYY-MM-dd HH시 mm분')}">YYYY-MM-DD HH시 MM분</span> <br>
+                        <span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; ~ </span><span th:text="${#temporals.format(range[1], 'YYYY-MM-dd HH시 mm분')}">YYYY-MM-DD HH시 MM분</span>
+                    </div>
+                    <hr>
+                    <div>
+                        <table class="table table-sm table-borderless font-small table-hall mb-0">
+                            <!-- th:each 구문 이용해서 반복문 구현하기-->
+                            <!-- 넘치는 구문 처리하는 class 처리 해야함  -->
+                            <tr th:each="leftHallDTO : ${leftHallDTOList}">
+                                <td class="column1"><span th:text="${leftHallDTO.ranking}">1</span></td>
+                                <td class="column2"><span th:text="${leftHallDTO.name}">닉네임</span></td>
+                                <td class="column3"><span th:text="${leftHallDTO.contents}">코멘트</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </article>
 
 <script>
+    $(".hall-reload").on("click", function() {
+        let period = $(this).data("period")
+
+        if(period === "daily") {
+            $("#hall").load("/hall/left/daily");
+
+        } else if (period === "weekly") {
+            $("#hall").load("/hall/left/weekly");
+
+        } else if (period === "monthly") {
+            $("#hall").load("/hall/left/monthly");
+
+        }
+    })
 
 </script>

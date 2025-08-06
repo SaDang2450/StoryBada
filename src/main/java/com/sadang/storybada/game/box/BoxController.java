@@ -5,6 +5,7 @@ import com.sadang.storybada.game.box.domain.BoxHall;
 import com.sadang.storybada.game.box.service.BoxBufferService;
 import com.sadang.storybada.game.box.service.BoxHallService;
 import com.sadang.storybada.game.box.service.BoxHistoryService;
+import com.sadang.storybada.hall.service.LeftHallService;
 import com.sadang.storybada.hp.service.HpService;
 import com.sadang.storybada.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,7 @@ public class BoxController {
     private final BoxHistoryService boxHistoryService;
     private final UserService userService;
     private final HpService hpService;
+    private final LeftHallService leftHallService;
 
     @GetMapping("/box")
     public String box_view(HttpSession session, Model model) {
@@ -46,6 +49,12 @@ public class BoxController {
         model.addAttribute("averageBoxGetPoint", boxHallService.getAverageGetPoint(nameId));
         model.addAttribute("boxHallDTOList", boxHallDTOList);
         model.addAttribute("boxRecentDTOList", boxHistoryDTOList);
+
+        LocalDateTime[] range = leftHallService.getDailyRange();
+        List<LeftHallDTO> leftHallDTOList = leftHallService.getDailyRanking();
+
+        model.addAttribute("range", range);
+        model.addAttribute("leftHallDTOList", leftHallDTOList);
 
         return "game/box";
     }
@@ -71,7 +80,7 @@ public class BoxController {
     }
 
     @GetMapping("/box/history")
-    public String box_history_view(HttpSession session, @RequestParam(defaultValue = "1") int page) {
+    public String box_history_view(HttpSession session, Model model, @RequestParam(defaultValue = "1") int page) {
 
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
         UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
@@ -91,6 +100,12 @@ public class BoxController {
         session.setAttribute("hasNextGroup", pagingData.get("booleanMap").get("hasNextGroup"));
         session.setAttribute("prevGroupPage", pagingData.get("integerMap").get("prevGroupPage"));
         session.setAttribute("nextGroupPage", pagingData.get("integerMap").get("nextGroupPage"));
+
+        LocalDateTime[] range = leftHallService.getDailyRange();
+        List<LeftHallDTO> leftHallDTOList = leftHallService.getDailyRanking();
+
+        model.addAttribute("range", range);
+        model.addAttribute("leftHallDTOList", leftHallDTOList);
 
         return "game/box-history";
     }

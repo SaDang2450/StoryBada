@@ -1,12 +1,10 @@
 package com.sadang.storybada.game.lotto;
 
-import com.sadang.storybada.dto.DiceHistoryDTO;
-import com.sadang.storybada.dto.HallDTO;
-import com.sadang.storybada.dto.LottoHistoryDTO;
-import com.sadang.storybada.dto.UserDTO;
+import com.sadang.storybada.dto.*;
 import com.sadang.storybada.game.lotto.service.LottoBufferService;
 import com.sadang.storybada.game.lotto.service.LottoHallService;
 import com.sadang.storybada.game.lotto.service.LottoHistoryService;
+import com.sadang.storybada.hall.service.LeftHallService;
 import com.sadang.storybada.hp.service.HpService;
 import com.sadang.storybada.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -27,6 +26,7 @@ public class LottoController {
     private final LottoHistoryService lottoHistoryService;
     private final UserService userService;
     private final HpService hpService;
+    private final LeftHallService leftHallService;
 
     @GetMapping("/lotto")
     public String lotto_view(HttpSession session, Model model) {
@@ -42,6 +42,12 @@ public class LottoController {
         model.addAttribute("myLottoHistory", lottoHallService.getMyLottoHistory(nameId));
         model.addAttribute("lottoHallDTOList", lottoHallDTOList);
         model.addAttribute("lottoRecentDTOList", lottoHistoryDTOLIst);
+
+        LocalDateTime[] range = leftHallService.getDailyRange();
+        List<LeftHallDTO> leftHallDTOList = leftHallService.getDailyRanking();
+
+        model.addAttribute("range", range);
+        model.addAttribute("leftHallDTOList", leftHallDTOList);
 
         return "game/lotto";
     }

@@ -2,9 +2,11 @@ package com.sadang.storybada.game.dice;
 
 import com.sadang.storybada.dto.DiceHistoryDTO;
 import com.sadang.storybada.dto.HallDTO;
+import com.sadang.storybada.dto.LeftHallDTO;
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.game.dice.service.DiceBufferService;
 import com.sadang.storybada.game.dice.service.DiceHistoryService;
+import com.sadang.storybada.hall.service.LeftHallService;
 import com.sadang.storybada.hp.service.HpService;
 import com.sadang.storybada.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -25,6 +28,7 @@ public class DiceController {
     private final DiceHistoryService diceHistoryService;
     private final HpService hpService;
     private final UserService userService;
+    private final LeftHallService leftHallService;
 
     @GetMapping("/dice")
     public String dice_view(HttpSession session, Model model) {
@@ -40,6 +44,12 @@ public class DiceController {
         model.addAttribute("diceBettingTotal",diceBufferService.getTotalBettingAmount(mainNameId));
         model.addAttribute("diceHallDTOList", diceHallDTOList);
         model.addAttribute("diceRecentDTOList", diceHistoryDTOList);
+
+        LocalDateTime[] range = leftHallService.getDailyRange();
+        List<LeftHallDTO> leftHallDTOList = leftHallService.getDailyRanking();
+
+        model.addAttribute("range", range);
+        model.addAttribute("leftHallDTOList", leftHallDTOList);
 
         return "game/dice";
     }
