@@ -22,7 +22,7 @@ public class BoxHistoryService {
     }
 
     public List<BoxHistoryDTO> getTop10RecentHistoryDTO() {
-        List<BoxHistory> boxHistoryList = boxHistoryRepository.findTop10ByOrderByGameDesc();
+        List<BoxHistory> boxHistoryList = boxHistoryRepository.findTop10ByOrderByCreatedAtDesc();
         List<BoxHistoryDTO> boxHistoryDTOList = new ArrayList<>();
         for (BoxHistory boxHistory : boxHistoryList) {
             String[] result1 = boxHistory.getResult1().split(",");

@@ -271,25 +271,29 @@ header {
 
 .table-dice-hall,
 .table-box-hall,
-.table-dice-recent {
+.table-dice-recent,
+.table-lotto-hall {
     width: 300px;
 }
 
 .table-dice-hall > tbody > tr > .column1,
 .table-dice-recent > tbody > tr > .column1,
-.table-box-hall > tbody > tr > .column1 {
+.table-box-hall > tbody > tr > .column1,
+.table-lotto-hall > tbody > tr > .column1 {
     width: 80px;
 }
 
 .table-dice-hall > tbody > tr > .column2,
 .table-dice-recent > tbody > tr > .column2,
-.table-box-hall > tbody > tr > .column2 {
+.table-box-hall > tbody > tr > .column2,
+.table-lotto-hall > tbody > tr > .column2 {
     width: 100px;
 }
 
 .table-dice-hall > tbody > tr > .column3,
 .table-dice-recent > tbody > tr > .column3,
-.table-box-hall > tbody > tr > .column3 {
+.table-box-hall > tbody > tr > .column3,
+.table-lotto-hall > tbody > tr > .column3 {
     width: 120px;
 }
 
@@ -330,13 +334,16 @@ header {
     width: 100px;
 }
 
-.table-box-recent {
-    width: 240px;
+.table-box-recent,
+.table-lotto-recent {
+    width: 300px;
 }
 
 .table-box-recent > tbody > tr > .column1,
-.table-box-recent > tbody > tr > .column2  {
-    width: 120px;
+.table-box-recent > tbody > tr > .column2,
+.table-lotto-recent > tbody > tr > .column1,
+.table-lotto-recent > tbody > tr > .column2 {
+    width: 150px;
 }
 
 /* box-history */
@@ -387,6 +394,7 @@ header {
     justify-content: center;
     align-items: center;
 }
+
 .table-lotto-game > tbody > tr > td > .not-selected {
     background-color: white;
     color: black;
@@ -412,6 +420,7 @@ header {
     white-space: nowrap;
     text-align: start;
 }
+
 /* hall */
 .hall-register-box {
     width: 750px;
@@ -511,7 +520,7 @@ header {
 .pagination > a,
 .pagination > span > a {
     margin: 0 5px;
-    text-decoration : none;
+    text-decoration: none;
 }
 
 .pagination > span > .current {

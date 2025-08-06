@@ -8,6 +8,4 @@ import java.util.List;
 public interface BoxHistoryRepository extends JpaRepository<BoxHistory,Long> {
 
     List<BoxHistory> findTop10ByOrderByCreatedAtDesc();
-
-    List<BoxHistory> findTop10ByOrderByGameDesc();
 }

@@ -83,4 +83,16 @@ public class HpService {
 
         return hallDTOList;
     }
+
+    public List<HallDTO> getTop10LottoHallDTO() {
+        List<Hp> lottoHpList = hpRepository.findTop10ByGameOrderByPointDescCreatedAtDesc("LottoGame");
+        List<HallDTO> hallDTOList = new ArrayList<>();
+
+        int ranking = 1;
+        for (Hp hp : lottoHpList) {
+            hallDTOList.add(HallDTO.builder().ranking(ranking++).name(nameService.getNameById(hp.getNameId())).hp(hp.getPoint()).build());
+        }
+
+        return hallDTOList;
+    }
 }

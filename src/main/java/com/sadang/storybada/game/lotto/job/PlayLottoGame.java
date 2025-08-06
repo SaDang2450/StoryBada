@@ -104,19 +104,19 @@ public class PlayLottoGame {
 
                     switch (result) {
                         case 1:
-                            hpService.addHpRecord(nameId, 1629012000L, "Lotto-1");
+                            hpService.addHpRecord(nameId, 1629012000L, "Lotto Game");
                             break;
                         case 2:
-                            hpService.addHpRecord(nameId, 6961590,"Lotto-2");
+                            hpService.addHpRecord(nameId, 6961590,"LottoGame");
                             break;
                         case 3:
-                            hpService.addHpRecord(nameId, 146560,"Lotto-3");
+                            hpService.addHpRecord(nameId, 146560,"LottoGame");
                             break;
                         case 4:
-                            hpService.addHpRecord(nameId, 8910,"Lotto-4");
+                            hpService.addHpRecord(nameId, 8910,"LottoGame");
                             break;
                         case 5:
-                            hpService.addHpRecord(nameId, 1320,"Lotto-5");
+                            hpService.addHpRecord(nameId, 1320,"LottoGame");
                             break;
                     }
 
