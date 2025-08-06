@@ -62,24 +62,35 @@ header {
 
 .simple-hall-inbox {
     height: 400px;
+    padding: 10px;
 }
 
-.table-hall > tbody > tr {
-    height: 27px;
+.table-hall {
+    width: 258px;
+    table-layout: fixed;
 }
 
+.table-hall > thead > tr > .column1,
 .table-hall > tbody > tr > .column1 {
-    width: 30px;
-    text-align: end;
+    width: 40px;
+    text-align: center;
 }
 
+.table-hall > thead > tr > .column2,
 .table-hall > tbody > tr > .column2 {
-    width: 100px;
+    width: 90px;
     padding-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+.table-hall > thead > tr > .column3,
 .table-hall > tbody > tr > .column3 {
     width: 128px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* frontpage style */
@@ -191,11 +202,11 @@ header {
 }
 
 .table-myname > thead > tr > .column1 {
-    width: 200px;
+    width: 300px;
 }
 
 .table-myname > thead > tr > .column2 {
-    width: 300px;
+    width: 200px;
 }
 
 .table-myname > thead > tr > .column3 {
@@ -447,8 +458,8 @@ header {
 }
 
 .hall-ranking-box-contents-div {
-    min-height: 650px;
-    padding: 20px 40px 40px;
+    height: 670px;
+    padding: 20px 40px 20px;
 }
 
 .hall-ranking-nav {
@@ -461,10 +472,37 @@ header {
     justify-content: center
 }
 
+.table-hall-ranking {
+    width: 770px;
+}
+
 .table-hall-ranking > thead,
 .table-myhall > thead {
     border-bottom: 1px solid black;
     border-spacing: 1px;
+}
+
+.table-hall-ranking > thead > tr > .column1,
+.table-hall-ranking > tbody > tr > .column1 {
+    width: 70px;
+}
+
+.table-hall-ranking > thead > tr > .column2,
+.table-hall-ranking > tbody > tr > .column2 {
+    width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.table-hall-ranking > thead > tr > .column3,
+.table-hall-ranking > tbody > tr > .column3 {
+    width: 150px;
+}
+
+.table-hall-ranking > thead > tr > .column4,
+.table-hall-ranking > tbody > tr > .column4 {
+    width: 250px;
 }
 
 .hall-detail-box {
@@ -472,7 +510,13 @@ header {
     height: 500px;
 }
 
-.hall-comment,
+.hall-comment {
+    width: 600px;
+    height: 300px;
+    white-space: pre-line;
+    word-break: break-all;
+    overflow-y: scroll;
+}
 .hall-register-box > div > div > .form-control {
     width: 600px;
     height: 300px;

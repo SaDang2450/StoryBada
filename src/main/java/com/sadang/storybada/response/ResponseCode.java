@@ -12,6 +12,7 @@ public enum ResponseCode {
     DUPLICATE_ID(2001, "duplicate id"),
     DUPLICATE_EMAIL(2002, "duplicate email"),
     USER_JOIN_FAIL(2003, "user join fail"),
+    TOO_LONG_NAME(2004, "too long name"),
 
     // 3000 번대 - 유저 정보 관련 에러
     USER_LOGIN_FAIL(3001, "user login fail"),

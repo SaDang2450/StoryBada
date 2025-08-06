@@ -50,9 +50,11 @@ public class HallController {
     public String hallRanking(HttpSession session, Model model, @RequestParam(defaultValue = "1") int page) {
 
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
-        UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
 
-        session.setAttribute("userDTO", newUserDTO);
+        if (userDTO != null) {
+            UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
+            session.setAttribute("userDTO", newUserDTO);
+        }
 
         // pagination 관련
         Page<Hall> hallPage = hallService.getHallPage(page);
@@ -81,11 +83,14 @@ public class HallController {
     public String hallRankingDetail(HttpSession session, Model model, @RequestParam long id) {
 
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
-        UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
+
+        if (userDTO != null) {
+            UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
+            session.setAttribute("userDTO", newUserDTO);
+        }
 
         HallDTO hallDTO = hallService.getHallDTOById(id);
 
-        session.setAttribute("userDTO", newUserDTO);
         model.addAttribute("hallDTO", hallDTO);
         model.addAttribute("id", id);
 

@@ -61,6 +61,9 @@
                 if(response.code === 1000) {
                     alert("닉네임 생성 완료");
                     location.reload();
+                } else if (response.code === 2004) {
+                    alert("너무 긴 닉네임");
+                    location.reload();
                 } else if (response.code === 3003) {
                     alert("닉네임 중복");
                     location.reload();

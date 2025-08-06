@@ -7,6 +7,7 @@ import com.sadang.storybada.name.service.NameService;
 import com.sadang.storybada.response.ApiResponse;
 import com.sadang.storybada.response.ResponseCode;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ public class NameRestController {
     private final NameService nameService;
     private final HpService hpService;
 
+    @Transactional
     @PostMapping("/create")
     public ApiResponse<ResponseCode> createName(HttpSession session, @RequestParam String name) {
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
@@ -31,6 +33,11 @@ public class NameRestController {
         } else if (nameService.howManyNames(userDTO.getId()) >= 10) {           // 10개 제한
 
             return ApiResponse.fail(ResponseCode.TOO_MANY_NAMES);
+        }
+
+        if(name.getBytes().length >= 32) {          // 이름 길이 제한
+
+            return ApiResponse.fail(ResponseCode.TOO_LONG_NAME);
         }
         //
 

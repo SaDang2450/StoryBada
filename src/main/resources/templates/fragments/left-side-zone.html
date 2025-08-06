@@ -45,23 +45,30 @@
                 <li class="nav-item"><a class="nav-link cursor-pointer hall-reload" data-period="monthly">월간</a></li>
             </ul>
         </nav>
-        <div class="simple-hall-inbox p-3 border-1">
+        <div class="simple-hall-inbox border-1">
             <div id="hall">
                 <div th:fragment="hall">
                     <div class="font-small">
                         <span>기간 : </span><span th:text="${#temporals.format(range[0],'YYYY-MM-dd HH시 mm분')}">YYYY-MM-DD HH시 MM분</span> <br>
                         <span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; ~ </span><span th:text="${#temporals.format(range[1], 'YYYY-MM-dd HH시 mm분')}">YYYY-MM-DD HH시 MM분</span>
                     </div>
-                    <hr>
+                    <hr style="margin: 10px 0;">
                     <div>
                         <table class="table table-sm table-borderless font-small table-hall mb-0">
-                            <!-- th:each 구문 이용해서 반복문 구현하기-->
-                            <!-- 넘치는 구문 처리하는 class 처리 해야함  -->
-                            <tr th:each="leftHallDTO : ${leftHallDTOList}">
-                                <td class="column1"><span th:text="${leftHallDTO.ranking}">1</span></td>
-                                <td class="column2"><span th:text="${leftHallDTO.name}">닉네임</span></td>
-                                <td class="column3"><span th:text="${leftHallDTO.contents}">코멘트</span></td>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <th class="column1">순위</th>
+                                    <th class="column2">닉네임</th>
+                                    <th class="column3">코멘트</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="leftHallDTO : ${leftHallDTOList}">
+                                    <td class="column1" th:text="${leftHallDTO.ranking}">1</td>
+                                    <td class="column2" th:text="${leftHallDTO.name}">닉네임1</td>
+                                    <td class="column3" th:text="${leftHallDTO.contents}">코멘트1</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -71,6 +78,45 @@
 </article>
 
 <script>
+
+    $("#loginForm").on("submit", function (e) {
+        // form 태그 원래의 기능을 제거
+        e.preventDefault();
+
+        let loginId = $("#loginIdInput").val();
+        let password = $("#passwordInput").val();
+
+        // validation
+        if (loginId === "") {
+            alert("아이디 입력");
+            return;
+        }
+
+        if (password === "") {
+            alert("패스워드 입력");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/user/login",
+            data: {
+                "loginId": loginId,
+                "password": password
+            },
+            success: function(response) {
+                if(response.result === "success") {
+                    alert("로그인 성공");
+                    location.reload();
+                } else {
+                    alert(response.code + ": " + response.message);
+                }
+            }, error: function() {
+                alert("error : login error");
+            }
+        })
+    })
+
     $(".hall-reload").on("click", function() {
         let period = $(this).data("period")
 
