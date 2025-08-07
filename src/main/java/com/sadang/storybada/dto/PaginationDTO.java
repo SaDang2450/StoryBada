@@ -15,6 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 public class PaginationDTO {
 
+    private Page<Hall> hallPage;
+    private List<HallDTO> hallDTOList;
+
     private int startPage;
     private int endPage;
     private boolean hasPrevGroup;

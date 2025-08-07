@@ -46,7 +46,7 @@ public class HallController {
         return "hall/register";
     }
 
-    @GetMapping("/ranking")
+    @GetMapping("/ranking/daily")
     public String hallRanking(HttpSession session, Model model, @RequestParam(defaultValue = "1") int page) {
 
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
@@ -56,21 +56,17 @@ public class HallController {
             session.setAttribute("userDTO", newUserDTO);
         }
 
-        // pagination 관련
-        Page<Hall> hallPage = hallService.getHallPage(page);
-        List<HallDTO> hallDTOList = hallService.getHallDTOList(page);
-        PaginationDTO hallPageDTO = hallService.makeHallPageDTO(page);
-
-        model.addAttribute("hallPage", hallPage);
-        model.addAttribute("hallDTOList", hallDTOList);
-        model.addAttribute("hallPageDTO", hallPageDTO);
-
-        //
+        // 좌측 전당 관련
         LocalDateTime[] range = leftHallService.getDailyRange();
         List<LeftHallDTO> leftHallDTOList = leftHallService.getDailyRanking();
 
         model.addAttribute("range", range);
         model.addAttribute("leftHallDTOList", leftHallDTOList);
+
+        // pagination 관련
+
+        PaginationDTO hallPaginationDTO = hallService.getDailyHallPaginationDTO(page, range);
+        model.addAttribute("hallPaginationDTO", hallPaginationDTO);
 
         return "hall/ranking";
     }

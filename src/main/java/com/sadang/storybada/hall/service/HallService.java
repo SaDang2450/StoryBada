@@ -11,11 +11,13 @@ import com.sadang.storybada.user.service.UserService;
 import jakarta.persistence.PersistenceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -55,29 +57,21 @@ public class HallService {
         return hallRepository.findAll(PageRequest.of(pageNum - 1, PAGE_HALL_COUNT, Sort.by(Sort.Order.desc("hp"))));
     }
 
-    public List<HallDTO> getHallDTOList(int pageNum) {
-        Page<Hall> page = hallRepository.findAll(PageRequest.of(pageNum - 1, PAGE_HALL_COUNT, Sort.by(Sort.Order.desc("hp"))));
+    public PaginationDTO getDailyHallPaginationDTO(int pageNum, LocalDateTime[] range) {
+        int offset = (pageNum - 1) * PAGE_HALL_COUNT;
+        List<Hall> content = hallRepository.findPagedFromTop200(range[0], range[1], PAGE_HALL_COUNT, offset);
+        Page<Hall> hallPage = new PageImpl<>(content, PageRequest.of(pageNum - 1, PAGE_HALL_COUNT), 200);
 
-        List<Hall> hallList = page.getContent();
+        List<Hall> hallList = hallPage.getContent();
         List<HallDTO> hallDTOList = new ArrayList<>();
 
-        if (hallList.isEmpty()) {
-            return null;
-        }
         long ranking = 1;
         for (Hall hall : hallList) {
             hallDTOList.add(HallDTO.builder().id(hall.getId()).name(hall.getName()).hp(hall.getHp()).ranking(ranking++).createdAt(hall.getCreatedAt()).build());
         }
 
-        return hallDTOList;
-    }
-
-    public PaginationDTO makeHallPageDTO(int pageNum) {
-
-        Page<Hall> page = hallRepository.findAll(PageRequest.of(pageNum - 1, PAGE_HALL_COUNT, Sort.by(Sort.Order.desc("hp"))));
-
-        int currentPage = page.getNumber();
-        int totalPages = page.getTotalPages();
+        int currentPage = hallPage.getNumber();
+        int totalPages = hallPage.getTotalPages();
 
         if (totalPages == 0) {
             totalPages = 1;
@@ -97,8 +91,8 @@ public class HallService {
         int prevGroupPage = Math.max(startPage - 1, 1);
         int nextGroupPage = (endPage + 1) >= totalPages ? totalPages - 1 : endPage + 1;
 
-        return PaginationDTO.builder().startPage(startPage).endPage(endPage).hasPrevGroup(hasPrevGroup).hasNextGroup(hasNextGroup).prevGroupPage(prevGroupPage).nextGroupPage(nextGroupPage).build();
-
+        return PaginationDTO.builder().hallPage(hallPage).hallDTOList(hallDTOList).startPage(startPage).endPage(endPage)
+                .hasPrevGroup(hasPrevGroup).hasNextGroup(hasNextGroup).prevGroupPage(prevGroupPage).nextGroupPage(nextGroupPage).build();
     }
 
 }

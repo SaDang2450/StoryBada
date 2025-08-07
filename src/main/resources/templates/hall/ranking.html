@@ -33,7 +33,7 @@
                                 </thead>
                                 <tbody>
                                 <tr style="height:10px;"></tr>
-                                <tr th:each="hallDTO : ${hallDTOList}" data-name="viewDetail" th:data-ranking-id="${hallDTO.id}" class="cursor-pointer">
+                                <tr th:each="hallDTO : ${hallPaginationDTO.hallDTOList}" data-name="viewDetail" th:data-ranking-id="${hallDTO.id}" class="cursor-pointer">
                                     <td class="column1" th:text="${hallDTO.ranking}">1</td>
                                     <td class="column2" th:text="${hallDTO.name}">닉네임1</td>
                                     <td class="column3" th:text="${hallDTO.hp}">점수1</td>
@@ -44,11 +44,11 @@
                         </th:block>
                         <div class="d-flex justify-content-center" style="margin-top: auto;">
                             <div class="pagination">
-                                <a th:if="${hallPageDTO.hasPrevGroup}" th:href="@{/hall/ranking(page=${hallPageDTO.prevGroupPage})}">[이전]</a>
-                                <span th:each="i : ${#numbers.sequence(hallPageDTO.startPage, hallPageDTO.endPage)}">
-                                <a th:href = "@{/hall/ranking(page=${i})}" th:text = "${i}" th:classappend="${(i - 1) == hallPage.number} ? 'current' : ''"></a>
+                                <a th:if="${hallPaginationDTO.hasPrevGroup}" th:href="@{/hall/ranking/daily(page=${hallPaginationDTO.prevGroupPage})}">[이전]</a>
+                                <span th:each="i : ${#numbers.sequence(hallPaginationDTO.startPage, hallPaginationDTO.endPage)}">
+                                <a th:href = "@{/hall/ranking/daily(page=${i})}" th:text = "${i}" th:classappend="${(i - 1) == hallPaginationDTO.hallPage.number} ? 'current' : ''"></a>
                                 </span>
-                                <a th:if="${hallPageDTO.hasNextGroup}" th:href="@{/hall/ranking(page=${hallPageDTO.nextGroupPage})}">[다음]</a>
+                                <a th:if="${hallPaginationDTO.hasNextGroup}" th:href="@{/hall/ranking/daily(page=${hallPaginationDTO.nextGroupPage})}">[다음]</a>
                             </div>
                         </div>
                     </div>
