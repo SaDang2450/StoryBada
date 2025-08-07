@@ -23,19 +23,22 @@ public class LeftHallService {
 
     public LocalDateTime[] getDailyRange() {
         LocalDate today = LocalDate.now();
-        return new LocalDateTime[]{today.atStartOfDay(), today.plusDays(1).atStartOfDay()};
+        LocalDateTime now = LocalDateTime.now();
+        return new LocalDateTime[]{today.atStartOfDay(), now};
     }
 
     public LocalDateTime[] getWeeklyRange() {
         LocalDate today = LocalDate.now();
         LocalDate startOfWeek = today.with(DayOfWeek.MONDAY);
-        return new LocalDateTime[]{startOfWeek.atStartOfDay(), today.plusDays(1).atStartOfDay()};
+        LocalDateTime now = LocalDateTime.now();
+        return new LocalDateTime[]{startOfWeek.atStartOfDay(), now};
     }
 
     public LocalDateTime[] getMonthlyRange() {
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now().minusDays(1);
         LocalDate startOfMonth = today.withDayOfMonth(1);
-        return new LocalDateTime[]{startOfMonth.atStartOfDay(), today.plusDays(1).atStartOfDay()};
+        LocalDateTime now = LocalDateTime.now();
+        return new LocalDateTime[]{startOfMonth.atStartOfDay(), now};
     }
 
     @Cacheable(value = "dailyRanking")

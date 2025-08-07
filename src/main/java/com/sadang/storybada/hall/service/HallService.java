@@ -71,7 +71,7 @@ public class HallService {
         }
 
         int currentPage = hallPage.getNumber();
-        int totalPages = hallPage.getTotalPages();
+        int totalPages = (hallList.size() + PAGE_HALL_COUNT - 1) / PAGE_HALL_COUNT;
 
         if (totalPages == 0) {
             totalPages = 1;
@@ -92,7 +92,7 @@ public class HallService {
         int nextGroupPage = (endPage + 1) >= totalPages ? totalPages - 1 : endPage + 1;
 
         return PaginationDTO.builder().hallPage(hallPage).hallDTOList(hallDTOList).startPage(startPage).endPage(endPage)
-                .hasPrevGroup(hasPrevGroup).hasNextGroup(hasNextGroup).prevGroupPage(prevGroupPage).nextGroupPage(nextGroupPage).build();
+                .hasPrevGroup(hasPrevGroup).hasNextGroup(hasNextGroup).prevGroupPage(prevGroupPage).nextGroupPage(nextGroupPage).startDate(range[0]).endDate(range[1]).build();
     }
 
 }

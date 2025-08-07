@@ -47,7 +47,31 @@ public class HallController {
     }
 
     @GetMapping("/ranking/daily")
-    public String hallRanking(HttpSession session, Model model, @RequestParam(defaultValue = "1") int page) {
+    public String dailyHallRanking(HttpSession session, Model model, @RequestParam(defaultValue = "1") int page) {
+
+        UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
+
+        if (userDTO != null) {
+            UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
+            session.setAttribute("userDTO", newUserDTO);
+        }
+
+        // 좌측 전당 관련
+        LocalDateTime[] range = leftHallService.getDailyRange();
+        List<LeftHallDTO> leftHallDTOList = leftHallService.getDailyRanking();
+
+        model.addAttribute("range", range);
+        model.addAttribute("leftHallDTOList", leftHallDTOList);
+
+        // pagination 관련
+        PaginationDTO hallPaginationDTO = hallService.getDailyHallPaginationDTO(page, leftHallService.getDailyRange());
+        model.addAttribute("hallPaginationDTO", hallPaginationDTO);
+
+        return "hall/ranking";
+    }
+
+    @GetMapping("/ranking/weekly")
+    public String weeklyHallRanking(HttpSession session, Model model, @RequestParam(defaultValue = "1") int page) {
 
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
 
@@ -65,7 +89,32 @@ public class HallController {
 
         // pagination 관련
 
-        PaginationDTO hallPaginationDTO = hallService.getDailyHallPaginationDTO(page, range);
+        PaginationDTO hallPaginationDTO = hallService.getDailyHallPaginationDTO(page, leftHallService.getWeeklyRange());
+        model.addAttribute("hallPaginationDTO", hallPaginationDTO);
+
+        return "hall/ranking";
+    }
+
+    @GetMapping("/ranking/monthly")
+    public String monthlyHallRanking(HttpSession session, Model model, @RequestParam(defaultValue = "1") int page) {
+
+        UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
+
+        if (userDTO != null) {
+            UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
+            session.setAttribute("userDTO", newUserDTO);
+        }
+
+        // 좌측 전당 관련
+        LocalDateTime[] range = leftHallService.getDailyRange();
+        List<LeftHallDTO> leftHallDTOList = leftHallService.getDailyRanking();
+
+        model.addAttribute("range", range);
+        model.addAttribute("leftHallDTOList", leftHallDTOList);
+
+        // pagination 관련
+
+        PaginationDTO hallPaginationDTO = hallService.getDailyHallPaginationDTO(page, leftHallService.getMonthlyRange());
         model.addAttribute("hallPaginationDTO", hallPaginationDTO);
 
         return "hall/ranking";

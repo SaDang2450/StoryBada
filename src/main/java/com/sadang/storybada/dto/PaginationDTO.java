@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -25,4 +26,6 @@ public class PaginationDTO {
     private int prevGroupPage;
     private int nextGroupPage;
 
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 }
