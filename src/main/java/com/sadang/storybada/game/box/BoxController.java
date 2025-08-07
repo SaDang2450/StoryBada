@@ -86,21 +86,25 @@ public class BoxController {
         UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
         long nameId = newUserDTO.getMainNameId();
 
+        session.setAttribute("userDTO", newUserDTO);
+
         // pagination 관련
         Page<BoxHall> myBoxHistoryPage = boxHallService.getMyHistoryPage(nameId, page);
         List<MyBoxHistoryDTO> myBoxHistoryDTOList = boxHallService.getMyBoxHisotryDTOListPage(nameId, page);
-        Map<String, Map> pagingData = boxHallService.getMyHistoryPageData(nameId, page);
+        PaginationDTO boxPageDTO = boxHallService.makeBoxHallPageDTO(nameId, page);
 
-        session.setAttribute("userDTO", newUserDTO);
-        session.setAttribute("myBoxHistoryDTOList", myBoxHistoryDTOList);
-        session.setAttribute("myBoxHistoryPage", myBoxHistoryPage);
-        session.setAttribute("startPage", pagingData.get("integerMap").get("startPage"));
-        session.setAttribute("endPage", pagingData.get("integerMap").get("endPage"));
-        session.setAttribute("hasPrevGroup", pagingData.get("booleanMap").get("hasPrevGroup"));
-        session.setAttribute("hasNextGroup", pagingData.get("booleanMap").get("hasNextGroup"));
-        session.setAttribute("prevGroupPage", pagingData.get("integerMap").get("prevGroupPage"));
-        session.setAttribute("nextGroupPage", pagingData.get("integerMap").get("nextGroupPage"));
+        model.addAttribute("myBoxHistoryDTOList", myBoxHistoryDTOList);
+        model.addAttribute("myBoxHistoryPage", myBoxHistoryPage);
+        model.addAttribute("boxPageDTO", boxPageDTO);
 
+        // 우측 전당 관련
+        List<HallDTO> boxHallDTOList = hpService.getTop10BoxHallDTO();
+        List<BoxHistoryDTO> boxHistoryDTOList = boxHistoryService.getTop10RecentHistoryDTO();
+
+        model.addAttribute("boxHallDTOList", boxHallDTOList);
+        model.addAttribute("boxRecentDTOList", boxHistoryDTOList);
+
+        // 좌측 전당 관련
         LocalDateTime[] range = leftHallService.getDailyRange();
         List<LeftHallDTO> leftHallDTOList = leftHallService.getDailyRanking();
 

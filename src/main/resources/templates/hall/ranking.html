@@ -19,34 +19,36 @@
                             <li class="nav-items"><a class="nav-link font-larger cursor-pointer header-link">월간</a></li>
                         </ul>
                     </nav>
-                    <div class="hall-ranking-box-contents-div border-1 mt-3 d-flex flex-column">
-                        <div class="mb-3 text-center"><span>YYYY-MM-DD HH시 MM분 ~ YYYY-MM-DD HH시 MM분</span></div>
-                        <table class="table table-borderless table-hall-ranking text-center">
-                            <thead>
-                            <tr>
-                                <th class="column1">순위</th>
-                                <th class="column2">닉네임</th>
-                                <th class="column3">등록 점수</th>
-                                <th class="column4">등록 일자</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr style="height:10px;"></tr>
-                            <tr th:each="hallDTO : ${hallDTOList}" data-name="viewDetail" th:data-ranking-id="${hallDTO.id}" class="cursor-pointer">
-                                <td class="column1" th:text="${hallDTO.ranking}">1</td>
-                                <td class="column2" th:text="${hallDTO.name}">닉네임1</td>
-                                <td class="column3" th:text="${hallDTO.hp}">점수1</td>
-                                <td class="column4" th:text="${#temporals.format(hallDTO.createdAt, 'YYYY-MM-dd HH:mm:SS')}">YYYY-MM-DD HH:mm:SS</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <div id="hallRankingBoxContents" class="hall-ranking-box-contents-div border-1 mt-3 d-flex flex-column">
+                        <th:block th:fragment="hallRankingBoxContents">
+                            <div class="mb-3 text-center"><span>YYYY-MM-DD HH시 MM분</span> ~ <span>YYYY-MM-DD HH시 MM분</span></div>
+                            <table class="table table-borderless table-hall-ranking text-center">
+                                <thead>
+                                <tr>
+                                    <th class="column1">순위</th>
+                                    <th class="column2">닉네임</th>
+                                    <th class="column3">등록 점수</th>
+                                    <th class="column4">등록 일자</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr style="height:10px;"></tr>
+                                <tr th:each="hallDTO : ${hallDTOList}" data-name="viewDetail" th:data-ranking-id="${hallDTO.id}" class="cursor-pointer">
+                                    <td class="column1" th:text="${hallDTO.ranking}">1</td>
+                                    <td class="column2" th:text="${hallDTO.name}">닉네임1</td>
+                                    <td class="column3" th:text="${hallDTO.hp}">점수1</td>
+                                    <td class="column4" th:text="${#temporals.format(hallDTO.createdAt, 'YYYY-MM-dd HH:mm:SS')}">YYYY-MM-DD HH:mm:SS</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </th:block>
                         <div class="d-flex justify-content-center" style="margin-top: auto;">
                             <div class="pagination">
-                                <a th:if="${hasPrevGroup}" th:href="@{/hall/ranking(page=${prevGroupPage})}">[이전]</a>
-                                <span th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                                <a th:if="${hallPageDTO.hasPrevGroup}" th:href="@{/hall/ranking(page=${hallPageDTO.prevGroupPage})}">[이전]</a>
+                                <span th:each="i : ${#numbers.sequence(hallPageDTO.startPage, hallPageDTO.endPage)}">
                                 <a th:href = "@{/hall/ranking(page=${i})}" th:text = "${i}" th:classappend="${(i - 1) == hallPage.number} ? 'current' : ''"></a>
                                 </span>
-                                <a th:if="${hasNextGroup}" th:href="@{/hall/ranking(page=${nextGroupPage})}">[다음]</a>
+                                <a th:if="${hallPageDTO.hasNextGroup}" th:href="@{/hall/ranking(page=${hallPageDTO.nextGroupPage})}">[다음]</a>
                             </div>
                         </div>
                     </div>

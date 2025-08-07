@@ -1,6 +1,7 @@
 package com.sadang.storybada.game.box.service;
 
 import com.sadang.storybada.dto.MyBoxHistoryDTO;
+import com.sadang.storybada.dto.PaginationDTO;
 import com.sadang.storybada.game.box.domain.BoxHall;
 import com.sadang.storybada.game.box.repository.BoxHallBulkRepository;
 import com.sadang.storybada.game.box.repository.BoxHallRepository;
@@ -124,6 +125,34 @@ public class BoxHallService {
         resultMap.put("integerMap", resultIntegerMap);
 
         return resultMap;
+    }
+
+    public PaginationDTO makeBoxHallPageDTO(long nameId, int pageNum) {
+        Page<BoxHall> myBoxHistoryPage = boxHallRepository.findByNameId(nameId, PageRequest.of(pageNum - 1, PAGE_HISTORY_COUNT, Sort.by(Sort.Order.desc("createdAt"))));
+
+        int currentPage = myBoxHistoryPage.getNumber();
+        int totalPages = myBoxHistoryPage.getTotalPages();
+
+        if (totalPages == 0) {
+            totalPages = 1;
+        }
+
+        int currentGroup = currentPage / BLOCK_PAGE_NUM_COUNT;
+        int startPage = currentGroup * BLOCK_PAGE_NUM_COUNT + 1;
+        int endPage = Math.min(startPage + BLOCK_PAGE_NUM_COUNT - 1, totalPages);
+
+        if (startPage > endPage) {
+            endPage = startPage;
+        }
+
+        boolean hasPrevGroup = startPage > 1;
+        boolean hasNextGroup = endPage < totalPages - 1;
+
+        int prevGroupPage = Math.max(startPage - 1, 1);
+        int nextGroupPage = (endPage + 1) >= totalPages ? totalPages - 1 : endPage + 1;
+
+        return PaginationDTO.builder().startPage(startPage).endPage(endPage).hasPrevGroup(hasPrevGroup).hasNextGroup(hasNextGroup).prevGroupPage(prevGroupPage).nextGroupPage(nextGroupPage).build();
+
     }
 
 //    public Map<String, Object> getPageList(long nameId, int pageNum) {

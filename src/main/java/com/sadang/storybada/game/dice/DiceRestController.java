@@ -2,19 +2,18 @@ package com.sadang.storybada.game.dice;
 
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.game.dice.service.DiceBufferService;
+import com.sadang.storybada.game.dice.service.DiceHistoryService;
 import com.sadang.storybada.hp.service.HpService;
 import com.sadang.storybada.response.ApiResponse;
 import com.sadang.storybada.response.ResponseCode;
 import com.sadang.storybada.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/game/dice")
@@ -22,6 +21,7 @@ import java.util.Map;
 public class DiceRestController {
 
     private final DiceBufferService diceBufferService;
+    private final DiceHistoryService diceHistoryService;
     private final UserService userService;
     private final HpService hpService;
 
@@ -48,7 +48,7 @@ public class DiceRestController {
     }
 
     @PostMapping("/reload")
-    public Map<String,Object> reloadCurrentUserDTO(HttpSession session) {
+    public Map<String, Object> reloadCurrentUserDTO(HttpSession session) {
         Map<String, Object> resultMap = new HashMap<>();
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
         UserDTO newUserDTO = userService.reloadCurrentUserDTO(userDTO.getId());
@@ -62,5 +62,35 @@ public class DiceRestController {
         resultMap.put("diceBettingTotal", diceBettingTotal);
 
         return resultMap;
+    }
+
+    @GetMapping("/roll")
+    public ApiResponse<Integer> diceRoll(HttpSession session) {
+        boolean recentResult = diceHistoryService.getVeryRecentResult();
+
+        Random random = new Random();
+        int randomNumber = random.nextInt(3);
+        if (recentResult) {
+            // 홀수
+            switch (randomNumber) {
+                case 0:
+                    return ApiResponse.success(1);
+                case 1:
+                    return ApiResponse.success(3);
+                case 2:
+                    return ApiResponse.success(5);
+            }
+        } else {
+            // 짝수
+            switch (randomNumber) {
+                case 0:
+                    return ApiResponse.success(2);
+                case 1:
+                    return ApiResponse.success(4);
+                case 2:
+                    return ApiResponse.success(6);
+            }
+        }
+        return ApiResponse.fail(ResponseCode.SUCCESS);
     }
 }

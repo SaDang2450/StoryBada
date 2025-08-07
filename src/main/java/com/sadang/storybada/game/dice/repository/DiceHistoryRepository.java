@@ -8,4 +8,6 @@ import java.util.List;
 public interface DiceHistoryRepository extends JpaRepository<DiceHistory,Long> {
 
     List<DiceHistory> findTop10ByOrderByCreatedAtDesc();
+
+    DiceHistory findTop1ByOrderByCreatedAtDesc();
 }

@@ -2,7 +2,7 @@ package com.sadang.storybada.hall.service;
 
 import com.sadang.storybada.common.FileManager;
 import com.sadang.storybada.dto.HallDTO;
-import com.sadang.storybada.dto.LeftHallDTO;
+import com.sadang.storybada.dto.PaginationDTO;
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.hall.domain.Hall;
 import com.sadang.storybada.hall.repository.HallRepository;
@@ -10,18 +10,12 @@ import com.sadang.storybada.hp.service.HpService;
 import com.sadang.storybada.user.service.UserService;
 import jakarta.persistence.PersistenceException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -78,11 +72,9 @@ public class HallService {
         return hallDTOList;
     }
 
-    public Map<String, Map> getHallPageData(int pageNum) {
+    public PaginationDTO makeHallPageDTO(int pageNum) {
+
         Page<Hall> page = hallRepository.findAll(PageRequest.of(pageNum - 1, PAGE_HALL_COUNT, Sort.by(Sort.Order.desc("hp"))));
-        Map<String, Map> resultMap = new HashMap<>();
-        Map<String, Boolean> resultBooleanMap = new HashMap<>();
-        Map<String, Integer> resultIntegerMap = new HashMap<>();
 
         int currentPage = page.getNumber();
         int totalPages = page.getTotalPages();
@@ -105,21 +97,8 @@ public class HallService {
         int prevGroupPage = Math.max(startPage - 1, 1);
         int nextGroupPage = (endPage + 1) >= totalPages ? totalPages - 1 : endPage + 1;
 
-        resultBooleanMap.put("hasPrevGroup", hasPrevGroup);
-        resultBooleanMap.put("hasNextGroup", hasNextGroup);
+        return PaginationDTO.builder().startPage(startPage).endPage(endPage).hasPrevGroup(hasPrevGroup).hasNextGroup(hasNextGroup).prevGroupPage(prevGroupPage).nextGroupPage(nextGroupPage).build();
 
-        resultIntegerMap.put("startPage", startPage);
-        resultIntegerMap.put("endPage", endPage);
-        resultIntegerMap.put("prevGroupPage", prevGroupPage);
-        resultIntegerMap.put("nextGroupPage", nextGroupPage);
-
-        resultMap.put("booleanMap", resultBooleanMap);
-        resultMap.put("integerMap", resultIntegerMap);
-
-        return resultMap;
     }
-
-    // 일간 주간 월간 랭킹 관련 (left-side-zone)
-
 
 }

@@ -1,6 +1,7 @@
 package com.sadang.storybada.hall;
 
 import com.sadang.storybada.dto.HallDTO;
+import com.sadang.storybada.dto.PaginationDTO;
 import com.sadang.storybada.dto.LeftHallDTO;
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.hall.domain.Hall;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/hall")
@@ -59,17 +59,13 @@ public class HallController {
         // pagination 관련
         Page<Hall> hallPage = hallService.getHallPage(page);
         List<HallDTO> hallDTOList = hallService.getHallDTOList(page);
-        Map<String, Map> pagingData = hallService.getHallPageData(page);
+        PaginationDTO hallPageDTO = hallService.makeHallPageDTO(page);
 
-        model.addAttribute("hallDTOList", hallDTOList);
         model.addAttribute("hallPage", hallPage);
-        model.addAttribute("startPage", pagingData.get("integerMap").get("startPage"));
-        model.addAttribute("endPage", pagingData.get("integerMap").get("endPage"));
-        model.addAttribute("hasPrevGroup", pagingData.get("booleanMap").get("hasPrevGroup"));
-        model.addAttribute("hasNextGroup", pagingData.get("booleanMap").get("hasNextGroup"));
-        model.addAttribute("prevGroupPage", pagingData.get("integerMap").get("prevGroupPage"));
-        model.addAttribute("nextGroupPage", pagingData.get("integerMap").get("nextGroupPage"));
+        model.addAttribute("hallDTOList", hallDTOList);
+        model.addAttribute("hallPageDTO", hallPageDTO);
 
+        //
         LocalDateTime[] range = leftHallService.getDailyRange();
         List<LeftHallDTO> leftHallDTOList = leftHallService.getDailyRanking();
 

@@ -31,4 +31,10 @@ public class DiceHistoryService {
 
         return diceHistoryDTOList;
     }
+
+    public boolean getVeryRecentResult() {
+
+        DiceHistory theRecentResult = diceHistoryRepository.findTop1ByOrderByCreatedAtDesc();
+        return theRecentResult.isResult();
+    }
 }

@@ -8,7 +8,10 @@
         <div class="game-zone">
             <div class="dice border-1 d-flex flex-column align-items-center justify-content-between">
                 <div class="h1">주사위 홀짝</div>
-                <div class="dice-game border-1"></div>
+                <div class="dice-game border-1">
+                    <div id="dice" class="dice">🎲</div>
+                    <p id="result"></p>
+                </div>
                 <table class="table table-borderless table-dice-info text-center font-larger mb-0">
                     <tbody>
                     <tr>
@@ -160,6 +163,28 @@
                 },
                 error: function() {
                     alert("error: reload error");
+                }
+            })
+
+            let dice = $("#dice");
+            let resultText = $("#result");
+
+            $.ajax({
+                type: "GET",
+                url: "/game/dice/roll",
+                success: function(response) {
+                    let result = response.data;
+
+                    dice.css("transform", "rotate(720deg)");
+
+                    setTimeout(function() {
+                        dice.text(result);
+                        dice.css("transform", "rotate(0deg)");
+                        resultText.text(`결과: ${result}`);
+                    }, 1000);
+                },
+                error: function() {
+                    alert("error: dice roll error");
                 }
             })
         }
