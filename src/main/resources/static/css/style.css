@@ -141,9 +141,16 @@ header {
     border-bottom: 1px solid black;
 }
 
-.login-box-contents,
+.login-box-contents {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    height: 355px;
+}
+
 .mypage-box-contents {
-    padding-top: 40px
+    padding-top : 40px;
+    padding-bottom: 40px;
+    height: 725px;
 }
 
 .table-login,
@@ -517,6 +524,7 @@ header {
     word-break: break-all;
     overflow-y: scroll;
 }
+
 .hall-register-box > div > div > .form-control {
     width: 600px;
     height: 300px;
@@ -562,7 +570,7 @@ header {
 }
 
 .pagination {
-    margin-top: 10px;
+    margin-top: auto;
 }
 
 .pagination > a,

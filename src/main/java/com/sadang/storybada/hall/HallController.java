@@ -64,7 +64,7 @@ public class HallController {
         model.addAttribute("leftHallDTOList", leftHallDTOList);
 
         // pagination 관련
-        PaginationDTO hallPaginationDTO = hallService.getDailyHallPaginationDTO(page, leftHallService.getDailyRange());
+        PaginationDTO hallPaginationDTO = hallService.getHallPaginationDTO(page, leftHallService.getDailyRange(), "daily");
         model.addAttribute("hallPaginationDTO", hallPaginationDTO);
 
         return "hall/ranking";
@@ -89,7 +89,7 @@ public class HallController {
 
         // pagination 관련
 
-        PaginationDTO hallPaginationDTO = hallService.getDailyHallPaginationDTO(page, leftHallService.getWeeklyRange());
+        PaginationDTO hallPaginationDTO = hallService.getHallPaginationDTO(page, leftHallService.getWeeklyRange(), "weekly");
         model.addAttribute("hallPaginationDTO", hallPaginationDTO);
 
         return "hall/ranking";
@@ -114,7 +114,7 @@ public class HallController {
 
         // pagination 관련
 
-        PaginationDTO hallPaginationDTO = hallService.getDailyHallPaginationDTO(page, leftHallService.getMonthlyRange());
+        PaginationDTO hallPaginationDTO = hallService.getHallPaginationDTO(page, leftHallService.getMonthlyRange(), "monthly");
         model.addAttribute("hallPaginationDTO", hallPaginationDTO);
 
         return "hall/ranking";

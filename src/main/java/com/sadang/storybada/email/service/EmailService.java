@@ -40,7 +40,7 @@ public class EmailService {
                 "   <span>" + authNumber + "</span>" +
                 "</div>";
         sendEmail(setFrom, email, title, content);
-        return makeRandomNumber();
+        return authNumber;
 
 
 //        redisUtil.saveAuthNumber(Integer.toString(authNumber), email, EXPIRATION);

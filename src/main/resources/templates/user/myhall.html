@@ -7,29 +7,31 @@
         <div class="mypage-box-header d-flex align-items-center p-3">
             <i class="bi bi-file-earmark-person h3 m-0"></i><span class="h3 m-0">마이 전당 기록</span>
         </div>
-        <div class="mypage-box-contents py-5 d-flex justify-content-center">
-            <table class="table table-borderless table-myhall text-center">
-                <thead>
-                <tr>
-                    <th>닉네임</th>
-                    <th>등록 포인트</th>
-                    <th>등록 일자</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr style="height:10px;"></tr>
-                <tr data-name="viewDetail" data-ranking-id="1" class="cursor-pointer">
-                    <td>닉네임1</td>
-                    <td>포인트1</td>
-                    <td>YYYY-MM-DD HH:mm:SS</td>
-                </tr>
-                <tr data-name="viewDetail" data-ranking-id="2" class="cursor-pointer">
-                    <td>닉네임2</td>
-                    <td>포인트2</td>
-                    <td>YYYY-MM-DD HH:mm:SS</td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="mypage-box-contents d-flex flex-column align-items-center justify-content-center">
+                <table class="table table-borderless table-myhall text-center">
+                    <thead>
+                    <tr>
+                        <th>닉네임</th>
+                        <th>등록 포인트</th>
+                        <th>등록 일자</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr style="height:10px;"></tr>
+                    <tr th:each="myHallDTO : ${myHallPaginationDTO.hallDTOList}" data-name="viewDetail" data-ranking-id="1" class="cursor-pointer">
+                        <td><span th:text="${myHallDTO.name}">닉네임 1</span>닉네임1</td>
+                        <td><span th:text="${myHallDTO.hp}" >포인트 1</span>포인트1</td>
+                        <td><span th:text="${#temporals.format(myHallDTO.createdAt,'YYYY년 MM월 dd일 HH:mm:SS')}">YYYY-MM-dd HH:mm:SS</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <a th:if="${myHallPaginationDTO.hasPrevGroup}" th:href="@{/user/myhall(page=${myHallPaginationDTO.prevGroupPage})}">[이전]</a>
+                    <span th:each="i : ${#numbers.sequence(myHallPaginationDTO.startPage, myHallPaginationDTO.endPage)}">
+                        <a th:href = "@{/user/myhall(page=${i})}" th:text = "${i}" th:classappend="${(i - 1) == myHallPaginationDTO.hallPage.number} ? 'current' : ''"></a>
+                    </span>
+                    <a th:if="${myHallPaginationDTO.hasNextGroup}" th:href="@{/user/myhall(page=${myHallPaginationDTO.nextGroupPage})}">[다음]</a>
+                </div>
         </div>
     </div>
 
