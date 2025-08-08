@@ -1,5 +1,6 @@
 package com.sadang.storybada.game.dice;
 
+import com.sadang.storybada.common.LoginCounter;
 import com.sadang.storybada.dto.DiceHistoryDTO;
 import com.sadang.storybada.dto.HallDTO;
 import com.sadang.storybada.dto.LeftHallDTO;
@@ -50,6 +51,9 @@ public class DiceController {
 
         model.addAttribute("range", range);
         model.addAttribute("leftHallDTOList", leftHallDTOList);
+
+        // 현재 동시 접속자 노출
+        model.addAttribute("loggedInCount", LoginCounter.getSessionCounter());
 
         return "game/dice";
     }

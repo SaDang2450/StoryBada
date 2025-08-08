@@ -1,5 +1,6 @@
 package com.sadang.storybada.hall;
 
+import com.sadang.storybada.common.LoginCounter;
 import com.sadang.storybada.dto.HallDTO;
 import com.sadang.storybada.dto.PaginationDTO;
 import com.sadang.storybada.dto.LeftHallDTO;
@@ -43,6 +44,9 @@ public class HallController {
         model.addAttribute("range", range);
         model.addAttribute("leftHallDTOList", leftHallDTOList);
 
+        // 현재 동시 접속자 노출
+        model.addAttribute("loggedInCount", LoginCounter.getSessionCounter());
+
         return "hall/register";
     }
 
@@ -67,6 +71,9 @@ public class HallController {
         PaginationDTO hallPaginationDTO = hallService.getHallPaginationDTO(page, leftHallService.getDailyRange(), "daily");
         model.addAttribute("hallPaginationDTO", hallPaginationDTO);
 
+        // 현재 동시 접속자 노출
+        model.addAttribute("loggedInCount", LoginCounter.getSessionCounter());
+
         return "hall/ranking";
     }
 
@@ -88,9 +95,11 @@ public class HallController {
         model.addAttribute("leftHallDTOList", leftHallDTOList);
 
         // pagination 관련
-
         PaginationDTO hallPaginationDTO = hallService.getHallPaginationDTO(page, leftHallService.getWeeklyRange(), "weekly");
         model.addAttribute("hallPaginationDTO", hallPaginationDTO);
+
+        // 현재 동시 접속자 노출
+        model.addAttribute("loggedInCount", LoginCounter.getSessionCounter());
 
         return "hall/ranking";
     }
@@ -113,9 +122,11 @@ public class HallController {
         model.addAttribute("leftHallDTOList", leftHallDTOList);
 
         // pagination 관련
-
         PaginationDTO hallPaginationDTO = hallService.getHallPaginationDTO(page, leftHallService.getMonthlyRange(), "monthly");
         model.addAttribute("hallPaginationDTO", hallPaginationDTO);
+
+        // 현재 동시 접속자 노출
+        model.addAttribute("loggedInCount", LoginCounter.getSessionCounter());
 
         return "hall/ranking";
     }
@@ -140,6 +151,9 @@ public class HallController {
 
         model.addAttribute("range", range);
         model.addAttribute("leftHallDTOList", leftHallDTOList);
+
+        // 현재 동시 접속자 노출
+        model.addAttribute("loggedInCount", LoginCounter.getSessionCounter());
 
         return "hall/ranking-detail";
     }

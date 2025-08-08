@@ -1,5 +1,6 @@
 package com.sadang.storybada.game.lotto;
 
+import com.sadang.storybada.common.LoginCounter;
 import com.sadang.storybada.dto.*;
 import com.sadang.storybada.game.lotto.service.LottoBufferService;
 import com.sadang.storybada.game.lotto.service.LottoHallService;
@@ -48,6 +49,9 @@ public class LottoController {
 
         model.addAttribute("range", range);
         model.addAttribute("leftHallDTOList", leftHallDTOList);
+
+        // 현재 동시 접속자 노출
+        model.addAttribute("loggedInCount", LoginCounter.getSessionCounter());
 
         return "game/lotto";
     }

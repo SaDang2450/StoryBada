@@ -4,6 +4,7 @@ import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.hall.domain.Hall;
 import com.sadang.storybada.hall.service.HallService;
 import com.sadang.storybada.response.ApiResponse;
+import com.sadang.storybada.response.ResponseCode;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,11 @@ public class HallRestController {
     public ApiResponse<Long> hallCreate(HttpSession session, @RequestParam String contents, @RequestParam(required = false) MultipartFile imageFile) {
 
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
+
+        // Validation
+        if(userDTO.getPoint() == 0) {
+            return ApiResponse.fail(ResponseCode.POINT_NOT_ENOUGH);
+        }
 
         Hall hall = hallService.addHall(userDTO, contents, imageFile);
 

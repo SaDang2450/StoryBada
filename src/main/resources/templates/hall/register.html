@@ -59,6 +59,11 @@
             processData: false,
             contentType: false,
             success: function(response) {
+                if(response.code === 4001) {
+                    alert("0 포인트 등록은 불가합니다.");
+                    return;
+                }
+
                 if(response.data !== 0) {
                     alert("전당 등록 완료");
                     location.href = "/hall/ranking/detail?id=" + response.data;

@@ -23,7 +23,8 @@ public enum ResponseCode {
     // 4000 번대 - 게임 관련 에러
     POINT_NOT_ENOUGH(4001, "point is not enough"),
     DICE_REVERSE_BETTING(4002, "you have bet opposite side"),
-    LOTTO_ALREADY_BOUGHT(4003, "you have bought a lotto");
+    LOTTO_ALREADY_BOUGHT(4003, "you have bought a lotto"),
+    POINT_INVALID_VALUE(4004, "invalid betting value");
 
 
     private final int code;

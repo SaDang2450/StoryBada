@@ -1,9 +1,9 @@
 package com.sadang.storybada.frontpage;
 
+import com.sadang.storybada.common.LoginCounter;
 import com.sadang.storybada.dto.LeftHallDTO;
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.hall.service.LeftHallService;
-import com.sadang.storybada.user.domain.User;
 import com.sadang.storybada.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +37,9 @@ public class FrontController {
         model.addAttribute("range", range);
         model.addAttribute("leftHallDTOList", leftHallDTOList);
 
+        // 현재 동시 접속자 노출
+        model.addAttribute("loggedInCount", LoginCounter.getSessionCounter());
+
         return "frontpage/frontpage";
     }
 
@@ -56,6 +59,10 @@ public class FrontController {
         model.addAttribute("range", range);
         model.addAttribute("leftHallDTOList", leftHallDTOList);
 
+        // 현재 동시 접속자 노출
+        model.addAttribute("loggedInCount", LoginCounter.getSessionCounter());
+
         return "frontpage/information";
     }
+
 }

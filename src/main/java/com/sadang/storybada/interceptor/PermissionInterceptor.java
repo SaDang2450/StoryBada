@@ -25,7 +25,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
             }
         }
 
-        if (uri.startsWith("/user/register")) {
+        if (uri.startsWith("/user/register") || uri.startsWith("/user/find")) {
             if (userDTO != null) {
                 response.sendRedirect("/frontpage");
                 return false;

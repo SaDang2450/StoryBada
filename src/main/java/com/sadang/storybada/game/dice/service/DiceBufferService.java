@@ -35,6 +35,11 @@ public class DiceBufferService {
             return ResponseCode.DICE_REVERSE_BETTING;
         }
 
+        if (hp <= 0) {
+
+            return ResponseCode.POINT_INVALID_VALUE;
+        }
+
         return ResponseCode.SUCCESS;
     }
 

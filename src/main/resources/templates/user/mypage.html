@@ -46,7 +46,7 @@
                     <table class="table table-borderless table-mypage2 text-center mt-4">
                         <tbody>
                         <tr>
-                            <td class="column1"><a href="#" class="user-info-href">출석체크</a></td>
+                            <td class="column1"><a id="attendance" href="#" class="user-info-href">출석체크</a></td>
                             <td class="column2"><a href="/user/change" class="user-info-href">캐릭터 전환</a></td>
                         </tr>
                         <tr>
@@ -111,7 +111,7 @@
         if(confirm("회원 탈퇴 하시겠습니까? \n" +
             "등록된 전당 정보는 삭제되지 않습니다.") === true) {
             $.ajax({
-                type: "POST",
+                type: "DELETE",
                 url: "/user/unregister",
                 data: {
                     "password": password

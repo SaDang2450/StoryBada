@@ -110,7 +110,7 @@
         }
 
         if(!regHp.test(hp)) {
-            alert("베팅 금액 숫자로 입력");
+            alert("베팅 금액 정수로 입력");
             return;
         }
         //
@@ -128,6 +128,8 @@
                 } else if (response.code === 4001) {
                     alert("error : dice betting fail\n" + response.message);
                 } else if (response.code === 4002) {
+                    alert("error : dice betting fail\n" + response.message);
+                } else if(response.code === 4004) {
                     alert("error : dice betting fail\n" + response.message);
                 } else {
                     alert("error : dice betting fail");

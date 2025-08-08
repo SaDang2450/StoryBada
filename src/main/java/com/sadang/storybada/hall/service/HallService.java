@@ -66,7 +66,7 @@ public class HallService {
         List<Hall> hallList = hallPage.getContent();
         List<HallDTO> hallDTOList = new ArrayList<>();
 
-        long ranking = 1;
+        long ranking = (long) (pageNum - 1) * PAGE_HALL_COUNT + 1;
         for (Hall hall : hallList) {
             hallDTOList.add(HallDTO.builder().id(hall.getId()).name(hall.getName()).hp(hall.getHp()).ranking(ranking++).createdAt(hall.getCreatedAt()).build());
         }
@@ -102,13 +102,13 @@ public class HallService {
         List<Hall> hallList = hallPage.getContent();
         List<HallDTO> hallDTOList = new ArrayList<>();
 
-        long ranking = 1;
+        long ranking = (long) (pageNum - 1) * PAGE_HALL_COUNT + 1;
         for (Hall hall : hallList) {
             hallDTOList.add(HallDTO.builder().id(hall.getId()).name(hall.getName()).hp(hall.getHp()).ranking(ranking++).createdAt(hall.getCreatedAt()).build());
         }
 
         int currentPage = hallPage.getNumber();
-        int totalPages =  (hallPage.getNumber() + 1) / PAGE_HALL_COUNT;
+        int totalPages = (hallPage.getNumber() + 1) / PAGE_HALL_COUNT;
 
         if (totalPages == 0) {
             totalPages = 1;

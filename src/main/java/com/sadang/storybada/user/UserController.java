@@ -1,5 +1,6 @@
 package com.sadang.storybada.user;
 
+import com.sadang.storybada.common.LoginCounter;
 import com.sadang.storybada.dto.PaginationDTO;
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.hall.service.HallService;
@@ -71,7 +72,11 @@ public class UserController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
 
-        session.removeAttribute("userDTO");
+        if(session.getAttribute("userDTO") != null) {
+            LoginCounter.decrement();
+        }
+
+        session.invalidate();
 
         return "redirect:/frontpage";
     }

@@ -19,7 +19,7 @@
             <div class="row mb-3 mt-2 col-12" th:text="${session.userDTO.getLoginId()}">로그인 아이디 1</div>
             <div class="row ml-1 my-3 col-12" th:text="${session.userDTO.getMainName()}" >현재 캐릭터 명</div>
             <div class="row ml-1 my-3"><span class="col-7">현재 포인트</span> <span id="currentPoint" th:text="${session.userDTO.getPoint()}"> 10,000</span></div>
-            <div class="row ml-1 my-3"><span class="col-7"><a href="#" class="user-info-href">출석체크</a></span><span><a
+            <div class="row ml-1 my-3"><span class="col-7"><a id="attendance" href="#" class="user-info-href">출석체크</a></span><span><a
                     href="/hall/register" class="user-info-href">전당등록</a></span></div>
             <div class="row ml-1 my-3"><span class="col-12"><a href="/user/change"
                                                                class="user-info-href">캐릭터전환</a></span></div>
@@ -29,7 +29,7 @@
         </div>
     </th:block>
     <!--            th:text 구문 이용해서 가능할까?-->
-    <div class="concurrent text-center">현재 동시 접속자 : ***</div>
+    <div class="concurrent text-center">현재 동시 접속자 : <span th:text="${loggedInCount}">***</span></div>
 
     <div class="simple-hall border-1 mt-auto p-3">
         <div class="d-flex justify-content-between align-items-end">
@@ -78,6 +78,9 @@
 </article>
 
 <script>
+    $("#attendance").on("click", function() {
+        alert("공사중");
+    })
 
     $("#loginForm").on("submit", function (e) {
         // form 태그 원래의 기능을 제거

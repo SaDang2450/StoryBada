@@ -1,14 +1,13 @@
 package com.sadang.storybada.user;
 
+import com.sadang.storybada.common.LoginCounter;
 import com.sadang.storybada.dto.UserDTO;
-import com.sadang.storybada.email.service.EmailService;
 import com.sadang.storybada.name.service.NameService;
 import com.sadang.storybada.response.ApiResponse;
 import com.sadang.storybada.response.ResponseCode;
 import com.sadang.storybada.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,11 +27,16 @@ public class UserRestController {
 
         if (userDTO == null) {
             return ApiResponse.fail(ResponseCode.USER_LOGIN_FAIL);
-        } else {
-            session.setAttribute("userDTO", userDTO);
-
-            return ApiResponse.success(null);
         }
+
+        if (session.getAttribute("userDTO") == null) {
+            LoginCounter.increment();
+        }
+
+        session.setAttribute("userDTO", userDTO);
+
+        return ApiResponse.success(null);
+
     }
 
     @PostMapping("/create")
@@ -77,7 +81,7 @@ public class UserRestController {
         return ApiResponse.success(userService.updatePassword(userDTO, password));
     }
 
-    @PostMapping("/unregister")
+    @DeleteMapping("/unregister")
     public ApiResponse<ResponseCode> passwordConfirm(HttpSession session, @RequestParam String password) {
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
 
