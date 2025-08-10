@@ -8,10 +8,46 @@
         <div class="game-zone">
             <div class="dice border-1 d-flex flex-column align-items-center justify-content-between">
                 <div class="h1">주사위 홀짝</div>
-                <div class="dice-game border-1">
-                    <div id="dice" class="dice">🎲</div>
-                    <p id="result"></p>
+                <div class="dice-game d-flex align-items-center justify-content-center">
+                    <div>
+                        <div id="dice" class="dice-content" style="">
+                            <div class="face front">
+                                <div class="pip" style="grid-column-start: 2; grid-row-start: 2;"></div>
+                            </div>
+                            <div class="face back">
+                                <div class="pip" style="grid-column-start: 1; grid-row-start: 1;"></div>
+                                <div class="pip" style="grid-column-start: 3; grid-row-start: 1;"></div>
+                                <div class="pip" style="grid-column-start: 1; grid-row-start: 2;"></div>
+                                <div class="pip" style="grid-column-start: 3; grid-row-start: 2;"></div>
+                                <div class="pip" style="grid-column-start: 1; grid-row-start: 3;"></div>
+                                <div class="pip" style="grid-column-start: 3; grid-row-start: 3;"></div>
+                            </div>
+                            <div class="face right">
+                                <div class="pip" style="grid-column-start: 1; grid-row-start: 1;"></div>
+                                <div class="pip" style="grid-column-start: 3; grid-row-start: 1;"></div>
+                                <div class="pip" style="grid-column-start: 1; grid-row-start: 3;"></div>
+                                <div class="pip" style="grid-column-start: 3; grid-row-start: 3;"></div>
+                            </div>
+                            <div class="face left">
+                                <div class="pip" style="grid-column-start: 1; grid-row-start: 1;"></div>
+                                <div class="pip" style="grid-column-start: 2; grid-row-start: 2;"></div>
+                                <div class="pip" style="grid-column-start: 3; grid-row-start: 3;"></div>
+                            </div>
+                            <div class="face top">
+                                <div class="pip" style="grid-column-start: 1; grid-row-start: 1;"></div>
+                                <div class="pip" style="grid-column-start: 3; grid-row-start: 3;"></div>
+                            </div>
+                            <div class="face bottom">
+                                <div class="pip" style="grid-column-start: 1; grid-row-start: 1;"></div>
+                                <div class="pip" style="grid-column-start: 3; grid-row-start: 1;"></div>
+                                <div class="pip" style="grid-column-start: 2; grid-row-start: 2;"></div>
+                                <div class="pip" style="grid-column-start: 1; grid-row-start: 3;"></div>
+                                <div class="pip" style="grid-column-start: 3; grid-row-start: 3;"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <p id="result" class="font-larger mt-3">결과 : X</p>
                 <table class="table table-borderless table-dice-info text-center font-larger mb-0">
                     <tbody>
                     <tr>
@@ -20,7 +56,8 @@
                     </tr>
                     <tr>
                         <td style="width:70%">현재 베팅 포인트</td>
-                        <td style="width:30%"><span id="diceBettingTotal" th:text="${diceBettingTotal}">3,000</span></td>
+                        <td style="width:30%"><span id="diceBettingTotal" th:text="${diceBettingTotal}">3,000</span>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -49,18 +86,18 @@
                         <div th:fragment="tableDiceHallFragment" class="d-flex justify-content-center">
                             <table class="table table-sm table-borderless font-small table-dice-hall text-center">
                                 <thead>
-                                    <tr>
-                                        <th>순위</th>
-                                        <th>닉네임</th>
-                                        <th>획득 점수</th>
-                                    </tr>
+                                <tr>
+                                    <th>순위</th>
+                                    <th>닉네임</th>
+                                    <th>획득 점수</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:each="diceHallDTO : ${diceHallDTOList}">
-                                        <td class="column1"><span th:text="${diceHallDTO.ranking}">1</span></td>
-                                        <td class="column2"><span th:text="${diceHallDTO.name}">닉네임1</span></td>
-                                        <td class="column3"><span th:text="${diceHallDTO.hp}">점수1</span></td>
-                                    </tr>
+                                <tr th:each="diceHallDTO : ${diceHallDTOList}">
+                                    <td class="column1"><span th:text="${diceHallDTO.ranking}">1</span></td>
+                                    <td class="column2"><span th:text="${diceHallDTO.name}">닉네임1</span></td>
+                                    <td class="column3"><span th:text="${diceHallDTO.hp}">점수1</span></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -74,18 +111,19 @@
                         <div th:fragment="tableDiceRecentFragment" class="d-flex justify-content-center">
                             <table class="table table-sm table-borderless font-small table-dice-recent text-center">
                                 <thead>
-                                    <tr>
-                                        <th>게임 회차</th>
-                                        <th>결과</th>
-                                        <th>득점 인원</th>
-                                    </tr>
+                                <tr>
+                                    <th>게임 회차</th>
+                                    <th>결과</th>
+                                    <th>득점 인원</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:each="diceRecentDTO : ${diceRecentDTOList}">
-                                        <td class="column1"><span th:text="${diceRecentDTO.game}">게임 회차</span></td>
-                                        <td class="column2"><span th:if="${diceRecentDTO.result}">홀수</span><span th:unless="${diceRecentDTO.result}">짝수</span></td>
-                                        <td class="column3"><span th:text="${diceRecentDTO.count}">득점 인원</span></td>
-                                    </tr>
+                                <tr th:each="diceRecentDTO : ${diceRecentDTOList}">
+                                    <td class="column1"><span th:text="${diceRecentDTO.game}">게임 회차</span></td>
+                                    <td class="column2"><span th:if="${diceRecentDTO.result}">홀수</span><span
+                                            th:unless="${diceRecentDTO.result}">짝수</span></td>
+                                    <td class="column3"><span th:text="${diceRecentDTO.count}">득점 인원</span></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -97,6 +135,11 @@
 </section>
 
 <script layout:fragment="script">
+    const dice = $("#dice");
+    const resultEl = $("#result");
+
+    dice[0].style.transform = "rotateX(0deg) rotateY(0deg)";
+
     $("button[name=bettingBtn]").on("click", function () {
         let betting = $(this).data("betting");
         let hp = $("#bettingHp").val();
@@ -109,7 +152,7 @@
             return;
         }
 
-        if(!regHp.test(hp)) {
+        if (!regHp.test(hp)) {
             alert("베팅 금액 정수로 입력");
             return;
         }
@@ -129,7 +172,7 @@
                     alert("error : dice betting fail\n" + response.message);
                 } else if (response.code === 4002) {
                     alert("error : dice betting fail\n" + response.message);
-                } else if(response.code === 4004) {
+                } else if (response.code === 4004) {
                     alert("error : dice betting fail\n" + response.message);
                 } else {
                     alert("error : dice betting fail");
@@ -152,40 +195,72 @@
 
         $("#remainTimeSpan").text(remainTime);
 
-        if(remainTime === 59) {
+        if (remainTime === 59) {
             $("#diceRecent").load("/game/dice/reload/recent");
             $("#diceHall").load("/game/dice/reload/hall");
 
             $.ajax({
                 type: "POST",
-                url:"/game/dice/reload",
-                success: function(response) {
+                url: "/game/dice/reload",
+                success: function (response) {
                     $("#diceBettingTotal").text(response.diceBettingTotal);
                     $("#currentPoint").text(response.userDTO.point);
                 },
-                error: function() {
+                error: function () {
                     alert("error: reload error");
                 }
             })
 
-            let dice = $("#dice");
-            let resultText = $("#result");
-
             $.ajax({
                 type: "GET",
                 url: "/game/dice/roll",
-                success: function(response) {
+                success: function (response) {
+                    // 숫자별 목표 회전 각도 (눈이 앞면)
+                    const targetAngles = {
+                        1: {x: 0, y: 0},
+                        2: {x: -90, y: 0},
+                        3: {x: 0, y: 90},
+                        4: {x: 0, y: -90},
+                        5: {x: 90, y: 0},
+                        6: {x: 180, y: 0}
+                    };
+
+                    let rotX = 0;
+                    let rotY = 0;
+                    let rolling = false;
+
                     let result = response.data;
 
-                    dice.css("transform", "rotate(720deg)");
+                    if (rolling) return;
+                    rolling = true;
+                    resultEl[0].textContent = 'Rolling...';
 
-                    setTimeout(function() {
-                        dice.text(result);
-                        dice.css("transform", "rotate(0deg)");
-                        resultText.text(`결과: ${result}`);
-                    }, 1000);
+                    // 랜덤 회전수 (3~5 바퀴)
+                    const fullTurnsX = (Math.floor(Math.random() * 3) + 3) * 360;
+                    const fullTurnsY = (Math.floor(Math.random() * 3) + 3) * 360;
+
+                    const target = targetAngles[result];
+
+                    const norm = a => ((a % 360) + 360) % 360;
+
+                    const deltaX = (target.x - norm(rotX) + 360) % 360;
+                    const deltaY = (target.y - norm(rotY) + 360) % 360;
+
+                    rotX += fullTurnsX + deltaX;
+                    rotY += fullTurnsY + deltaY;
+
+                    const duration = Math.max(900, 700 + Math.max(fullTurnsX, fullTurnsY) / 360 * 200);
+
+                    dice[0].style.transition = `transform ${duration}ms cubic-bezier(.2,.8,.2,1)`;
+                    void dice[0].offsetWidth;
+                    dice[0].style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+
+                    setTimeout(() => {
+                        resultEl[0].textContent = `결과: ${result}`;
+                        rolling = false;
+                    }, duration + 20);
                 },
-                error: function() {
+                error: function () {
                     alert("error: dice roll error");
                 }
             })

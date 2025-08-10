@@ -273,10 +273,74 @@ header {
 
 /* dice */
 .dice > .dice-game {
-    width: 400px;
+    width: 300px;
     height: 300px;
-    background-color: #D9D9D9;
 }
+
+.dice > .dice-game > div > .dice-content {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1.2s cubic-bezier(.2, .8, .2, 1);
+}
+
+.face {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: white;
+    border-radius: 30px;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4),
+    inset 0 0 15px #ddd;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 8px;
+}
+
+/* 각 면 위치 */
+.face.front {
+    transform: translateZ(100px);
+}
+
+.face.back {
+    transform: rotateY(180deg) translateZ(100px);
+}
+
+.face.right {
+    transform: rotateY(90deg) translateZ(100px);
+}
+
+.face.left {
+    transform: rotateY(-90deg) translateZ(100px);
+}
+
+.face.top {
+    transform: rotateX(90deg) translateZ(100px);
+}
+
+.face.bottom {
+    transform: rotateX(-90deg) translateZ(100px);
+}
+
+.pip {
+    width: 25px;
+    height: 25px;
+    background: radial-gradient(circle at 40% 35%, #111 0%, #111 50%, rgba(0, 0, 0, 0.8) 60%);
+    border-radius: 50%;
+    justify-self: center;
+    align-self: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), inset 0 2px 6px rgba(255, 255, 255, 0.1);
+}
+
+/*#result {*/
+/*    margin-top: 16px;*/
+/*    font-weight: bold;*/
+/*    font-size: 28px;*/
+/*    min-height: 38px;*/
+/*}*/
 
 .dice-betting > div {
     width: 400px;

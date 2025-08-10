@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>3D 주사위 정정본</title>
+    <style>
+
+        .scene {
+            width: 300px;
+            height: 300px;
+            perspective: 600px;
+            margin-bottom: 20px;
+        }
+
+        .dice-content {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(.2, .8, .2, 1);
+        }
+
+        .face {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: white;
+            border-radius: 30px;
+            border: 2px solid #ccc;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4),
+            inset 0 0 15px #ddd;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        /* 각 면 위치 */
+        .face.front {
+            transform: translateZ(150px);
+        }
+
+        .face.back {
+            transform: rotateY(180deg) translateZ(150px);
+        }
+
+        .face.right {
+            transform: rotateY(90deg) translateZ(150px);
+        }
+
+        .face.left {
+            transform: rotateY(-90deg) translateZ(150px);
+        }
+
+        .face.top {
+            transform: rotateX(90deg) translateZ(150px);
+        }
+
+        .face.bottom {
+            transform: rotateX(-90deg) translateZ(150px);
+        }
+
+        /* pip 스타일 */
+        .pip {
+            width: 25px;
+            height: 25px;
+            background: radial-gradient(circle at 40% 35%, #111 0%, #111 50%, rgba(0, 0, 0, 0.8) 60%);
+            border-radius: 50%;
+            justify-self: center;
+            align-self: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), inset 0 2px 6px rgba(255, 255, 255, 0.1);
+        }
+
+        #result {
+            margin-top: 16px;
+            font-weight: bold;
+            font-size: 28px;
+            min-height: 38px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="scene">
+    <div class="dice" id="dice">
+        <div class="face front">
+            <div class="pip" style="grid-column-start: 2; grid-row-start: 2;"></div>
+        </div>
+        <div class="face back">
+            <div class="pip" style="grid-column-start: 1; grid-row-start: 1;"></div>
+            <div class="pip" style="grid-column-start: 3; grid-row-start: 1;"></div>
+            <div class="pip" style="grid-column-start: 1; grid-row-start: 2;"></div>
+            <div class="pip" style="grid-column-start: 3; grid-row-start: 2;"></div>
+            <div class="pip" style="grid-column-start: 1; grid-row-start: 3;"></div>
+            <div class="pip" style="grid-column-start: 3; grid-row-start: 3;"></div>
+        </div>
+        <div class="face right">
+            <div class="pip" style="grid-column-start: 1; grid-row-start: 1;"></div>
+            <div class="pip" style="grid-column-start: 3; grid-row-start: 1;"></div>
+            <div class="pip" style="grid-column-start: 1; grid-row-start: 3;"></div>
+            <div class="pip" style="grid-column-start: 3; grid-row-start: 3;"></div>
+        </div>
+        <div class="face left">
+            <div class="pip" style="grid-column-start: 1; grid-row-start: 1;"></div>
+            <div class="pip" style="grid-column-start: 2; grid-row-start: 2;"></div>
+            <div class="pip" style="grid-column-start: 3; grid-row-start: 3;"></div>
+        </div>
+        <div class="face top">
+            <div class="pip" style="grid-column-start: 1; grid-row-start: 1;"></div>
+            <div class="pip" style="grid-column-start: 3; grid-row-start: 3;"></div>
+        </div>
+        <div class="face bottom">
+            <div class="pip" style="grid-column-start: 1; grid-row-start: 1;"></div>
+            <div class="pip" style="grid-column-start: 3; grid-row-start: 1;"></div>
+            <div class="pip" style="grid-column-start: 2; grid-row-start: 2;"></div>
+            <div class="pip" style="grid-column-start: 1; grid-row-start: 3;"></div>
+            <div class="pip" style="grid-column-start: 3; grid-row-start: 3;"></div>
+        </div>
+    </div>
+</div>
+
+<div id="result"></div>
+
+<script>
+    const dice = $("#dice");
+    const resultEl = $("#result");
+
+    // 3x3 그리드 내 점 위치 인덱스
+    // 0~8 순서대로 왼쪽위부터 오른쪽아래까지
+    const pipMap = {
+        1: [4],
+        2: [0, 8],
+        3: [0, 4, 8],
+        4: [0, 2, 6, 8],
+        5: [0, 2, 4, 6, 8],
+        6: [0, 2, 3, 5, 6, 8]
+    };
+
+    // 숫자별 목표 회전 각도 (눈이 앞면)
+    const targetAngles = {
+        1: {x: 0, y: 0},
+        2: {x: -90, y: 0},
+        3: {x: 0, y: 90},
+        4: {x: 0, y: -90},
+        5: {x: 90, y: 0},
+        6: {x: 180, y: 0}
+    };
+
+    let rotX = 0;
+    let rotY = 0;
+    let rolling = false;
+
+    function rollDice() {
+        if (rolling) return;
+        rolling = true;
+        resultEl.textContent = 'Rolling...';
+
+        const result = Math.floor(Math.random() * 6) + 1;
+
+        // 랜덤 회전수 (3~5 바퀴)
+        const fullTurnsX = (Math.floor(Math.random() * 3) + 3) * 360;
+        const fullTurnsY = (Math.floor(Math.random() * 3) + 3) * 360;
+
+        const target = targetAngles[result];
+
+        const norm = a => ((a % 360) + 360) % 360;
+
+        const deltaX = (target.x - norm(rotX) + 360) % 360;
+        const deltaY = (target.y - norm(rotY) + 360) % 360;
+
+        rotX += fullTurnsX + deltaX;
+        rotY += fullTurnsY + deltaY;
+
+        const duration = Math.max(900, 700 + Math.max(fullTurnsX, fullTurnsY) / 360 * 200);
+
+        dice.style.transition = `transform ${duration}ms cubic-bezier(.2,.8,.2,1)`;
+        void dice.offsetWidth;
+        dice.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+
+        setTimeout(() => {
+            resultEl.textContent = `결과: ${result}`;
+            rolling = false;
+        }, duration + 20);
+    }
+
+    dice.style.transform = 'rotateX(0deg) rotateY(0deg)';
+</script>
+</body>
+</html>
