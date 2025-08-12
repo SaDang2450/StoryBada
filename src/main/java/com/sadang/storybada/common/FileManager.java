@@ -11,7 +11,8 @@ import java.nio.file.Paths;
 public class FileManager {
 
 //    public static final String FILE_UPLOAD_PATH = "D:\\기타 사소한 프로그램들\\StoryBada Project\\upload";
-    public static final String FILE_UPLOAD_PATH = "D:\\SaDang\\FinalProject\\Upload";
+//    public static final String FILE_UPLOAD_PATH = "D:\\SaDang\\FinalProject\\Upload";
+    public static final String FILE_UPLOAD_PATH = "/home/ec2-user/upload/images";
 
     public static String saveFile(long userId, MultipartFile multipartFile) {
 
