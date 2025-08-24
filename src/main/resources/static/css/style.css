@@ -466,6 +466,11 @@ header {
     margin-top: 15px;
 }
 
+.table-lotto-game-disabled {
+    background-color: #F0F0F0;
+    pointer-events: none;
+}
+
 .table-lotto-game > tbody > tr > td {
     padding: 5px;
     width: 50px;
@@ -482,7 +487,7 @@ header {
 }
 
 .table-lotto-game > tbody > tr > td > .not-selected {
-    background-color: white;
+    background-color: transparent;
     color: black;
     border: 1px solid black;
 }

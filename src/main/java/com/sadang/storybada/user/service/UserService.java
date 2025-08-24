@@ -3,6 +3,9 @@ package com.sadang.storybada.user.service;
 import com.sadang.storybada.dto.NameDTO;
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.email.service.EmailService;
+import com.sadang.storybada.game.box.service.BoxBufferService;
+import com.sadang.storybada.game.dice.service.DiceBufferService;
+import com.sadang.storybada.game.lotto.service.LottoBufferService;
 import com.sadang.storybada.hp.service.HpService;
 import com.sadang.storybada.name.domain.Name;
 import com.sadang.storybada.name.service.NameService;
@@ -27,6 +30,9 @@ public class UserService {
     private final NameService nameService;
     private final EmailService emailService;
     private final HpService hpService;
+    private final DiceBufferService diceBufferService;
+    private final BoxBufferService boxBufferService;
+    private final LottoBufferService lottoBufferService;
 
     public UserDTO getUser(String loginId, String password) {
 
@@ -172,6 +178,12 @@ public class UserService {
         // 삭제대상 2 : name Table + HP Table
         List<Long> nameIdList = nameService.deleteAllByUserId(id);
         hpService.deleteAllByNameId(nameIdList);
+
+        // 삭제대상 3 : game buffer Table
+        diceBufferService.deleteAllByNameId(nameIdList);
+        boxBufferService.deleteAllByNameId(nameIdList);
+        lottoBufferService.deleteAllByNameId(nameIdList);
+
     }
 
     public String getLoginIdById(long id) {

@@ -4,6 +4,7 @@ import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.game.box.domain.BoxBuffer;
 import com.sadang.storybada.game.box.repository.BoxBufferBulkRepository;
 import com.sadang.storybada.game.box.repository.BoxBufferRepository;
+import com.sadang.storybada.game.dice.domain.DiceBuffer;
 import com.sadang.storybada.hp.domain.Hp;
 import com.sadang.storybada.hp.service.HpService;
 import com.sadang.storybada.name.service.NameService;
@@ -62,5 +63,14 @@ public class BoxBufferService {
     public void flushBoxBuffer() {
 
         boxBufferRepository.deleteAllInBatch();
+    }
+
+    public void deleteAllByNameId(List<Long> nameIdList) {
+        List<BoxBuffer> boxBufferList = new ArrayList<>();
+        for (Long nameId : nameIdList) {
+            boxBufferList.addAll(boxBufferRepository.findByNameId(nameId));
+        }
+
+        boxBufferRepository.deleteAll(boxBufferList);
     }
 }

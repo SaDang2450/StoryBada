@@ -168,6 +168,7 @@
             success: function (response) {
                 if (response.code === 1000) {
                     alert("배팅 성공");
+                    $("#diceBettingTotal").text(response.data);
                 } else if (response.code === 4001) {
                     alert("error : dice betting fail\n" + response.message);
                 } else if (response.code === 4002) {
@@ -178,7 +179,6 @@
                     alert("error : dice betting fail");
                 }
 
-                location.reload();
             },
             error: function () {
                 alert("error : dice betting error");

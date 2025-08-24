@@ -1,6 +1,7 @@
 package com.sadang.storybada.game.lotto.service;
 
 import com.sadang.storybada.dto.UserDTO;
+import com.sadang.storybada.game.dice.domain.DiceBuffer;
 import com.sadang.storybada.game.lotto.domain.LottoBuffer;
 import com.sadang.storybada.game.lotto.repository.LottoBufferRepository;
 import com.sadang.storybada.hp.service.HpService;
@@ -8,7 +9,9 @@ import com.sadang.storybada.response.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +46,17 @@ public class LottoBufferService {
         return ResponseCode.SUCCESS;
     }
 
+    public boolean hasTicket(long nameId) {
+
+        return lottoBufferRepository.existsByNameId(nameId);
+    }
+
+    public String getRecentTicket(long nameId) {
+
+        return lottoBufferRepository.findByNameId(nameId).getLotto();
+
+    }
+
     public List<LottoBuffer> getAllBuffer() {
 
         return lottoBufferRepository.findAll();
@@ -51,5 +65,15 @@ public class LottoBufferService {
     public void flushLottoBuffer() {
 
         lottoBufferRepository.deleteAllInBatch();
+    }
+
+
+    public void deleteAllByNameId(List<Long> nameIdList) {
+        List<LottoBuffer> lottoBufferList = new ArrayList<>();
+        for (Long nameId : nameIdList) {
+            lottoBufferList.add(lottoBufferRepository.findByNameId(nameId));
+        }
+
+        lottoBufferRepository.deleteAll(lottoBufferList);
     }
 }

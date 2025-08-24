@@ -8,10 +8,7 @@ import com.sadang.storybada.response.ResponseCode;
 import com.sadang.storybada.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -61,5 +58,19 @@ public class LottoRestController {
         resultMap.put("myLottoHistory", myLottoHistory);
 
         return resultMap;
+    }
+
+    @GetMapping("/check-ticket")
+    public String[] checkTicket(HttpSession session) {
+        UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
+        long nameId = userDTO.getMainNameId();
+
+        if(lottoBufferService.hasTicket(nameId)) {
+            return lottoBufferService.getRecentTicket(nameId).split(",");
+        } else {
+            return null;
+        }
+
+
     }
 }

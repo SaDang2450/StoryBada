@@ -26,7 +26,7 @@ public class DiceRestController {
     private final HpService hpService;
 
     @PostMapping("/bet")
-    public ApiResponse<Void> addBetting(HttpSession session, @RequestParam String betting, @RequestParam long hp) {
+    public ApiResponse<Long> addBetting(HttpSession session, @RequestParam String betting, @RequestParam long hp) {
 
         UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
 
@@ -40,11 +40,15 @@ public class DiceRestController {
         // betting
         diceBufferService.addDiceBetting(userDTO, betting, hp);
 
+        // get diceBettingTotal
+        long mainNameId = userDTO.getMainNameId();
+        long diceBettingTotal = diceBufferService.getTotalBettingAmount(mainNameId);
+
         // Reload
 //        userDTO = userDTO.toBuilder().point(hpService.getCurrentPointByNameId(userDTO.getMainNameId())).build();
 //        session.setAttribute("userDTO", userDTO);
 
-        return ApiResponse.success(null);
+        return ApiResponse.success(diceBettingTotal);
     }
 
     @PostMapping("/reload")

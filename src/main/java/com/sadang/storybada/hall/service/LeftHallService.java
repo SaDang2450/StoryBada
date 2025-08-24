@@ -83,21 +83,9 @@ public class LeftHallService {
         return leftHallDTOList;
     }
 
-    @Scheduled(cron = "0 0 0 * * *")
-    @CacheEvict(value = "dailyRanking", allEntries = true)
-    public void clearDailyRankingCache() {
-        // dailyRanking 초기화
-    }
-
-    @Scheduled(cron = "0 0 0 * * MON")
-    @CacheEvict(value = "weeklyRanking", allEntries = true)
-    public void clearWeeklyRankingCache() {
-        // weeklyRanking 초기화
-    }
-
-    @Scheduled(cron = "0 0 0 1 * *")
-    @CacheEvict(value = "monthlyRanking", allEntries = true)
-    public void clearMonthlyRankingCache() {
-        // monthlyRanking 초기화
+    @Scheduled(fixedRate = 10 * 60 * 1000)
+    @CacheEvict(value = {"dailyRanking", "weeklyRanking", "monthlyRanking"}, allEntries = true)
+    public void clearRankingCache() {
+        // Ranking Cache 초기화
     }
 }

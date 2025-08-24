@@ -8,7 +8,7 @@
         <div class="game-zone">
             <div class="lotto border-1 d-flex flex-column align-items-center justify-content-between">
                 <div class="h1">로또 6/45</div>
-                <table class="table table-borderless table-lotto-game text-center">
+                <table id="tableLottoGame" class="table table-borderless table-lotto-game text-center">
                     <tbody>
                     <tr>
                         <td>
@@ -267,6 +267,26 @@
     let count = 0;
     let lottoNumberArray = [];
 
+    $.ajax({
+        type:"GET",
+        url:"/game/lotto/check-ticket",
+        success: function(response) {
+            if(response === "") {
+
+            } else {
+                for(let i = 0; i < 6; i++) {
+                    let number = response[i];
+                    $("div[data-value=" + number + "]").removeClass("non-selected");
+                    $("div[data-value=" + number + "]").addClass("selected");
+                }
+                $("#tableLottoGame").addClass("table-lotto-game-disabled");
+            }
+        },
+        error: function() {
+            alert("error: ticket error");
+        }
+    })
+
     $(".lotto-number").on("click", function () {
         // Validation
         let currentSelectedCount = lottoNumberArray.length;
@@ -363,6 +383,16 @@
                     alert("error: reload error");
                 }
             })
+
+            $("#tableLottoGame").removeClass("table-lotto-game-disabled");
+            clearLottoCard();
+        }
+    }
+
+    function clearLottoCard() {
+        for(let i = 1 ; i <= 45; i++) {
+            $("div[data-value=" + i + "]").removeClass("selected");
+            $("div[data-value=" + i + "]").addClass("non-selected");
         }
     }
 

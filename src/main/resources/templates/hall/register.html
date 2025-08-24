@@ -16,7 +16,7 @@
                     <div class="d-flex align-items-center">
                         <div class="mr-3">
                             <label for="hallImageFileInput"><i class="bi bi-image cursor-pointer h1"></i></label>
-                            <input id="hallImageFileInput" type="file" class="d-none">
+                            <input id="hallImageFileInput" type="file" accept="image/*" class="d-none">
                         </div>
                         <div><span id="hallInputFileName"></span></div>
                         <div class="ml-auto">
@@ -32,10 +32,23 @@
 
 <script layout:fragment="script">
     $("#hallImageFileInput").on("change", function () {
-        let fullFileName = $("#hallImageFileInput").val();
+        let fullFileName = $(this).val();
         let fileName = fullFileName.split("\\")[2];
 
-        $("#hallInputFileName").text(fileName);
+        // 파일 유형 validation
+        let valTypeArr = fullFileName.split(".")
+        let fileType = valTypeArr.pop().toLowerCase()
+        let fileTypeArr = ['jpg','jpeg','gif','png','ai','psd','svg',''];
+
+
+        if($.inArray(fileType,fileTypeArr) === -1){
+            alert("이미지 파일만 등록가능합니다.")
+            $(this).val("")
+        }else{
+            alert($.inArray(fileType,fileTypeArr));
+            $("#hallInputFileName").text(fileName);
+        }
+
     })
 
     $("#hallRegisterBtn").on("click", function() {

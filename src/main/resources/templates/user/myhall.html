@@ -19,8 +19,8 @@
                     <tbody>
                     <tr style="height:10px;"></tr>
                     <tr th:each="myHallDTO : ${myHallPaginationDTO.hallDTOList}" data-name="viewDetail" data-ranking-id="1" class="cursor-pointer">
-                        <td><span th:text="${myHallDTO.name}">닉네임 1</span>닉네임1</td>
-                        <td><span th:text="${myHallDTO.hp}" >포인트 1</span>포인트1</td>
+                        <td><span th:text="${myHallDTO.name}">닉네임 1</span></td>
+                        <td><span th:text="${myHallDTO.hp}" >포인트 1</span></td>
                         <td><span th:text="${#temporals.format(myHallDTO.createdAt,'YYYY년 MM월 dd일 HH:mm:SS')}">YYYY-MM-dd HH:mm:SS</span></td>
                     </tr>
                     </tbody>

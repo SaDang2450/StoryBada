@@ -3,12 +3,14 @@ package com.sadang.storybada.game.dice.service;
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.game.dice.domain.DiceBuffer;
 import com.sadang.storybada.game.dice.repository.DiceBufferRepository;
+import com.sadang.storybada.hp.domain.Hp;
 import com.sadang.storybada.hp.service.HpService;
 import com.sadang.storybada.name.service.NameService;
 import com.sadang.storybada.response.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -74,4 +76,12 @@ public class DiceBufferService {
         diceBufferRepository.deleteAllInBatch();
     }
 
+    public void deleteAllByNameId(List<Long> nameIdList) {
+        List<DiceBuffer> diceBufferList = new ArrayList<>();
+        for (Long nameId : nameIdList) {
+            diceBufferList.addAll(diceBufferRepository.findByNameId(nameId));
+        }
+
+        diceBufferRepository.deleteAll(diceBufferList);
+    }
 }
