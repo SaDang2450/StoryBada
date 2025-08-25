@@ -6,8 +6,8 @@ import com.sadang.storybada.game.dice.service.DiceBufferService;
 import com.sadang.storybada.game.dice.service.DiceHallService;
 import com.sadang.storybada.game.dice.service.DiceHistoryService;
 import com.sadang.storybada.hp.service.HpService;
-import com.sadang.storybada.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -36,7 +37,6 @@ public class PlayDiceGame {
     private final DiceHallService diceHallService;
     private final DiceBufferService diceBufferService;
     private final HpService hpService;
-    private final UserService userService;
 
     public boolean makeRandomDiceResult() {
         Random random = new Random();
@@ -45,12 +45,13 @@ public class PlayDiceGame {
     }
 
     @Bean
-    public Job playTheDiceGame(Step makeDiceGameResult, Step chargeDiceGameResult, Step flushDiceBuffer) {
+    public Job playTheDiceGame(Step makeDiceGameResult, Step readDiceGameBuffer, Step chargeDiceGameResult, Step flushDiceBuffer) {
         return new JobBuilder("playTheDiceGame", jobRepository)
                 .start(makeDiceGameResult)
-                .next(chargeDiceGameResult)
-                .next(flushDiceBuffer)
-                .build();
+                .next(readDiceGameBuffer)
+                .on("REPEAT_STEP").to(chargeDiceGameResult).next(readDiceGameBuffer)
+                .from(readDiceGameBuffer).on("END_STEP").to(flushDiceBuffer)
+                .end().build();
     }
 
     @Bean
@@ -59,8 +60,9 @@ public class PlayDiceGame {
         return new StepBuilder("makeDiceGameResult", jobRepository).tasklet(new Tasklet() {
             @Override
             public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+                DiceHistory recent = diceHistoryService.addDiceHistory(game, makeRandomDiceResult());
                 contribution.getStepExecution().getJobExecution().getExecutionContext()
-                        .put("recentDiceGameResult", diceHistoryService.addDiceHistory(game, makeRandomDiceResult()));
+                        .put("recentDiceGameResult", recent);
                 return RepeatStatus.FINISHED;
             }
         }, transactionManager).build();
@@ -68,13 +70,43 @@ public class PlayDiceGame {
 
     @Bean
     @JobScope
+    public Step readDiceGameBuffer() {
+        return new StepBuilder("readDiceGameBuffer", jobRepository).tasklet(new Tasklet() {
+            @Override
+            public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+                List<DiceBuffer> diceBufferList = diceBufferService.getDiceBuffer500();
+                contribution.getStepExecution().getJobExecution().getExecutionContext()
+                        .put("diceBufferList", new ArrayList<>(diceBufferList));
+
+                if (diceBufferList.isEmpty()) {
+                    contribution.setExitStatus(new ExitStatus("END_STEP"));
+                } else {
+                    contribution.setExitStatus(new ExitStatus("REPEAT_STEP"));
+                }
+
+                return RepeatStatus.FINISHED;
+            }
+        }, transactionManager).build();
+    }
+
+
+    @Bean
+    @JobScope
     public Step chargeDiceGameResult(@Value("#{jobParameters[game]}") Long game) {
         return new StepBuilder("chargeDiceGameResult", jobRepository).tasklet(new Tasklet() {
             @Override
             public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-                List<DiceBuffer> diceBufferList = diceBufferService.getAllBuffer();
+
                 DiceHistory recentDiceHistory = contribution.getStepExecution().getJobExecution().getExecutionContext()
                         .get("recentDiceGameResult", DiceHistory.class);
+
+                @SuppressWarnings("unchecked")
+                List<DiceBuffer> diceBufferList = (List<DiceBuffer>) contribution.getStepExecution()
+                        .getJobExecution()
+                        .getExecutionContext()
+                        .get("diceBufferList");
+
+                if (diceBufferList == null) diceBufferList = new ArrayList<>();
 
                 long recentGameNumber = recentDiceHistory.getGame();
                 boolean recentResult = recentDiceHistory.isResult();
@@ -92,6 +124,8 @@ public class PlayDiceGame {
                     }
                 }
 
+                diceBufferService.deleteDiceBufferByList(diceBufferList);
+
                 return RepeatStatus.FINISHED;
             }
         }, transactionManager).build();
@@ -102,7 +136,6 @@ public class PlayDiceGame {
         return new StepBuilder("flushDiceBuffer", jobRepository).tasklet(new Tasklet() {
             @Override
             public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-                diceBufferService.flushDiceBuffer();
 
                 return RepeatStatus.FINISHED;
             }

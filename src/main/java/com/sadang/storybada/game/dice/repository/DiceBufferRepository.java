@@ -10,7 +10,6 @@ public interface DiceBufferRepository extends JpaRepository<DiceBuffer, Long> {
 
     List<DiceBuffer> findByNameIdAndResult(Long nameId, boolean result);
 
-//    @Query(value="SELECT SUM(hp) FROM dicebuffer WHERE nameid = :nameid", nativeQuery=true)
-//    long getTotalBettingAmount(@Param("nameid") long nameid);
+    List<DiceBuffer> findTop500ByOrderById();
 
 }

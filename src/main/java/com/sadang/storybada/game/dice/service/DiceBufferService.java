@@ -3,9 +3,7 @@ package com.sadang.storybada.game.dice.service;
 import com.sadang.storybada.dto.UserDTO;
 import com.sadang.storybada.game.dice.domain.DiceBuffer;
 import com.sadang.storybada.game.dice.repository.DiceBufferRepository;
-import com.sadang.storybada.hp.domain.Hp;
 import com.sadang.storybada.hp.service.HpService;
-import com.sadang.storybada.name.service.NameService;
 import com.sadang.storybada.response.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +17,6 @@ import java.util.Objects;
 public class DiceBufferService {
 
     private final DiceBufferRepository diceBufferRepository;
-    private final NameService nameService;
     private final HpService hpService;
 
     public ResponseCode diceBettingValidation(UserDTO userDTO, String betting, long hp) {
@@ -66,14 +63,14 @@ public class DiceBufferService {
         return total;
     }
 
-    public List<DiceBuffer> getAllBuffer() {
+    public List<DiceBuffer> getDiceBuffer500() {
 
-        return diceBufferRepository.findAll();
+        return diceBufferRepository.findTop500ByOrderById();
     }
 
-    public void flushDiceBuffer() {
+    public void deleteDiceBufferByList(List<DiceBuffer> diceBufferList) {
 
-        diceBufferRepository.deleteAllInBatch();
+        diceBufferRepository.deleteAllInBatch(diceBufferList);
     }
 
     public void deleteAllByNameId(List<Long> nameIdList) {
@@ -84,4 +81,6 @@ public class DiceBufferService {
 
         diceBufferRepository.deleteAll(diceBufferList);
     }
+
+
 }

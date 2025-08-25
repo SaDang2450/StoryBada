@@ -60,7 +60,6 @@ public class DiceRestController {
         long diceBettingTotal = diceBufferService.getTotalBettingAmount(nameId);
 
         session.setAttribute("userDTO", newUserDTO);
-        session.setAttribute("diceBettingTotal", diceBettingTotal);
 
         resultMap.put("userDTO", newUserDTO);
         resultMap.put("diceBettingTotal", diceBettingTotal);
@@ -69,7 +68,7 @@ public class DiceRestController {
     }
 
     @GetMapping("/roll")
-    public ApiResponse<Integer> diceRoll(HttpSession session) {
+    public ApiResponse<Integer> diceRoll() {
         boolean recentResult = diceHistoryService.getVeryRecentResult();
 
         Random random = new Random();
