@@ -9,5 +9,5 @@ public class LottoHistoryDTO {
 
     private long id;
     private long game;
-    private String result;
+    private String[] result;
 }

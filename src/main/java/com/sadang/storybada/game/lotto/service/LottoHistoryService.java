@@ -24,7 +24,8 @@ public class LottoHistoryService {
         List<LottoHistory> lottoHistoryList = lottoHistoryRepository.findTop10ByOrderByCreatedAtDesc();
         List<LottoHistoryDTO> lottoHistoryDTOList = new ArrayList<>();
         for (LottoHistory lottoHistory : lottoHistoryList) {
-            lottoHistoryDTOList.add(LottoHistoryDTO.builder().game(lottoHistory.getGame()).result(lottoHistory.getLotto()).build());
+            String[] lotto =  lottoHistory.getLotto().split(",");
+            lottoHistoryDTOList.add(LottoHistoryDTO.builder().game(lottoHistory.getGame()).result(lotto).build());
         }
 
         return lottoHistoryDTOList;

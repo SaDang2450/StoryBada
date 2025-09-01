@@ -245,13 +245,13 @@
                                 <thead>
                                     <tr>
                                         <th>게임 회차</th>
-                                        <th>로또 번호</th>
+                                        <th colspan="6">로또 번호</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr th:each="lottoRecentDTO : ${lottoRecentDTOList}">
                                         <td class="column1"><span th:text="${lottoRecentDTO.game}">1</span></td>
-                                        <td class="column2"><span th:text="${lottoRecentDTO.result}">1,2,3,4,5,6</span></td>
+                                        <td th:each="lotto : ${lottoRecentDTO.result}" class="column2"><span th:text="${lotto}">1,2,3,4,5,6</span></td>
                                     </tr>
                                 </tbody>
                             </table>

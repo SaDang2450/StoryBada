@@ -420,15 +420,12 @@ header {
     width: 100px;
 }
 
-.table-box-recent,
-.table-lotto-recent {
+.table-box-recent {
     width: 300px;
 }
 
 .table-box-recent > tbody > tr > .column1,
-.table-box-recent > tbody > tr > .column2,
-.table-lotto-recent > tbody > tr > .column1,
-.table-lotto-recent > tbody > tr > .column2 {
+.table-box-recent > tbody > tr > .column2 {
     width: 150px;
 }
 
@@ -512,7 +509,19 @@ header {
     text-align: start;
 }
 
-/* hall */
+.table-lotto-recent {
+    width: 300px;
+}
+
+.table-lotto-recent > tbody > tr > .column1 {
+    width: 80px;
+}
+
+.table-lotto-recent > tbody > tr > .column2 {
+    width: 25px;
+}
+
+    /* hall */
 .hall-register-box {
     width: 750px;
     height: 600px;
