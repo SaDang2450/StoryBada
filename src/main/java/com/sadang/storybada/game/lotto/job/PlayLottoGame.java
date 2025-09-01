@@ -7,6 +7,7 @@ import com.sadang.storybada.game.lotto.service.LottoHallService;
 import com.sadang.storybada.game.lotto.service.LottoHistoryService;
 import com.sadang.storybada.hp.service.HpService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
@@ -38,12 +39,13 @@ public class PlayLottoGame {
     private final HpService hpService;
 
     @Bean
-    public Job playTheLottoGame(Step makeLottoGameResult, Step chargeLottoGameResult, Step flushLottoBuffer) {
+    public Job playTheLottoGame(Step makeLottoGameResult, Step readLottoGameBuffer, Step chargeLottoGameResult, Step flushLottoBuffer) {
         return new JobBuilder("playTheLottoGame", jobRepository)
                 .start(makeLottoGameResult)
-                .next(chargeLottoGameResult)
-                .next(flushLottoBuffer)
-                .build();
+                .next(readLottoGameBuffer)
+                .on("REPEAT_STEP").to(chargeLottoGameResult).next(readLottoGameBuffer)
+                .from(readLottoGameBuffer).on("END_STEP").to(flushLottoBuffer)
+                .end().build();
     }
 
     @Bean
@@ -75,13 +77,37 @@ public class PlayLottoGame {
 
     @Bean
     @JobScope
+    public Step readLottoGameBuffer() {
+        return new StepBuilder("readLottoGameBuffer", jobRepository).tasklet(new Tasklet() {
+            @Override
+            public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+                List<LottoBuffer> lottoBufferList = lottoBufferService.getLottoBuffer500();
+                contribution.getStepExecution().getJobExecution().getExecutionContext().put("lottoBufferList", new ArrayList<>(lottoBufferList));
+
+                if (lottoBufferList.isEmpty()) {
+                    contribution.setExitStatus(new ExitStatus("END_STEP"));
+                } else {
+                    contribution.setExitStatus(new ExitStatus("REPEAT_STEP"));
+                }
+
+                return RepeatStatus.FINISHED;
+            }
+        }, transactionManager).build();
+    }
+
+    @Bean
+    @JobScope
     public Step chargeLottoGameResult(@Value("#{jobParameters[game]}") Long game) {
         return new StepBuilder("chargeLottoGameResult", jobRepository).tasklet(new Tasklet() {
             @Override
             public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-                List<LottoBuffer> lottoBufferList = lottoBufferService.getAllBuffer();
-                LottoHistory currentLottoHistory =contribution.getStepExecution().getJobExecution().getExecutionContext().get("recentLottoGameResult", LottoHistory.class);
+                LottoHistory currentLottoHistory = contribution.getStepExecution().getJobExecution().getExecutionContext().get("recentLottoGameResult", LottoHistory.class);
                 String[] currentLotto = currentLottoHistory.getLotto().split(",");
+
+                @SuppressWarnings("unchecked")
+                List<LottoBuffer> lottoBufferList = (List<LottoBuffer>) contribution.getStepExecution()
+                        .getJobExecution().getExecutionContext().get("lottoBufferList");
+
 
                 for (LottoBuffer lottoBuffer : lottoBufferList) {
                     int count = 0;
@@ -107,19 +133,20 @@ public class PlayLottoGame {
                             hpService.addHpRecord(nameId, 1629012000L, "Lotto Game");
                             break;
                         case 2:
-                            hpService.addHpRecord(nameId, 6961590,"LottoGame");
+                            hpService.addHpRecord(nameId, 6961590, "LottoGame");
                             break;
                         case 3:
-                            hpService.addHpRecord(nameId, 146560,"LottoGame");
+                            hpService.addHpRecord(nameId, 146560, "LottoGame");
                             break;
                         case 4:
-                            hpService.addHpRecord(nameId, 8910,"LottoGame");
+                            hpService.addHpRecord(nameId, 8910, "LottoGame");
                             break;
                         case 5:
-                            hpService.addHpRecord(nameId, 1320,"LottoGame");
+                            hpService.addHpRecord(nameId, 1320, "LottoGame");
                             break;
                     }
 
+                    lottoBufferService.deleteLottoBufferByList(lottoBufferList);
                 }
                 return RepeatStatus.FINISHED;
             }
@@ -131,7 +158,6 @@ public class PlayLottoGame {
         return new StepBuilder("flushLottoBuffer", jobRepository).tasklet(new Tasklet() {
             @Override
             public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-                lottoBufferService.flushLottoBuffer();
 
                 return RepeatStatus.FINISHED;
             }

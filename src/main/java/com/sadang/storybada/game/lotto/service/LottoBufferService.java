@@ -57,17 +57,6 @@ public class LottoBufferService {
 
     }
 
-    public List<LottoBuffer> getAllBuffer() {
-
-        return lottoBufferRepository.findAll();
-    }
-
-    public void flushLottoBuffer() {
-
-        lottoBufferRepository.deleteAllInBatch();
-    }
-
-
     public void deleteAllByNameId(List<Long> nameIdList) {
         List<LottoBuffer> lottoBufferList = new ArrayList<>();
         for (Long nameId : nameIdList) {
@@ -75,5 +64,15 @@ public class LottoBufferService {
         }
 
         lottoBufferRepository.deleteAll(lottoBufferList);
+    }
+
+    public List<LottoBuffer> getLottoBuffer500() {
+
+        return lottoBufferRepository.findTop500ByOrderById();
+    }
+
+    public void deleteLottoBufferByList(List<LottoBuffer> lottoBufferList) {
+
+        lottoBufferRepository.deleteAllInBatch(lottoBufferList);
     }
 }

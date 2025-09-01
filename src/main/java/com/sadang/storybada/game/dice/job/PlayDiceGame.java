@@ -102,9 +102,7 @@ public class PlayDiceGame {
 
                 @SuppressWarnings("unchecked")
                 List<DiceBuffer> diceBufferList = (List<DiceBuffer>) contribution.getStepExecution()
-                        .getJobExecution()
-                        .getExecutionContext()
-                        .get("diceBufferList");
+                        .getJobExecution().getExecutionContext().get("diceBufferList");
 
                 if (diceBufferList == null) diceBufferList = new ArrayList<>();
 
