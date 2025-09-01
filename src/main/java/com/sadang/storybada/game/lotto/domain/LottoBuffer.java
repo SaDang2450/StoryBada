@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "`lottobuffer`")
 @Entity
-public class LottoBuffer {
+public class LottoBuffer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
